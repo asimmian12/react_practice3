@@ -4,10 +4,34 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState("");
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    console.log("Register Email:  ", email, "Password  :", password);
+
+    if (password !== confirmPassword) {
+      setMessage("Passwords do not match.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        setMessage("Registration successful!");
+      } else {
+        setMessage(result.message || "An error occurred.");
+      }
+    } catch (error) {
+      setMessage("An error occurred while registering.");
+    }
   };
 
   return (
@@ -35,8 +59,9 @@ const Register = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
         />
-        <button type="register_btn">Register</button>
+        <button type="submit">Register</button>
       </form>
+      <p>{message}</p>
     </div>
   );
 };

@@ -7,6 +7,8 @@ const connection = mysql.createConnection({
   database: 'react_auth'
 });
 
+
+
 connection.connect((err) => {
   if (err) {
     console.error('Error connecting to MySQL: ' + err.stack);

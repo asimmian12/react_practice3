@@ -11,10 +11,10 @@ function App() {
         <nav>
           <ul>
             <li>
-              <Link to="/">Login</Link>
+              <Link to="/" className="Nav_Links">Login</Link>
             </li>
             <li>
-              <Link to="/Register">Register</Link>
+              <Link to="/Register" className="Nav_Links">Register</Link>
             </li>
           </ul>
         </nav>

@@ -1,15 +1,38 @@
+
 .App {
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', Arial, sans-serif; 
   text-align: center;
   margin: 30px auto;
   width: 400px;
   padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  background-color: #f9f9f9; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  border: none;
+  border-radius: 10px; 
 }
 
 nav {
   margin-bottom: 20px;
+}
+
+.Nav_Links {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  gap: 20px;
+  justify-content: center;
+  margin: 0;
+}
+
+.Nav_Links{
+  text-decoration: none;
+  color: #000;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.Nav_Links:hover {
+  color: #b7b4b4;
 }
 
 ul {
@@ -17,23 +40,44 @@ ul {
   padding: 0;
   display: flex;
   justify-content: center;
+  gap: 15px; 
 }
 
 li {
-  margin: 0 10px;
+  margin: 0;
 }
+
 
 input {
-  padding: 5px;
+  padding: 10px;
   margin: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  width: 100%; 
+  box-sizing: border-box; 
 }
 
+
 button {
-  padding: 5px 10px;
+  padding: 10px 20px;
   cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: #007BFF; 
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+
 }
+
+button:hover {
+  background-color: #0056b3; 
+}
+
 
 form {
   display: flex;
   flex-direction: column;
+  gap: 10px; 
 }

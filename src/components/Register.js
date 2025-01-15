@@ -11,7 +11,6 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-   
     setError({ fullName: "", email: "", password: "", confirmPassword: "" });
 
     try {

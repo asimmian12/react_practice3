@@ -13,7 +13,27 @@ const db = mysql.createConnection({
   database: 'react'
 });
 
-app.post('/')
+
+app.post('/Register', (req, res) =>{
+  const sql = "INSERT INTO users 'ID', 'FullName', 'Email', 'Password') VALUES (?)";
+  const values = [
+    req.body.name,
+    req.body.email,
+    req.body.password,
+  ]
+  db.query(sql, [values], (err, data) =>{
+    if(err){
+      return res.json("error");
+    }
+    return res.json(data);
+  });
+})
+
+
+app.listen('8081', () =>{
+  console.log("listening");
+})
+
 
 
 // db.connect((err) => {

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -8,6 +9,7 @@ const Register = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    if(errors.name === "" && errors.email === "" && errors.password === "")
 
     if (password !== confirmPassword) {
       setMessage("Passwords do not match.");

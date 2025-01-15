@@ -9,10 +9,10 @@ const Register = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    if(errors.name === "" && errors.email === "" && errors.password === ""){
+    if(error.name === "" && error.email === "" && error.password === ""){
       axios.post("http://localhost:8080/Register", value)
       .then(res => console.log(res))
-      .catch(err => console.log(err));
+      .catch(error => console.log(error));
     }
 
     if (password !== confirmPassword) {

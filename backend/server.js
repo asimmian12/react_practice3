@@ -10,11 +10,10 @@ const db = mysql.createConnection({
   host: 'localhost',
   user: 'asimMian',
   password: 'Sajid365',
-  database: 'react_auth'
+  database: 'react'
 });
 
-
-
+app.post('/')
 
 
 // db.connect((err) => {

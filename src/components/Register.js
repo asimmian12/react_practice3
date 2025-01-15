@@ -13,7 +13,7 @@ const Register = () => {
     e.preventDefault();
 
 
-    setError({ email: "", password: "", confirmPassword: "" });
+    setError({ fullName: "", email: "", password: "", confirmPassword: "" });
 
 
     if (password !== confirmPassword) {

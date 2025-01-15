@@ -9,7 +9,11 @@ const Register = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    if(errors.name === "" && errors.email === "" && errors.password === "")
+    if(errors.name === "" && errors.email === "" && errors.password === ""){
+      axios.post("http://localhost:8080/Register", value)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+    }
 
     if (password !== confirmPassword) {
       setMessage("Passwords do not match.");

@@ -34,7 +34,7 @@ const Register = () => {
       setError((prev) => ({ ...prev, confirmPassword: "Passwords do not match." }));
       return;
     }
-
+    
     try {
       const response = await fetch('http://localhost:8080/register')({
         method: 'POST',

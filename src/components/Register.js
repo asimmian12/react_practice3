@@ -1,51 +1,59 @@
 import React, { useState } from "react";
-import axios from "axios";
 
 const Register = () => {
+  const [fullName, setFullName] = useState(""); 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
-  const [error, setError] = useState({ email: "", password: "", confirmPassword: "" });
-  const [fullName, setName] = useState("");
+  const [error, setError] = useState({ fullName: "", email: "", password: "", confirmPassword: "" });
 
   const handleRegister = async (e) => {
     e.preventDefault();
 
-
+   
     setError({ fullName: "", email: "", password: "", confirmPassword: "" });
 
+    
+    if (!fullName) {
+      setError((prev) => ({ ...prev, fullName: "Full name is required." }));
+      return;
+    }
+
+    if (!email.includes("@")) {
+      setError((prev) => ({ ...prev, email: "Invalid email format." }));
+      return;
+    }
+
+    if (password.length < 6) {
+      setError((prev) => ({ ...prev, password: "Password must be at least 6 characters." }));
+      return;
+    }
 
     if (password !== confirmPassword) {
       setError((prev) => ({ ...prev, confirmPassword: "Passwords do not match." }));
       return;
     }
 
-
-    const value = { email, password };  
-    if (error.email === "" && error.password === "" && error.confirmPassword === "") {
-      axios.post("http://localhost:8080/Register", value)
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
-    }
-
     try {
-      const response = await fetch("http://localhost:5000/register", {
-        method: "POST",
+      const response = await fetch('http://localhost:8080/register')({
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ fullName, email, password }),
       });
-
+  
       const result = await response.json();
+  
       if (response.ok) {
-        setMessage("Registration successful!");
+        setMessage('Registration successful!');
       } else {
-        setMessage(result.message || "An error occurred.");
+        setMessage(result.message || 'An error occurred during registration.');
       }
     } catch (err) {
-      setMessage("An error occurred while registering.");
+      console.error('Error:', err);
+      setMessage('An error occurred while registering. Please try again later.');
     }
   };
 
@@ -54,12 +62,14 @@ const Register = () => {
       <h2>Register</h2>
       <form onSubmit={handleRegister}>
         <input
-          type="fullName"
-          placeholder="Enter FullName"
+          type="text" 
+          placeholder="Enter Full Name"
           value={fullName}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => setFullName(e.target.value)}
           required
         />
+        {error.fullName && <p style={{ color: "red" }}>{error.fullName}</p>}
+
         <input
           type="email"
           placeholder="Enter Email Address"
@@ -67,6 +77,8 @@ const Register = () => {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
+        {error.email && <p style={{ color: "red" }}>{error.email}</p>}
+
         <input
           type="password"
           placeholder="Enter Password"
@@ -74,6 +86,8 @@ const Register = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+        {error.password && <p style={{ color: "red" }}>{error.password}</p>}
+
         <input
           type="password"
           placeholder="Retype Password"
@@ -81,10 +95,11 @@ const Register = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
         />
+        {error.confirmPassword && <p style={{ color: "red" }}>{error.confirmPassword}</p>}
+
         <button type="submit">Register</button>
       </form>
       <p>{message}</p>
-      {error.confirmPassword && <p style={{ color: 'red' }}>{error.confirmPassword}</p>}
     </div>
   );
 };

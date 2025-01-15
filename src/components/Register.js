@@ -13,7 +13,7 @@ const Register = () => {
 
    
     setError({ fullName: "", email: "", password: "", confirmPassword: "" });
-    
+
     try {
       const response = await fetch('http://localhost:8080/register')({
         method: 'POST',

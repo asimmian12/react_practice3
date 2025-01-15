@@ -6,18 +6,27 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [error, setError] = useState({ email: "", password: "", confirmPassword: "" });
+  const [fullName, setName] = useState("");
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    if(error.name === "" && error.email === "" && error.password === ""){
-      axios.post("http://localhost:8080/Register", value)
-      .then(res => console.log(res))
-      .catch(error => console.log(error));
-    }
+
+
+    setError({ email: "", password: "", confirmPassword: "" });
+
 
     if (password !== confirmPassword) {
-      setMessage("Passwords do not match.");
+      setError((prev) => ({ ...prev, confirmPassword: "Passwords do not match." }));
       return;
+    }
+
+
+    const value = { email, password };  
+    if (error.email === "" && error.password === "" && error.confirmPassword === "") {
+      axios.post("http://localhost:8080/Register", value)
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
     }
 
     try {
@@ -35,7 +44,7 @@ const Register = () => {
       } else {
         setMessage(result.message || "An error occurred.");
       }
-    } catch (error) {
+    } catch (err) {
       setMessage("An error occurred while registering.");
     }
   };
@@ -44,6 +53,13 @@ const Register = () => {
     <div>
       <h2>Register</h2>
       <form onSubmit={handleRegister}>
+        <input
+          type="fullName"
+          placeholder="Enter FullName"
+          value={fullName}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
         <input
           type="email"
           placeholder="Enter Email Address"
@@ -68,6 +84,7 @@ const Register = () => {
         <button type="submit">Register</button>
       </form>
       <p>{message}</p>
+      {error.confirmPassword && <p style={{ color: 'red' }}>{error.confirmPassword}</p>}
     </div>
   );
 };

@@ -13,27 +13,6 @@ const Register = () => {
 
    
     setError({ fullName: "", email: "", password: "", confirmPassword: "" });
-
-    
-    if (!fullName) {
-      setError((prev) => ({ ...prev, fullName: "Full name is required." }));
-      return;
-    }
-
-    if (!email.includes("@")) {
-      setError((prev) => ({ ...prev, email: "Invalid email format." }));
-      return;
-    }
-
-    if (password.length < 6) {
-      setError((prev) => ({ ...prev, password: "Password must be at least 6 characters." }));
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setError((prev) => ({ ...prev, confirmPassword: "Passwords do not match." }));
-      return;
-    }
     
     try {
       const response = await fetch('http://localhost:8080/register')({

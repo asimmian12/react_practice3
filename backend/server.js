@@ -1,6 +1,12 @@
+const express = require('express');
 const mysql = require('mysql');
+const cors = require('cors');
 
-const connection = mysql.createConnection({
+const app = express();
+app.use(cors());
+
+
+const db = mysql.createConnection({
   host: 'localhost',
   user: 'asimMian',
   password: 'Sajid365',
@@ -9,11 +15,11 @@ const connection = mysql.createConnection({
 
 
 
-connection.connect((err) => {
-  if (err) {
-    console.error('Error connecting to MySQL ' + err.stack);
-    return;
-  }
+// db.connect((err) => {
+//   if (err) {
+//     console.error('Error connecting to MySQL ' + err.stack);
+//     return;
+//   }
 
-  console.log('Connected to MySQL as ID ' + connection.threadId);
-});
+//   console.log('Connected to MySQL as ID ' + connection.threadId);
+// });

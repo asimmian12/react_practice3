@@ -8,32 +8,29 @@ const Register = () => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState({ fullName: "", email: "", password: "", confirmPassword: "" });
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
-
-    setError({ fullName: "", email: "", password: "", confirmPassword: "" });
-    
-    try {
-      const response = await fetch('http://localhost:5000/register')({
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ fullName, email, password }),
-      });
-  
-      const result = await response.json();
-  
-      if (response.ok) {
-        setMessage('Registration successful!');
-      } else {
-        setMessage(result.message || 'An error occurred during registration.');
+    const handleRegister = async (e) => {
+      e.preventDefault();
+      setError({ fullName: "", email: "", password: "", confirmPassword: "" });
+      try {
+        const response = await fetch('http://localhost:8081/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ fullName, email, password }),
+        });
+        const result = await response.json();
+        if (response.ok) {
+          setMessage('Registration successful!');
+        } else {
+          setMessage(result.message || 'An error occurred during registration.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        setMessage('An error occurred while registering. Please try again later.');
       }
-    } catch (error) {
-      console.error('Error:', error);
-      setMessage('An error occurred while registering. Please try again later.');
-    }
-  };
+    };
+
 
   return (
     <div>

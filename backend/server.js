@@ -7,7 +7,7 @@ app.use(cors({
   origin: 'http://localhost:3000',
   credentials: true,
 }));
-
+app.use(express.join());
 
 const db = mysql.createConnection({
   host: 'localhost',

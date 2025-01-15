@@ -29,8 +29,8 @@ const Register = () => {
       } else {
         setMessage(result.message || 'An error occurred during registration.');
       }
-    } catch (err) {
-      console.error('Error:', err);
+    } catch (error) {
+      console.error('Error:', error);
       setMessage('An error occurred while registering. Please try again later.');
     }
   };

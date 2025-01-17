@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Sidenav from './components/Sidenav';
 // import Image from '../../assets/images/chest_xray.webp';
 
+
+
 const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
 

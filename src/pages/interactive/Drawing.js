@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 // import { section } from "motion/react-client";
 import React from "react";
 
+
+
 const draw = {
     hidden: { pathLength: 0, opacity: 0 },
     visible: (i) => {

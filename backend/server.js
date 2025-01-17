@@ -1,51 +1,36 @@
 const express = require('express');
-const mysql = require('mysql');
+const bodyParser = require('body-parser');
 const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
+const dotenv = require('dotenv');
+
+// Import routes
+const registerRoute = require('./routes/json/Register');
+const loginRoute = require('./routes/json/Login');
+
+// Configure environment variables
+dotenv.config();
 
 const app = express();
-app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true,
-}));
-app.use(express.join());
 
+// Middleware
+app.use(cors({ origin: 'http://localhost:3000' })); 
+app.use(bodyParser.json());
 
+// Routes
+app.use('/register', registerRoute);
+app.use('/login', loginRoute);
 
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'asim',
-  password: 'Sajid365',
-  database: 'react'
+const departments = JSON.parse(
+    fs.readFileSync(path.join(__dirname, 'routes', 'json', 'departments.json'), 'utf-8')
+  );
+  
+
+app.get('/departments', (req, res) => {
+  res.json(departments); // Send the contents of the departments.json file
 });
 
-
-app.post('/Register', (req, res) =>{
-  const sql = "INSERT INTO users 'ID', 'FullName', 'Email', 'Password') VALUES (?)";
-  const values = [
-    req.body.name,
-    req.body.email,
-    req.body.password,
-  ]
-  db.query(sql, [values], (err, data) =>{
-    if(err){
-      return res.json("error");
-    }
-    return res.json(data);
-  });
-})
-
-
-app.listen('8081', () =>{
-  console.log("listening");
-})
-
-
-
-// db.connect((err) => {
-//   if (err) {
-//     console.error('Error connecting to MySQL ' + err.stack);
-//     return;
-//   }
-
-//   console.log('Connected to MySQL as ID ' + connection.threadId);
-// });
+// Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -1,0 +1,19 @@
+[
+    {
+      "id": 1,
+      "name": "x-ray"
+    },
+    {
+      "id": 2,
+      "name": "Neurology"
+    },
+    {
+      "id": 3,
+      "name": "Pediatrics"
+    },
+    {
+      "id": 4,
+      "name": "Orthopedics"
+    }
+  ]
+  

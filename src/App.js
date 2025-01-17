@@ -1,29 +1,59 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import "./App.css";
-import Login from "./components/Login";
-import Register from "./components/Register";
+import React, { useState, useEffect } from 'react';
+import './App.css';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Navigation from './components/Navigation';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Map from './pages/Map';
+import Dashboard from './pages/dashboard/Dashboard';
+import Account from './pages/dashboard/Account';
+import Rotate from './pages/interactive/Rotate';
+import Drawing from './pages/interactive/Drawing';
 
 function App() {
+
+  // State to manage the logged-in status
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // On first load, check for token in localStorage
+  useEffect(() => {
+    // Check if there's a valid token in localStorage
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLoggedIn(true); // If token exists, user is logged in
+    }
+  }, []); // Only run once on component mount
+
+  const handleLogout = () => {
+    // Remove token and user data from localStorage on logout
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setIsLoggedIn(false); // Update state to reflect logout
+  };
+
   return (
-    <Router>
+    <>
       <div className="App">
-        <nav>
-          <ul>
-            <li>
-              <Link to="/" className="Nav_Links">Login</Link>
-            </li>
-            <li>
-              <Link to="/Register" className="Nav_Links">Register</Link>
-            </li>
-          </ul>
-        </nav>
-        <Routes>
-          <Route exact="true" path="/" element={<Login />} />
-          <Route path="/Register" element={<Register />} />
-        </Routes>
+        <Router>
+          <Navigation isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            {/* Redirect to Dashboard if already logged in */}
+            <Route path="/login" element={isLoggedIn ? <Navigate to="/dashboard" /> : <Login setIsLoggedIn={setIsLoggedIn} />} />
+            <Route path="/register" element={isLoggedIn ? <Navigate to="/dashboard" /> : <Register />} />
+            {/* Protected routes */}
+            <Route path="/dashboard" element={isLoggedIn ? <Dashboard /> : <Navigate to="/login" />} />
+            <Route path="/account" element={isLoggedIn ? <Account /> : <Navigate to="/login" />} />
+
+            <Route path="/map" element={<Map />} />
+            <Route path="/rotate" element={<Rotate />} />
+            <Route path="/drawing" element={<Drawing />} />
+
+          </Routes>
+        </Router>
       </div>
-    </Router>
+    </>
   );
 }
 

@@ -128,7 +128,6 @@ const Navigation = () => {
               Video Games
               </a>
             </li>
-            
           </ul>
         </div>
       </div>

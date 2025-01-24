@@ -13,6 +13,13 @@ import Account from './pages/dashboard/Account';
 import Rotate from './pages/interactive/Rotate';
 import Drawing from './pages/interactive/Drawing';
 
+import Appointment from './pages/Appointment';
+import Doctor from './pages/Doctor';
+import MRI from './pages/Mri';
+import Profile from './pages/Profile';
+import Xray from './pages/Xray';
+
+
 function App() {
 
   // State to manage the logged-in status
@@ -55,6 +62,11 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/rotate" element={<Rotate />} />
             <Route path="/drawing" element={<Drawing />} />
+            <Route path="/appointment" element={<Appointment />} />
+            <Route path="/doctor" element={<Doctor />} />
+            <Route path="/mri" element={<MRI />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/xray" element={<Xray />} />
 
           </Routes>
         </Router>

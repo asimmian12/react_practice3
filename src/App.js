@@ -12,7 +12,7 @@ import Dashboard from './pages/dashboard/Dashboard';
 import Account from './pages/dashboard/Account';
 import Rotate from './pages/interactive/Rotate';
 import Drawing from './pages/interactive/Drawing';
-
+import Videogames from './pages/Videogames';
 import Appointment from './pages/Appointment';
 import Doctor from './pages/Doctor';
 import MRI from './pages/Mri';
@@ -67,6 +67,7 @@ function App() {
             <Route path="/mri" element={<MRI />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/xray" element={<Xray />} />
+            <Route path="/Videogames" element={<Videogames />} />
 
           </Routes>
         </Router>

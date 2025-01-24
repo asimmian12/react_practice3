@@ -5,6 +5,7 @@ import Navigation from './components/Navigation';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Contact from './pages/Contact';
+import About from './pages/About';
 import Register from './pages/Register';
 import Map from './pages/Map';
 import Dashboard from './pages/dashboard/Dashboard';
@@ -49,6 +50,7 @@ function App() {
 
             <Route path="/map" element={<Map />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/about" element={<About />} />
             <Route path="/rotate" element={<Rotate />} />
             <Route path="/drawing" element={<Drawing />} />
 

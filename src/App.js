@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Navigation from './components/Navigation';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Contact from './pages/Contact';
 import Register from './pages/Register';
 import Map from './pages/Map';
 import Dashboard from './pages/dashboard/Dashboard';
@@ -47,6 +48,7 @@ function App() {
             <Route path="/account" element={isLoggedIn ? <Account /> : <Navigate to="/login" />} />
 
             <Route path="/map" element={<Map />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="/rotate" element={<Rotate />} />
             <Route path="/drawing" element={<Drawing />} />
 

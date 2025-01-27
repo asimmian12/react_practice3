@@ -15,7 +15,7 @@ import Drawing from './pages/interactive/Drawing';
 import Videogames from './pages/Videogames';
 import Appointment from './pages/Appointment';
 import Doctor from './pages/Doctor';
-import MRI from './pages/Mri';
+import MRI from './pages/mri';
 import Profile from './pages/Profile';
 import Xray from './pages/Xray';
 

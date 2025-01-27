@@ -4,7 +4,7 @@ function Map() {
   return (
     <>
     <div>Map</div>
-    <img src="/public/assets/images/hospital_map.jpeg" alt='Hospital_Map'></img>
+    <img src="/assets/images/hospital_map.jpg" alt='Hospital_Map' />
     </> 
   )
 }

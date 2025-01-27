@@ -42,8 +42,8 @@ const handleSubmit = async () => {
   return (
     <form className="max-w-sm mx-auto" onSubmit={handleSubmit}>
       <div className="mb-5">
-        <label for="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hospital Number</label>
-        <input type="email" id="email" className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-xs-light" placeholder="name@flowbite.com" value={hospitalNumber} onChange={(e) => setHospitalNumber(e.target.value)} required />
+        <label for="number" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hospital Number</label>
+        <input type="number" id="number" className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-xs-light" placeholder="0141 5836088" value={hospitalNumber} onChange={(e) => setHospitalNumber(e.target.value)} required />
       </div>
       <div className="mb-5">
         <label for="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full Name: </label>

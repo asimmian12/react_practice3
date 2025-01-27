@@ -23,12 +23,11 @@ function Register() {
 
   // State for form inputs
   const [formData, setFormData] = useState({
-    firstName: '',
-    surname: '',
+    name: '',
     hospital_number: '',
     email: '',
     department_id: '',
-    telephone_number: '',
+    date: '',
     password: '',
     confirm_password: '',
   });

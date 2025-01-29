@@ -45,26 +45,24 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
            >
              Map
            </Link>
-
-               <Link
-                 to="/login"
-                 className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-               >
-                 Login
-               </Link>
-               <Link
-                 to="/register"
-                 className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-               >
-                 Register
-               </Link>
-               {/* <Link
-                 to="/intro"
-                 className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-               >
-                 SlackIntro
-               </Link> */}
-                   
+          <Link
+            to="/login"
+            className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+          >
+            Login
+          </Link>
+          <Link
+            to="/register"
+            className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+          >
+            Register
+          </Link>
+          <Link
+            to="/intro"
+            className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+            SlackIntro
+          </Link>
+              
          </div>
        </div>
      </div>

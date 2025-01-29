@@ -87,14 +87,7 @@ function Register() {
   return (
     <div className="max-w-4xl max-sm:max-w-lg mx-auto font-[sans-serif] p-6">
       <div className="text-center mb-12 sm:mb-16">
-        <a href="javascript:void(0)">
-          <img
-            src="https://readymadeui.com/readymadeui.svg"
-            alt="logo"
-            className="w-48 inline-block"
-          />
-        </a>
-        <h4 className="text-gray-600 text-base mt-6">Sign up to access the hospital portal</h4>
+        <h4 className="text-gray-600 text-base mt-6">Register to access the hospital portal</h4>
       </div>
 
       <form>
@@ -121,7 +114,7 @@ function Register() {
               onChange={handleChange}
             />
           </div>
-          {/* <div>
+          <div>
             <label className="text-gray-600 text-sm mb-2 block">Date of Birth</label>
             <input
               name="dob"
@@ -131,7 +124,7 @@ function Register() {
               value={formData.dob}
               onChange={handleChange}
             />
-          </div> */}
+          </div>
           <div>
             <label className="text-gray-600 text-sm mb-2 block">Hospital Number</label>
             <input

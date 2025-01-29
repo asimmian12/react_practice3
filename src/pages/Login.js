@@ -36,46 +36,49 @@ function Login({ setIsLoggedIn }) {
   
 
   return (
-    <div className="bg-gray-50 font-[sans-serif]">
-    <div className="min-h-screen flex flex-col items-center justify-center py-6 px-4">
-      <div className="max-w-md w-full">
-        <a href="javascript:void(0)">
-          <img
-            src="https://readymadeui.com/readymadeui.svg"
-            alt="logo"
-            className="w-40 mb-8 mx-auto block"
-          />
-        </a>
-    <div className="p-8 rounded-2xl bg-white shadow">
-      <h2 className="text-gray-800 text-center text-2xl font-bold">Sign in</h2>
-      <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
-        <label className="text-gray-800 text-sm mb-2 block">Hospital Number
-          <input
-            type="text"
-            value={hospitalNumber}
-            onChange={(e) => setHospitalNumber(e.target.value)}
-            className="w-full text-gray-800 text-sm border border-gray-300 px-4 py-3 rounded-md outline-blue-600"
-            required
-          />
+    <div>
+    <form className="max-w-sm mx-auto" onSubmit={handleSubmit}>
+      <div className="mb-5">
+        <label htmlFor="name" className="block mb-2 text-sm font-medium">
+          Name:
         </label>
-        <label className="text-gray-800 text-sm mb-2 block">
-          Password:
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full text-gray-800 text-sm border border-gray-300 px-4 py-3 rounded-md outline-blue-600"
-            required
-          />
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={hospitalNumber}
+          onChange={(e) => setHospitalNumber(e.target.value)}
+          className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 rounded-lg"
+          placeholder="Name"
+          required
+        />
+      </div>
+      <div className="mb-5">
+        <label htmlFor="email" className="block mb-2 text-sm font-medium">
+          Email:
         </label>
-        {error && <div>{error}</div>}
-        <button type="submit">Login</button>
-      </form>
-    </div>
-    </div>
-    </div>
-    </div>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 rounded-lg"
+          placeholder="example@domain.com"
+          required
+        />
+      </div>
+      {error && <div>{error}</div>}
+      <button type="submit" className="text-white bg-blue-700 rounded-lg px-5 py-2.5">
+      Login
+      </button>
+    </form>
+  </div>
+   
+
   );
+
+
 }
 
 export default Login;

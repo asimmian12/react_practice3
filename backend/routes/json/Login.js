@@ -3,6 +3,7 @@ const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
 const fs = require('fs');
 const path = require('path');
+const { details } = require('framer-motion/client');
 require('dotenv').config();
 
 const router = express.Router();
@@ -50,7 +51,8 @@ router.post('/', (req, res) => {
 
     if (isMatch) {
       const department = departments.find((dept) => dept.id === user.department_id);
-      const departmentName = department ? department.name : 'Unknown';
+      const departmentData = department || {name: 'Unknown', details: 'No details available'};
+
 
       // Remove password and prepare user data
       const { password, ...userWithoutPassword } = user;
@@ -58,7 +60,7 @@ router.post('/', (req, res) => {
       // Prepare response data
       const responseData = {
         ...userWithoutPassword,
-        department_name: departmentName,
+        ...departmentData,
       };
 
       // Log the response data in the backend

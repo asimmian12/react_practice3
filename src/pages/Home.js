@@ -28,6 +28,7 @@ const Home = () => {
         <img src="https://readymadeui.com/linkedin-logo.svg" className="w-28 mx-auto" alt="linkedin-logo" />
         <img src="https://readymadeui.com/pinterest-logo.svg" className="w-28 mx-auto" alt="pinterest-logo" />
       </div>
+      
     </div>  )
 }
 

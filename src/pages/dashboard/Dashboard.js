@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Sidenav from './components/Sidenav';
+import { Link } from 'react-router-dom';
 // import Image from '../../assets/images/chest_xray.webp';
 
-
-
 const Dashboard = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleNav = () => {
-    setIsOpen(!isOpen);
-  };
+ 
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
@@ -25,29 +19,25 @@ const Dashboard = () => {
   }
   return (
     <>
-    <main className='flex h-full'>
-   <Sidenav />
+    <main className='flex h-full m-auto'>
   <div className='flex flex-col flex-wrap items-center justify-evenly'>
   <div class="font-[sans-serif] my-4">
             <div class="max-w-5xl max-lg:max-w-2xl mx-auto">
                 <div class="max-w-2xl mx-auto text-center">
                     <h2 class="text-gray-800 text-4xl font-extrabold">Welcome, {userData.firstName} {userData.surname}!
                     </h2>
-                    <p class="text-gray-600 text-sm mt-4 leading-relaxed">Veniam proident aute magna anim excepteur et ex consectetur velit ullamco veniam minim aute sit. Ullamco nisi enim ipsum irure laboris ad ut. Esse cupidatat deserunt magna aute.</p>
+                    <p class="text-gray-600 text-sm mt-4 leading-relaxed">Welcome to your hospital portal! We're so happy you're here. This is your special space where you can find everything you need to know about your health and your visits. You’ll be able to see all your important details, explore fun activities, and get ready for your next adventure at the hospital. We're here to help you every step of the way—let's make sure you feel comfortable and excited!</p>
                 </div>
-
                 <div class="grid lg:grid-cols-2 md:grid-cols-2 gap-8 justify-center mt-12">
                     <div class="border rounded-md overflow-hidden max-md:max-w-[300px]">
-                        <img src="../../assets/images/account.png" class="w-full h-60 object-contain object-top bg-gray-200" />
-
+                        <Link to="/account">
+                            <img src="/assets/images/account.png" class="w-full h-60 object-contain object-top bg-gray-200" />
+                        </Link>
                         <div class="p-4">
                             <h4 class="text-gray-800 text-base font-bold">{userData.firstName}'s Details</h4>
-                            <p class="text-gray-600 text-xs mt-1">Software Engineer</p>
-
                             <div class="mt-4">
-                                <p class="text-gray-600 text-sm leading-relaxed">Eiusmod commodo aliquip laboris qui anim non voluptate consectetur.</p>
+                                <p class="text-gray-600 text-sm leading-relaxed">By clicking the image above, you'll be able to view all your personal details and find out important information about the department you'll be visiting. You'll get to learn more about the team, the services they provide, and what to expect during your visit. It's a great way to prepare and feel confident about your upcoming appointment!</p>
                             </div>
-
                             <div class="space-x-4 mt-4">
                                 <button type="button"
                                     class="w-7 h-7 inline-flex items-center justify-center rounded-full border-none outline-none bg-blue-600 hover:bg-blue-700 active:bg-blue-600">
@@ -78,14 +68,14 @@ const Dashboard = () => {
                     </div>
 
                     <div class="border rounded-md overflow-hidden max-md:max-w-[300px]">
-                        <img src="../../assets/images/chest_xray.webp" class="w-full h-60 object-contain object-top bg-gray-200" />
+                        <Link to="/games">
+                        <img src="/assets/images/games/food-theif.png" class="w-full h-60 object-contain object-top bg-gray-200" />
+                        </Link>
 
                         <div class="p-4">
-                            <h4 class="text-gray-800 text-base font-bold">{userData.department_name} Department</h4>
-                            <p class="text-gray-600 text-xs mt-1">{userData.department_name} Department Details</p>
-
+                            <h4 class="text-gray-800 text-base font-bold">GAMES</h4>
                             <div class="mt-4">
-                                <p class="text-gray-600 text-sm leading-relaxed">Eiusmod commodo aliquip laboris qui anim non voluptate consectetur.</p>
+                                <p class="text-gray-600 text-sm leading-relaxed">{userData.firstName}, click above to go our exciting Fun Zone! Once you're there, you'll be able to play cool games, explore fun activities, and enjoy lots of entertainment. It's a great place to relax, have some fun, and discover new things—all while having a blast!</p>
                             </div>
 
                             <div class="space-x-4 mt-4">
@@ -120,6 +110,7 @@ const Dashboard = () => {
             </div>
         </div>
  </div>
+ 
  </main>
  </>
   );

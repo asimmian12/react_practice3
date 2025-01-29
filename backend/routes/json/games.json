@@ -1,0 +1,70 @@
+[
+    {
+      "id": 1,
+      "name": "Food theif",
+      "details": "Description of the game",
+      "game_img": "/assets/images/games/food-theif.png",
+      "age_restriction": "8",
+      "game_url": "https://google.com"
+
+    },
+    {
+        "id": 2,
+        "name": "Food theif",
+        "details": "Description of the game",
+        "game_img": "/assets/images/games/food-theif.png",
+        "age_restriction": "8",
+        "game_url": "https://google.com"
+  
+      },
+      {
+        "id": 3,
+        "name": "Food theif",
+        "details": "Description of the game",
+        "game_img": "/assets/images/games/food-theif.png",
+        "age_restriction": "8",
+        "game_url": "https://google.com"
+
+  
+      },
+      {
+        "id": 4,
+        "name": "Food theif",
+        "details": "Description of the game",
+        "game_img": "/assets/images/games/food-theif.png",
+        "age_restriction": "8",
+        "game_url": "https://google.com"
+
+  
+      },
+      {
+        "id": 5,
+        "name": "Food theif",
+        "details": "Description of the game",
+        "game_img": "/assets/images/games/food-theif.png",
+        "age_restriction": "8",
+        "game_url": "https://google.com"
+
+  
+      },
+      {
+        "id": 6,
+        "name": "Food theif",
+        "details": "Description of the game",
+        "game_img": "/assets/images/games/food-theif.png",
+        "age_restriction": "8",
+        "game_url": "https://google.com"
+
+  
+      },
+      {
+        "id": 7,
+        "name": "Food theif",
+        "details": "Description of the game",
+        "game_img": "/assets/images/games/food-theif.png",
+        "age_restriction": "8",
+        "game_url": "https://google.com"
+
+  
+      }
+]

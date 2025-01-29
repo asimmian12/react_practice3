@@ -1,137 +1,206 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
+import { Link } from "react-router-dom";
 
-const Navigation = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+// Initialization for ES Users
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+const Navigation = ({ isLoggedIn, handleLogout }) => {
+    const [userData, setUserData] = useState(null);
+  
+ useEffect(() => {
+    // Retrieve the user data from localStorage
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUserData(JSON.parse(storedUser));
+    }
+  }, []);
+
+  if (!userData) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <nav className="bg-white border-gray-200 dark:bg-gray-900">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
-        </a>
-        <div className="flex items-center md:order-2 space-x-1 md:space-x-0 rtl:space-x-reverse">
-          <button
-            type="button"
-            onClick={toggleDropdown}
-            className="inline-flex items-center font-medium justify-center px-4 py-2 text-sm text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
-            <svg className="w-5 h-5 rounded-full me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3900 3900">
-              {/* SVG Path for English US Flag */}
-            </svg>
-            English (UK)
-          </button>
-          {isDropdownOpen && (
-            <div className="z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700">
-              <ul className="py-2 font-medium" role="none">
-                <li>
-                  <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white">
-                    <div className="inline-flex items-center">
-                      {/* Flag Icon for US */}
-                      English (US)
-                    </div>
-                  </a>
-                </li>
-                {/* Add other language options here */}
-              </ul>
-            </div>
-          )}
-          <button
-            onClick={toggleMobileMenu}
-            data-collapse-toggle="navbar-language"
-            type="button"
-            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            aria-controls="navbar-language"
-            aria-expanded={isMobileMenuOpen ? "true" : "false"}
-          >
-            <span className="sr-only">Open main menu</span>
-            <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15" />
-            </svg>
-          </button>
-        </div>
-        <div
-          className={`items-center justify-between hidden w-full md:flex md:w-auto md:order-1 ${isMobileMenuOpen ? "block" : "hidden"}`}
-          id="navbar-language"
-        >
-          <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            <li>
-              <a href="/" className="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500" aria-current="page">
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="/about" className="block py-2 px-3 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                About
-              </a>
-            </li>
-            <li>
-              <a href="/register" className="block py-2 px-3 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                Register
-              </a>
-              </li>
-              <li>
-              <a href="/login" className="block py-2 px-3 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                Login
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block py-2 px-3 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                Services
-              </a>
-            </li>
-            <li>
-              <a href="/contact" className="block py-2 px-3 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                Contact
-              </a>
-            </li>
-            <li>
-              <a href="/map" className="block py-2 px-3 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-                Map
-              </a>
-            </li>
-            <li>
-              <a href="/appointment" className="block py-2 px-3 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-              Appointment
-              </a>
-            </li>
-            <li>
-              <a href="/doctor" className="block py-2 px-3 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-              Doctor
-              </a>
-            </li>
-            <li>
-              <a href="/profile" className="block py-2 px-3 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-              Profile
-              </a>
-            </li>
-            <li>
-              <a href="/Xray" className="block py-2 px-3 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-              X-Ray
-              </a>
-            </li>
-            <li>
-              <a href="/Mri" className="block py-2 px-3 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-              MRI
-              </a>
-            </li>
-            <li>
-              <a href="/Videogames" className="block py-2 px-3 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
-              Video Games
-              </a>
-            </li>
-          </ul>
+    <>
+   
+    {!isLoggedIn ? (
+ <nav className="bg-gray-800 relative z-10">
+ <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+   <div className="relative flex h-16 items-center justify-between">
+     <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+       <div className="flex shrink-0 items-center">
+         Clyde Childrens Hospital
+       </div>
+       <div className="hidden sm:ml-6 sm:block">
+         <div className="flex space-x-4">
+           <Link
+             to="/"
+             className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"
+             aria-current="page"
+           >
+             Home
+           </Link>
+           <Link
+             to="/map"
+             className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+           >
+             Map
+           </Link>
+
+               <Link
+                 to="/login"
+                 className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+               >
+                 Login
+               </Link>
+               <Link
+                 to="/register"
+                 className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+               >
+                 Register
+               </Link>
+               {/* <Link
+                 to="/intro"
+                 className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+               >
+                 SlackIntro
+               </Link> */}
+                   
+         </div>
+       </div>
+     </div>
+   </div>
+ </div>
+</nav>
+ ) : (
+      <nav class="bg-[#2e2e48] h-screen mt-30 min-w-[260px] py-6 px-4 font-[sans-serif] flex flex-col overflow-auto">
+      <div class="flex flex-wrap flex-col justify-center items-center cursor-pointer">
+        <p class="bg-gray-300 w-12 h-12 rounded-full flex items-center justify-center font-bold text-black text-xl">
+          P
+        </p>
+
+        <div class="text-center mt-2">
+          <p class="text-base text-white">{userData.firstName}</p>
+          <p class="text-xs text-gray-300 mt-0.5">Patient Number: {userData.hospital_number}</p>
         </div>
       </div>
-    </nav>
+
+      <hr class="my-6 border-gray-400" />
+
+      <ul class="space-y-3 flex-1">
+        <li>
+          <Link
+            to="/dashboard"
+            class="text-gray-300 hover:text-white text-sm flex items-center hover:bg-[#36336b] rounded px-4 py-3 transition-all"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              class="w-[18px] h-[18px] mr-4"
+              viewBox="0 0 512 512"
+            >
+              <path
+                d="M197.332 170.668h-160C16.746 170.668 0 153.922 0 133.332v-96C0 16.746 16.746 0 37.332 0h160c20.59 0 37.336 16.746 37.336 37.332v96c0 20.59-16.746 37.336-37.336 37.336zM37.332 32A5.336 5.336 0 0 0 32 37.332v96a5.337 5.337 0 0 0 5.332 5.336h160a5.338 5.338 0 0 0 5.336-5.336v-96A5.337 5.337 0 0 0 197.332 32zm160 480h-160C16.746 512 0 495.254 0 474.668v-224c0-20.59 16.746-37.336 37.332-37.336h160c20.59 0 37.336 16.746 37.336 37.336v224c0 20.586-16.746 37.332-37.336 37.332zm-160-266.668A5.337 5.337 0 0 0 32 250.668v224A5.336 5.336 0 0 0 37.332 480h160a5.337 5.337 0 0 0 5.336-5.332v-224a5.338 5.338 0 0 0-5.336-5.336zM474.668 512h-160c-20.59 0-37.336-16.746-37.336-37.332v-96c0-20.59 16.746-37.336 37.336-37.336h160c20.586 0 37.332 16.746 37.332 37.336v96C512 495.254 495.254 512 474.668 512zm-160-138.668a5.338 5.338 0 0 0-5.336 5.336v96a5.337 5.337 0 0 0 5.336 5.332h160a5.336 5.336 0 0 0 5.332-5.332v-96a5.337 5.337 0 0 0-5.332-5.336zm160-74.664h-160c-20.59 0-37.336-16.746-37.336-37.336v-224C277.332 16.746 294.078 0 314.668 0h160C495.254 0 512 16.746 512 37.332v224c0 20.59-16.746 37.336-37.332 37.336zM314.668 32a5.337 5.337 0 0 0-5.336 5.332v224a5.338 5.338 0 0 0 5.336 5.336h160a5.337 5.337 0 0 0 5.332-5.336v-224A5.336 5.336 0 0 0 474.668 32zm0 0"
+                data-original="#000000"
+              />
+            </svg>
+            DASHBOARD
+             </Link>
+        </li>
+        <li>
+          <Link to="/account"
+            
+            class="text-gray-300 hover:text-white text-sm flex items-center hover:bg-[#36336b] rounded px-4 py-3 transition-all"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              class="w-[18px] h-[18px] mr-4"
+              viewBox="0 0 512 512"
+            >
+              <path
+                d="M437.02 74.98C388.668 26.63 324.379 0 256 0S123.332 26.629 74.98 74.98C26.63 123.332 0 187.621 0 256s26.629 132.668 74.98 181.02C123.332 485.37 187.621 512 256 512s132.668-26.629 181.02-74.98C485.37 388.668 512 324.379 512 256s-26.629-132.668-74.98-181.02zM111.105 429.297c8.454-72.735 70.989-128.89 144.895-128.89 38.96 0 75.598 15.179 103.156 42.734 23.281 23.285 37.965 53.687 41.742 86.152C361.641 462.172 311.094 482 256 482s-105.637-19.824-144.895-52.703zM256 269.507c-42.871 0-77.754-34.882-77.754-77.753C178.246 148.879 213.13 114 256 114s77.754 34.879 77.754 77.754c0 42.871-34.883 77.754-77.754 77.754zm170.719 134.427a175.9 175.9 0 0 0-46.352-82.004c-18.437-18.438-40.25-32.27-64.039-40.938 28.598-19.394 47.426-52.16 47.426-89.238C363.754 132.34 315.414 84 256 84s-107.754 48.34-107.754 107.754c0 37.098 18.844 69.875 47.465 89.266-21.887 7.976-42.14 20.308-59.566 36.542-25.235 23.5-42.758 53.465-50.883 86.348C50.852 364.242 30 312.512 30 256 30 131.383 131.383 30 256 30s226 101.383 226 226c0 56.523-20.86 108.266-55.281 147.934zm0 0"
+                data-original="#000000"
+              />
+            </svg>
+            <span>ACCOUNT</span>
+          </Link>
+        </li>
+        <li>
+          <Link to="/games"
+            class="text-gray-300 hover:text-white text-sm flex items-center hover:bg-[#36336b] rounded px-4 py-3 transition-all"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              class="w-[18px] h-[18px] mr-4"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M18 2c2.206 0 4 1.794 4 4v12c0 2.206-1.794 4-4 4H6c-2.206 0-4-1.794-4-4V6c0-2.206 1.794-4 4-4zm0-2H6a6 6 0 0 0-6 6v12a6 6 0 0 0 6 6h12a6 6 0 0 0 6-6V6a6 6 0 0 0-6-6z"
+                data-original="#000000"
+              />
+              <path
+                d="M12 18a1 1 0 0 1-1-1V7a1 1 0 0 1 2 0v10a1 1 0 0 1-1 1z"
+                data-original="#000000"
+              />
+              <path
+                d="M6 12a1 1 0 0 1 1-1h10a1 1 0 0 1 0 2H7a1 1 0 0 1-1-1z"
+                data-original="#000000"
+              />
+            </svg>
+            <span>GAMES</span>
+          </Link>
+        </li>
+        <li onClick={handleLogout}>
+          
+        <button
+                 onClick={handleLogout}
+                 className="text-gray-300 hover:text-white text-sm flex items-center hover:bg-[#36336b] rounded px-4 py-3 transition-all"
+               >
+                 LOGOUT
+               </button>
+           
+        </li>
+      
+      </ul>
+
+      <div class=" p-6 flex flex-col bg-[#e3401f] rounded-3xl mt-4">
+      <Link to="/games" class="text-gray-300 text-xs mt-1">
+        <div class="mt-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="#fff"
+            class="w-12"
+            viewBox="0 0 24 24"
+          >
+            <circle cx="4" cy="6" r="3" data-original="#000000" />
+            <path
+              d="M7.29 11.07A6.991 6.991 0 0 0 4 17H2a2.006 2.006 0 0 1-2-2v-2a3.009 3.009 0 0 1 3-3h2a3 3 0 0 1 2.29 1.07z"
+              data-original="#000000"
+            />
+            <circle cx="20" cy="6" r="3" data-original="#000000" />
+            <path
+              d="M24 13v2a2.006 2.006 0 0 1-2 2h-2a6.991 6.991 0 0 0-3.29-5.93A3 3 0 0 1 19 10h2a3.009 3.009 0 0 1 3 3z"
+              data-original="#000000"
+            />
+            <circle cx="12" cy="7" r="4" data-original="#000000" />
+            <path
+              d="M18 17v1a3.009 3.009 0 0 1-3 3H9a3.009 3.009 0 0 1-3-3v-1a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5z"
+              data-original="#000000"
+            />
+          </svg>
+          <h6 class="text-white text-sm mt-2 font-semibold">Games</h6>
+         
+              Play Games
+          
+        </div>
+        </Link>
+      </div>
+      </nav>
+     
+
+)}
+</>
   );
 };
 

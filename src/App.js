@@ -1,24 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Navigation from './components/Navigation';
 import Home from './pages/Home';
 import Login from './pages/Login';
-import Contact from './pages/Contact';
-import About from './pages/About';
 import Register from './pages/Register';
 import Map from './pages/Map';
 import Dashboard from './pages/dashboard/Dashboard';
 import Account from './pages/dashboard/Account';
+import Games from './pages/dashboard/Games';
 import Rotate from './pages/interactive/Rotate';
 import Drawing from './pages/interactive/Drawing';
-import Videogames from './pages/Videogames';
-import Appointment from './pages/Appointment';
-import Doctor from './pages/Doctor';
-import MRI from './pages/mri';
-import Profile from './pages/Profile';
-import Xray from './pages/Xray';
-
+import SlackIntro from './animata/SlackIntro';
 
 function App() {
 
@@ -41,13 +35,13 @@ function App() {
     setIsLoggedIn(false); // Update state to reflect logout
   };
 
-
-  
   return (
     <>
       <div className="App">
         <Router>
+          <main className={`${isLoggedIn ? "flex" : ""}`} >
           <Navigation isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+          
           <Routes>
             <Route path="/" element={<Home />} />
             {/* Redirect to Dashboard if already logged in */}
@@ -56,20 +50,14 @@ function App() {
             {/* Protected routes */}
             <Route path="/dashboard" element={isLoggedIn ? <Dashboard /> : <Navigate to="/login" />} />
             <Route path="/account" element={isLoggedIn ? <Account /> : <Navigate to="/login" />} />
-
+            <Route path="/games" element={isLoggedIn ? <Games /> : <Navigate to="/login" />} />
             <Route path="/map" element={<Map />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/about" element={<About />} />
             <Route path="/rotate" element={<Rotate />} />
             <Route path="/drawing" element={<Drawing />} />
-            <Route path="/appointment" element={<Appointment />} />
-            <Route path="/doctor" element={<Doctor />} />
-            <Route path="/mri" element={<MRI />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/xray" element={<Xray />} />
-            <Route path="/Videogames" element={<Videogames />} />
+            <Route path="/intro" element={<SlackIntro />} />
 
           </Routes>
+          </main>
         </Router>
       </div>
     </>

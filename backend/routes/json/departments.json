@@ -1,0 +1,30 @@
+[
+    {
+      "id": 1,
+      "name": "x-ray",
+      "details": "The X-Ray Department is a special place where doctors use amazing machines to take pictures of the inside of your body. These pictures help the doctors see your bones, muscles, and other important parts to figure out what’s making you feel unwell or if you’ve had an injury, like a broken bone. Don’t worry—it’s super quick and doesn’t hurt at all! You’ll stand still or lie down for a moment while the machine takes the picture, kind of like a big camera. It helps the doctors understand what’s happening so they can take the best care of you and help you feel better.",
+      "doctor": "Doctor Smith",
+      "doctor_img": "x-ray_doctor.jpg",
+      "nurse": "Nurse Pratchett",
+      "nurse_img": "x-ray_nurse.jpg",
+      "dept_map": "xray_map.jpg",
+      "dept_img": ["xray_img1.jpg", "xray_img2.jpg", "xray_img1.jpg"],
+      "videos": ["FId7wHAd1Cg?si=X28sg4wONarFmS_Z", "FId7wHAd1Cg?si=X28sg4wONarFmS_Z", "FId7wHAd1Cg?si=X28sg4wONarFmS_Z"]
+
+
+    },
+    {
+      "id": 2,
+      "name": "Neurology",
+      "details": "The Neurology Department is a special place where doctors and nurses help kids who have problems with their brain, nerves, or muscles. Your brain is like a supercomputer that controls your body, helping you think, move, and feel. Sometimes, the brain or nerves don’t work the way they should, and that’s when we step in to help. The doctors here are experts in finding out what’s going on and how to make you feel better. They use special tools, ask lots of questions, and may even show you cool pictures of your brain! Our job is to help you stay healthy and strong so you can keep learning, playing, and having fun.",
+      "doctor": "Doctor Jones",
+      "doctor_img": "neurology_doctor.jpg",
+      "nurse": "Nurse Stevenson",
+      "nurse_img": "neurology_nurse.jpg",
+      "dept_map": "neurology_map.jpg",
+      "dept_img": ["neurology_img1.jpg", "neurology_img2.jpg", "neurology_img1.jpg"],
+      "videos": ["FId7wHAd1Cg?si=X28sg4wONarFmS_Z", "FId7wHAd1Cg?si=X28sg4wONarFmS_Z", "FId7wHAd1Cg?si=X28sg4wONarFmS_Z"]
+
+    }
+  ]
+  

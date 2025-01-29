@@ -23,8 +23,8 @@ function Contact() {
             type="text"
             id="name"
             name="name"
-            value={formData.name}
-            onChange={handleChange}
+            value={hospitalNumber}
+            onChange={(e) => setHospitalNumber(e.target.value)}
             className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 rounded-lg"
             placeholder="Name"
             required

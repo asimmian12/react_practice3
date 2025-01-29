@@ -197,7 +197,6 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
         </Link>
       </div>
       </nav>
-     
 
 )}
 </>

@@ -31,6 +31,7 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
                     <Link to="/register" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Register</Link>
                     <Link to="/Contact" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Contact</Link>
                     <Link to="/service" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Services</Link>
+                    <Link to="/Appointment" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Appointment</Link>
                   </div>
                 </div>
               </div>
@@ -56,6 +57,9 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
             </li>
             <li>
               <Link to="/games" className="text-gray-300 hover:text-white text-sm flex items-center hover:bg-[#36336b] rounded px-4 py-3 transition-all">GAMES</Link>
+            </li>
+            <li>
+              <Link to="/Appointment" className="text-gray-300 hover:text-white text-sm flex items-center hover:bg-[#36336b] rounded px-4 py-3 transition-all">APPOINTMENT</Link>
             </li>
             <li>
               <button onClick={handleLogout} className="text-gray-300 hover:text-white text-sm flex items-center hover:bg-[#36336b] rounded px-4 py-3 transition-all">LOGOUT</button>

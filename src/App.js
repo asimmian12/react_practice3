@@ -14,6 +14,7 @@ import Games from './pages/dashboard/Games';
 import Rotate from './pages/interactive/Rotate';
 import Drawing from './pages/interactive/Drawing';
 import SlackIntro from './animata/SlackIntro';
+import Appointment from './pages/Appointment';
 
 function App() {
 
@@ -54,6 +55,7 @@ function App() {
             <Route path="/games" element={isLoggedIn ? <Games /> : <Navigate to="/login" />} />
             <Route path="/map" element={<Map />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/appointment" element={<Appointment />} />
             <Route path="/rotate" element={<Rotate />} />
             <Route path="/drawing" element={<Drawing />} />
             <Route path="/intro" element={<SlackIntro />} />

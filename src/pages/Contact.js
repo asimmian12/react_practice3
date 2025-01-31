@@ -23,9 +23,9 @@ function Contact() {
             type="text"
             id="name"
             name="name"
-            value={hospitalNumber}
-            onChange={(e) => setHospitalNumber(e.target.value)}
-            className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 rounded-lg"
+            value={formData.name}
+            onChange={handleChange}
+            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
             placeholder="Name"
             required
           />
@@ -40,12 +40,12 @@ function Contact() {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 rounded-lg"
+            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
             placeholder="example@domain.com"
             required
           />
         </div>
-        <button type="submit" className="text-white bg-blue-700 rounded-lg px-5 py-2.5">
+        <button type="submit" className="text-white bg-blue-700 rounded-lg px-5 py-2.5 w-full">
           Contact Us Now
         </button>
       </form>
@@ -53,4 +53,4 @@ function Contact() {
   );
 }
 
-export default Contact; 
+export default Contact;

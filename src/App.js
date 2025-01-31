@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Navigation from './components/Navigation';
 import Home from './pages/Home';
+import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Map from './pages/Map';
@@ -52,6 +53,7 @@ function App() {
             <Route path="/account" element={isLoggedIn ? <Account /> : <Navigate to="/login" />} />
             <Route path="/games" element={isLoggedIn ? <Games /> : <Navigate to="/login" />} />
             <Route path="/map" element={<Map />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="/rotate" element={<Rotate />} />
             <Route path="/drawing" element={<Drawing />} />
             <Route path="/intro" element={<SlackIntro />} />

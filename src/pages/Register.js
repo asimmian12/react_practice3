@@ -84,71 +84,49 @@ function Register() {
     await registerUser(userData, navigate);
   };
 
-  return (
-    <div className="max-w-4xl max-sm:max-w-lg mx-auto font-[sans-serif] p-6">
-      <div className="text-center mb-12 sm:mb-16">
-        <h4 className="text-gray-600 text-base mt-6">Register to access the hospital portal</h4>
-      </div>
-
-      <form>
-        <div className="grid sm:grid-cols-2 gap-6">
-          <div>
-            <label className="text-gray-600 text-sm mb-2 block">First Name</label>
-            <input
-              name="firstName"
-              type="text"
-              className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
-              placeholder="Enter first name"
-              value={formData.firstName}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label className="text-gray-600 text-sm mb-2 block">Surname</label>
-            <input
-              name="surname"
-              type="text"
-              className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
-              placeholder="Surname"
-              value={formData.surname}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label className="text-gray-600 text-sm mb-2 block">Date of Birth</label>
-            <input
-              name="dob"
-              type="date"
-              className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
-              placeholder="Enter email"
-              value={formData.dob}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label className="text-gray-600 text-sm mb-2 block">Hospital Number</label>
-            <input
-              name="hospital_number"
-              type="text"
-              className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
-              placeholder="EG: CHI25121900"
-              value={formData.hospital_number}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label className="text-gray-600 text-sm mb-2 block">Email</label>
-            <input
-              name="email"
-              type="email"
-              className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
-              placeholder="Enter email"
-              value={formData.email}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label className="text-gray-600 text-sm mb-2 block">Department</label>
+  return ( 
+<form>
+    <div class="grid gap-6 mb-6 md:grid-cols-2">
+    <h4 className="text-gray-600 text-base mt-6">Register to access the hospital portal</h4>
+        <div>
+            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First name</label>
+            <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required value={formData.firstName} onChange={handleChange} />
+        </div>
+        <div>
+            <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last name</label>
+            <input type="text" id="last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Doe" required value={formData.surname} onChange={handleChange}/>
+        </div>
+        <div>
+            <label for="company" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company</label>
+            <input type="text" id="company" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Flowbite" required />
+        </div>  
+        <div>
+            <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone number</label>
+            <input type="tel" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="123-45-678" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required />
+        </div>
+        <div>
+            <label for="website" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Website URL</label>
+            <input type="url" id="website" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="flowbite.com" required />
+        </div>
+        <div>
+            <label for="visitors" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hospital visitors </label>
+            <input type="number" id="visitors" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" value={formData.hospital_number} onChange={handleChange} required />
+        </div>
+    </div>
+    <div class="mb-6">
+        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email address</label>
+        <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="john.doe@company.com" required value={formData.email} onChange={handleChange}/>
+    </div> 
+    <div class="mb-6">
+        <label for="date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date of Birth</label>
+        <input type="date" id="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="john.doe@company.com" value={formData.dob} onChange={handleChange} required />
+    </div> 
+    <div class="mb-6">
+        <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number: </label>
+        <input type="phone" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="john.doe@company.com" value={formData.telephone_number} onChange={handleChange} required />
+    </div> 
+    <div class="mb-6">
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
             <select
               name="department_id"
               className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
@@ -162,53 +140,26 @@ function Register() {
                 </option>
               ))}
             </select>
-          </div>
-          <div>
-            <label className="text-gray-600 text-sm mb-2 block">Telephone No.</label>
-            <input
-              name="telephone_number"
-              type="number"
-              className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
-              placeholder="Enter mobile number"
-              value={formData.telephone_number}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label className="text-gray-600 text-sm mb-2 block">Password</label>
-            <input
-              name="password"
-              type="password"
-              className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
-              placeholder="Enter password"
-              value={formData.password}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label className="text-gray-600 text-sm mb-2 block">Confirm Password</label>
-            <input
-              name="confirm_password"
-              type="password"
-              className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
-              placeholder="Confirm password"
-              value={formData.confirm_password}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
+      </div>
 
-        <div className="sm:!mt-12 mt-6">
-          <button
-            type="button"
-            className="mx-auto block py-3 px-6 text-sm tracking-wider rounded text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
-            onClick={handleSubmit}
-          >
-            Sign up
-          </button>
+    <div class="mb-6">
+        <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+        <input type="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required value={formData.password} onChange={handleChange}/>
+    </div> 
+    <div class="mb-6">
+        <label for="confirm_password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm password</label>
+        <input type="password" id="confirm_password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required value={formData.confirm_password} onChange={handleChange}/>
+    </div> 
+    <div class="flex items-start mb-6">
+        <div class="flex items-center h-5">
+        <input id="remember" type="checkbox" value="" class="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" required />
         </div>
-      </form>
+        <label for="remember" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">I agree with the <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">terms and conditions</a>.</label>
     </div>
+    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"  onClick={handleSubmit}>Submit</button>
+
+      </form>
+ 
   );
 }
 

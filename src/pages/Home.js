@@ -30,17 +30,17 @@ const Home = () => {
         <h2 className="text-2xl font-bold mb-6">Our Doctors</h2>
         <div className="flex justify-center space-x-6">
           <div className="bg-white shadow-md p-4 rounded-lg text-center w-64">
-            <img src="assets/images/department/neurology_doctor.jpg" alt="Doctor 1" className="w-full rounded" />
+            <img src="assets/images/department/neurology_doctor.jpg" alt="Doctor 1" altName="1st Doctor" className="w-full rounded" />
             <h3 className="mt-2 font-semibold">Dr. John Doe</h3>
             <p>Cardiologist</p>
           </div>
           <div className="bg-white shadow-md p-4 rounded-lg text-center w-64">
-            <img src="assets/images/department/neurology_doctor.jpg" alt="Doctor 2" className="w-full rounded" />
+            <img src="assets/images/department/neurology_doctor.jpg" alt="Doctor 2" altName="2nd Doctor" className="w-full rounded" />
             <h3 className="mt-2 font-semibold">Dr. Lisa Smith</h3>
             <p>Neurologist</p>
           </div>
           <div className="bg-white shadow-md p-4 rounded-lg text-center w-64">
-            <img src="assets/images/department/neurology_img2.jpg" alt="Doctor 3" className="w-full rounded" />
+            <img src="assets/images/department/neurology_img2.jpg" alt="Doctor 3" altName="3rd Doctor" className="w-full rounded" />
             <h3 className="mt-2 font-semibold">Dr. Brian White</h3>
             <p>Dermatologist</p>
           </div>

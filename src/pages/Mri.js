@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function MRI() {
+const MRI = () => {                 
   return(
   <>
   <div>MRI</div>

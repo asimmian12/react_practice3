@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Videogames() {
+const Videogames = () => {
   return(
   <>
   <div>Videogames</div>

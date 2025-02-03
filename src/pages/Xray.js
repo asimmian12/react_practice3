@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Xray() {
+  const Xray = () => {
   return(
   <>
   <div>X-Ray</div>

@@ -8,6 +8,9 @@ import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Map from './pages/Map';
+import Profile from './pages/Profile';
+import MRI from './pages/Mri';
+import Xray from './pages/Xray';
 import Dashboard from './pages/dashboard/Dashboard';
 import Account from './pages/dashboard/Account';
 import Games from './pages/dashboard/Games';
@@ -59,6 +62,9 @@ function App() {
             <Route path="/rotate" element={<Rotate />} />
             <Route path="/drawing" element={<Drawing />} />
             <Route path="/intro" element={<SlackIntro />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/Xray" element={<Xray />} />
+            <Route path="/Mri" element={<MRI />} />
 
           </Routes>
           </main>

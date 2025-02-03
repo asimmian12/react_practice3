@@ -5,7 +5,6 @@ const Home = () => {
     <div className="bg-gray-100">
       {/* Navbar */}
       <nav className="bg-white shadow-md p-4 flex justify-between items-center">
-        <div className="text-lg font-bold">HOME</div>
         <div>
           <button className="bg-purple-500 text-white px-4 py-2 rounded-lg">Register</button>
         </div>

@@ -10,6 +10,9 @@ import Register from './pages/Register';
 import Map from './pages/Map';
 import Profile from './pages/Profile';
 import MRI from './pages/Mri';
+import About from './pages/About';
+import Doctor from './pages/Doctor';
+import Services from './pages/Services';
 import Xray from './pages/Xray';
 import Dashboard from './pages/dashboard/Dashboard';
 import Account from './pages/dashboard/Account';
@@ -65,6 +68,9 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/Xray" element={<Xray />} />
             <Route path="/Mri" element={<MRI />} />
+            <Route path="/Doctor" element={<Doctor />} />
+            <Route path="/About" element={<About />} />
+            <Route path="/Services" element={<Services />} />
 
           </Routes>
           </main>

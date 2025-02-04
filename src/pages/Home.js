@@ -46,24 +46,22 @@ const Home = () => {
         </div>
       </section>
       
-      {/* Our Specialties */}
-      <section className="text-center my-10">
-        <h2 className="text-2xl font-bold mb-6">Our Specialties</h2>
-        <div className="grid grid-cols-3 gap-6 w-2/3 mx-auto">
-          {['Cardiology', 'Neurology', 'Orthopedics', 'Ophthalmology', 'Pediatrics', 'Radiology'].map((specialty, index) => (
-            <div key={index} className="bg-white shadow-md p-4 rounded-lg">
-              <p className="font-semibold">{specialty}</p>
+      <section className="p-8 bg-white">
+        <h2 className="text-2xl font-bold text-center text-blue-800">Contact</h2>
+        <div className="flex justify-center space-x-6 mt-4">
+          {[
+            { title: 'EMERGENCY', detail: '0141 201 1100' },
+            { title: 'LOCATION', detail: '1345 Govan Road, G51 4TF Glasgow UK' },
+            { title: 'EMAIL', detail: 'info.qeht@nhs.net' },
+            { title: 'WORKING HOURS', detail: 'Mon-Sat 09:00-20:00, Sunday Emergency only' }
+          ].map((info, index) => (
+            <div key={index} className="bg-blue-400 text-white p-4 rounded-md w-48 text-center">
+              <h3 className="font-bold">{info.title}</h3>
+              <p>{info.detail}</p>
             </div>
           ))}
         </div>
       </section>
-      
-      {/* Contact Section */}
-      <div className="flex justify-center gap-4 my-10">
-        <div className="bg-blue-500 text-white p-4 rounded-lg w-40 text-center">Appointment</div>
-        <div className="bg-blue-500 text-white p-4 rounded-lg w-40 text-center">Services</div>
-        <div className="bg-blue-500 text-white p-4 rounded-lg w-40 text-center">Email: info.qeht@nhs.net</div>
-      </div>
       
       {/* Footer */}
       <footer className="bg-blue-500 text-white p-6 text-center">

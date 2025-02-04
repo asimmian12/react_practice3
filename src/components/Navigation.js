@@ -29,8 +29,10 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
                     <Link to="/login" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Login</Link>
                     <Link to="/register" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Register</Link>
                     <Link to="/Contact" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Contact</Link>
-                    <Link to="/service" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Services</Link>
+                    <Link to="/Services" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Services</Link>
                     <Link to="/Appointment" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Appointment</Link>
+                    <Link to="/Doctor" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Doctor</Link>
+                    <Link to="/About" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">About</Link>
 
                     {/* PROFILE DROPDOWN */}
                     <div className="relative">
@@ -105,6 +107,7 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
             <li><Link to="/account" className="hover:bg-[#36336b] px-4 py-3 rounded-md block">Account</Link></li>
             <li><Link to="/games" className="hover:bg-[#36336b] px-4 py-3 rounded-md block">Games</Link></li>
             <li><Link to="/Appointment" className="hover:bg-[#36336b] px-4 py-3 rounded-md block">Appointment</Link></li>
+            <li><Link to="/Doctor" className="hover:bg-[#36336b] px-4 py-3 rounded-md block">Doctor</Link></li>
 
             {/* PROFILE DROPDOWN */}
             <li>

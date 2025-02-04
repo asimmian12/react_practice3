@@ -32,22 +32,22 @@ const Appointment = () => {
         </div>
       </div>
       
-      {/* Schedule Hours */}
-      <div className="flex justify-center">
-        <div className="bg-blue-500 text-white p-6 rounded-lg shadow-md w-80">
-          <h2 className="text-lg font-bold mb-4">Schedule Hours</h2>
-          <p>Monday - Friday: 9:00 AM - 5:00 PM</p>
-          <p>Saturday: 10:00 AM - 3:00 PM</p>
-          <p>Sunday: Closed</p>
+      <section className="p-8 bg-white">
+        <h2 className="text-2xl font-bold text-center text-blue-800">Contact</h2>
+        <div className="flex justify-center space-x-6 mt-4">
+          {[
+            { title: 'EMERGENCY', detail: '0141 201 1100' },
+            { title: 'LOCATION', detail: '1345 Govan Road, G51 4TF Glasgow UK' },
+            { title: 'EMAIL', detail: 'info.qeht@nhs.net' },
+            { title: 'WORKING HOURS', detail: 'Mon-Sat 09:00-20:00, Sunday Emergency only' }
+          ].map((info, index) => (
+            <div key={index} className="bg-blue-400 text-white p-4 rounded-md w-48 text-center">
+              <h3 className="font-bold">{info.title}</h3>
+              <p>{info.detail}</p>
+            </div>
+          ))}
         </div>
-      </div>
-      
-      {/* Contact Section */}
-      <div className="flex justify-center gap-4 my-10">
-        <div className="bg-blue-500 text-white p-4 rounded-lg w-40 text-center">Call Us: 0141 201 1100</div>
-        <div className="bg-blue-500 text-white p-4 rounded-lg w-40 text-center">Email: info.qeht@nhs.net</div>
-        <div className="bg-blue-500 text-white p-4 rounded-lg w-40 text-center">Location: 1345 Govan Road, G51 4TF Glasgow UK</div>
-      </div>
+      </section>
       
       {/* Footer */}
       <footer className="bg-blue-500 text-white p-6 text-center">

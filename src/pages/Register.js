@@ -157,8 +157,32 @@ function Register() {
         <label for="remember" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">I agree with the <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">terms and conditions</a>.</label>
     </div>
     <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"  onClick={handleSubmit}>Submit</button>
+    <section className="p-8 bg-white">
+        <h2 className="text-2xl font-bold text-center text-blue-800">Contact</h2>
+        <div className="flex justify-center space-x-6 mt-4">
+          {[
+            { title: 'EMERGENCY', detail: '0141 201 1100' },
+            { title: 'LOCATION', detail: '1345 Govan Road, G51 4TF Glasgow UK' },
+            { title: 'EMAIL', detail: 'info.qeht@nhs.net' },
+            { title: 'WORKING HOURS', detail: 'Mon-Sat 09:00-20:00, Sunday Emergency only' }
+          ].map((info, index) => (
+            <div key={index} className="bg-blue-400 text-white p-4 rounded-md w-48 text-center">
+              <h3 className="font-bold">{info.title}</h3>
+              <p>{info.detail}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-      </form>
+  <footer className="bg-blue-500 text-white p-6 text-center">
+   <p>&copy; 2025 ASIM MIAN</p>
+   <div className="flex justify-center gap-4 mt-2">
+     <span className="bg-white text-blue-500 p-2 rounded-full">LinkedIn</span>
+     <span className="bg-white text-blue-500 p-2 rounded-full">Facebook</span>
+     <span className="bg-white text-blue-500 p-2 rounded-full">Instagram</span>
+   </div>
+   </footer>
+   </form>
  
   );
 }

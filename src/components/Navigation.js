@@ -33,6 +33,7 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
                     <Link to="/Appointment" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Appointment</Link>
                     <Link to="/Doctor" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Doctor</Link>
                     <Link to="/About" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">About</Link>
+                    <Link to="/Videogames" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Video Games</Link>
 
                     {/* PROFILE DROPDOWN */}
                     <div className="relative">

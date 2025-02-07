@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 16, 2025 at 11:14 AM
--- Server version: 10.4.20-MariaDB
--- PHP Version: 8.0.9
+-- Generation Time: Feb 07, 2025 at 11:08 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.1.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 
 --
 -- Database: `hospital`
+--
+
 -- --------------------------------------------------------
 
 --
@@ -26,15 +28,20 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `departments` (
-  `id` int NOT NULL,
+  `id` int(11) NOT NULL,
   `name` varchar(32) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `departments`
+--
 
 INSERT INTO `departments` (`id`, `name`) VALUES
 (1, 'Cardiology'),
 (2, 'Neurology'),
 (3, 'Pediatrics'),
 (4, 'Orthopedics');
+
 -- --------------------------------------------------------
 
 --
@@ -52,7 +59,7 @@ CREATE TABLE `users` (
   `telephone_number` varchar(15) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`

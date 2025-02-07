@@ -2,6 +2,7 @@ import React from 'react';
 
 const About= () => {
   return (
+    
     <div className="bg-gray-50 min-h-screen">
       <section className="p-8">
         <h1 className="text-3xl text-blue-600 font-bold">ABOUT US</h1>

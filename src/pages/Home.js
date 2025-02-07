@@ -1,75 +1,107 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
 
 const Home = () => {
   return (
-    <div className="bg-gray-100">
-      {/* Navbar */}
-      <nav className="bg-white shadow-md p-4 flex justify-between items-center">
-        <div>
-          <button className="bg-purple-500 text-white px-4 py-2 rounded-lg">Register</button>
-        </div>
-      </nav>
-      
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="relative w-full h-64 bg-cover bg-center" style={{ backgroundImage: "url('/doctor.jpg')" }}>
-        <div className="absolute inset-0 bg-blue-500 bg-opacity-30 flex justify-center items-center">
-          <h1 className="text-white text-3xl font-bold">HOME</h1>
-        </div>
-      </div>
-      
-      {/* Action Buttons */}
-      <div className="flex justify-center space-x-4 my-6">
-        <button className="bg-blue-500 text-white px-6 py-3 rounded">Book an Appointment</button>
-        <button className="bg-blue-500 text-white px-6 py-3 rounded">See Our Doctors</button>
-        <button className="bg-blue-500 text-white px-6 py-3 rounded">Contact Us</button>
-      </div>
-      
-      {/* Our Doctors */}
-      <section className="text-center my-10">
-        <h2 className="text-2xl font-bold mb-6">Our Doctors</h2>
-        <div className="flex justify-center space-x-6">
-          <div className="bg-white shadow-md p-4 rounded-lg text-center w-64">
-            <img src="assets/images/department/neurology_doctor.jpg" alt="Doctor 1" altName="1st Doctor" className="w-full rounded" />
-            <h3 className="mt-2 font-semibold">Dr. John Doe</h3>
-            <p>Cardiologist</p>
-          </div>
-          <div className="bg-white shadow-md p-4 rounded-lg text-center w-64">
-            <img src="assets/images/department/neurology_doctor.jpg" alt="Doctor 2" altName="2nd Doctor" className="w-full rounded" />
-            <h3 className="mt-2 font-semibold">Dr. Lisa Smith</h3>
-            <p>Neurologist</p>
-          </div>
-          <div className="bg-white shadow-md p-4 rounded-lg text-center w-64">
-            <img src="assets/images/department/neurology_img2.jpg" alt="Doctor 3" altName="3rd Doctor" className="w-full rounded" />
-            <h3 className="mt-2 font-semibold">Dr. Brian White</h3>
-            <p>Dermatologist</p>
+      <section className="relative bg-cover bg-center h-64" style={{ backgroundImage: 'url(./assets/images/doctor_background.jpg)' }}>
+        <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+        <div className="relative z-10 flex justify-center items-center h-full">
+          <div className="text-center">
+            <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded">Book an Appointment</button>
+            <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded">Book an MRI Scan</button>
+            <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded">Book an X-Ray</button>
           </div>
         </div>
       </section>
-      
-      <section className="p-8 bg-white">
-        <h2 className="text-2xl font-bold text-center text-blue-800">Contact</h2>
-        <div className="flex justify-center space-x-6 mt-4">
+
+      {/* Our Doctors Section */}
+      <section className="p-8 text-center">
+        <h2 className="text-3xl font-bold text-blue-700 mb-6">Our Doctors</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
-            { title: 'EMERGENCY', detail: '0141 201 1100' },
-            { title: 'LOCATION', detail: '1345 Govan Road, G51 4TF Glasgow UK' },
-            { title: 'EMAIL', detail: 'info.qeht@nhs.net' },
-            { title: 'WORKING HOURS', detail: 'Mon-Sat 09:00-20:00, Sunday Emergency only' }
-          ].map((info, index) => (
-            <div key={index} className="bg-blue-400 text-white p-4 rounded-md w-48 text-center">
-              <h3 className="font-bold">{info.title}</h3>
-              <p>{info.detail}</p>
+            { name: 'Doctor Goldberg', specialty: 'NEUROLOGY', image: './assets/images/doctor1.jpeg' },
+            { name: 'Doctor Shaw', specialty: 'LUNGS',  image: './assets/images/doctor2.jpeg' },
+            { name: 'Doctor Stewart', specialty: 'BRAIN', image: './assets/images/doctor3.jpeg' }
+          ].map((doctor, index) => (
+            <div key={index} className="bg-white shadow-md rounded-xl overflow-hidden">
+              <img src={doctor.image} alt={doctor.name} className="w-full h-48 object-cover" />
+              <div className="p-4 bg-blue-100">
+                <h3 className="text-xl font-semibold text-blue-700">{doctor.name}</h3>
+                <p className="text-gray-600">{doctor.specialty}</p>
+                <button className="mt-2 bg-yellow-400 text-white px-4 py-2 rounded">View Profile</button>
+              </div>
             </div>
           ))}
         </div>
       </section>
-      
+
+      {/* Our Specialties Section */}
+      <section className="p-8 bg-gray-100 text-center">
+        <h2 className="text-3xl font-bold text-blue-700 mb-6">Our Specialties</h2>
+        <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4">
+          {[
+            'Neurology', 'Renals', 'Oncology', 'Otolaryngology',
+            'Ophthalmology', 'Cardiovascular', 'Pulmonology',
+            'Renal Medicine', 'Gastroenterology', 'Urology',
+            'Dermatology', 'Gynaecology'
+          ].map((specialty, index) => (
+            <div key={index} className="flex flex-col items-center">
+              <div className="w-12 h-12 bg-blue-100 text-blue-500 flex items-center justify-center rounded-full mb-2">
+                <span className="text-2xl">❤</span>
+              </div>
+              <p className="text-gray-700">{specialty}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="p-8 text-center">
+        <h2 className="text-3xl font-bold text-blue-700 mb-6">Contact</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="p-4 bg-blue-100 rounded-xl">
+            <h3 className="font-bold">EMERGENCY</h3>
+            <p>041 201 1101</p>
+          </div>
+          <div className="p-4 bg-blue-100 rounded-xl">
+            <h3 className="font-bold">LOCATION</h3>
+            <p>1845 Green Road, G61 6TT Glasgow UK</p>
+          </div>
+          <div className="p-4 bg-blue-100 rounded-xl">
+            <h3 className="font-bold">EMAIL</h3>
+            <p>info@asimmian.net</p>
+          </div>
+          <div className="p-4 bg-blue-100 rounded-xl">
+            <h3 className="font-bold">WORKING HOURS</h3>
+            <p>Mon-Sat: 08:00-20:00<br />Sunday: Emergency only</p>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
-      <footer className="bg-blue-500 text-white p-6 text-center">
-        <p>&copy; 2025 ASIM MIAN</p>
-        <div className="flex justify-center gap-4 mt-2">
-          <span className="bg-white text-blue-500 p-2 rounded-full">LinkedIn</span>
-          <span className="bg-white text-blue-500 p-2 rounded-full">Facebook</span>
-          <span className="bg-white text-blue-500 p-2 rounded-full">Instagram</span>
+      <footer className="bg-blue-500 text-white p-6">
+        <div className="flex justify-between items-center">
+          <div>
+            <h4 className="font-bold">ASIM MIAN</h4>
+            <p className="text-sm">&copy; 2024 Asim Mian</p>
+          </div>
+          <div>
+            <h4 className="font-bold">Page Links</h4>
+            <ul>
+              <li>Home</li>
+              <li>About Us</li>
+              <li>Services</li>
+              <li>Doctors</li>
+              <li>News</li>
+              <li>Contact</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-bold">Newsletter</h4>
+            <input type="email" placeholder="Enter your email address" className="p-2 rounded w-full text-black" />
+            <button className="bg-blue-700 text-white px-4 py-2 mt-2 rounded">Subscribe</button>
+          </div>
         </div>
       </footer>
     </div>

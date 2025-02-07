@@ -85,6 +85,7 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
                         </ul>
                       )}
                     </div>
+                  <button className="appointment"><a href="/appointment">Appointment</a></button>
                   </div>
                 </div>
               </div>

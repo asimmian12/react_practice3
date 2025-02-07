@@ -8,12 +8,12 @@ const router = express.Router(); // Create an Express router to handle routes
 
 // Create a MySQL connection
 const db = mysql.createConnection({
-    host: process.env.DB_HOST, // Database host (from environment variables)
-    user: process.env.DB_USER, // Database user (from environment variables)
-    password: process.env.DB_PASSWORD, // Database password (from environment variables)
-    database: process.env.DB_NAME, // Database name (from environment variables)
-    port: process.env.DB_PORT, // Database port (e.g., 8889 for MAMP MySQL)
-});
+    host: 'localhost',
+    user: 'admin',
+    password: 'password',
+    database: 'portal',
+    port: 3306
+  });
 
 // Test the connection to the database
 db.connect((err) => {

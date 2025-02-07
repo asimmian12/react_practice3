@@ -19,8 +19,22 @@ SET time_zone = "+00:00";
 
 --
 -- Database: `hospital`
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `departments`
 --
 
+CREATE TABLE `departments` (
+  `id` int NOT NULL,
+  `name` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `departments` (`id`, `name`) VALUES
+(1, 'Cardiology'),
+(2, 'Neurology'),
+(3, 'Pediatrics'),
+(4, 'Orthopedics');
 -- --------------------------------------------------------
 
 --

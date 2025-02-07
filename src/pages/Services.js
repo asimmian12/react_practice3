@@ -2,7 +2,18 @@ import React from 'react';
 
 const Service = () => {
   return (
-    <div className="bg-gray-50 min-h-screen">
+  <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <section className="relative bg-cover bg-center h-64" style={{ backgroundImage: 'url(/assets/images/doctor_background.jpg)' }}>
+        <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+        <div className="relative z-10 flex justify-center items-center h-full">
+          <div className="text-center">
+            <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded">Book an Appointment</button>
+            <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded">Book an MRI Scan</button>
+            <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded">Book an X-Ray</button>
+          </div>
+        </div>
+      </section>
       <section className="container mx-auto py-10">
         <h1 className="text-3xl font-bold text-center text-blue-700 mb-8">Our Services</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

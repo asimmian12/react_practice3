@@ -1,12 +1,12 @@
 import React from 'react';
 
 const doctors = [
-  { name: 'Doctor Goldberg', specialty: 'NEUROLOGY', image: 'path_to_image1' },
-  { name: 'Doctor Shaw', specialty: 'LUNGS', image: 'path_to_image2' },
-  { name: 'Doctor Stewart', specialty: 'BRAIN', image: 'path_to_image3' },
-  { name: "Doctor's Smith", specialty: 'OTOLARYNGOLOGY', image: 'path_to_image4' },
-  { name: 'Doctor Abrara', specialty: 'DERMATOLOGY', image: 'path_to_image5' },
-  { name: 'Doctor Jackson', specialty: 'CARDIOVASCULAR', image: 'path_to_image6' },
+  { name: 'Doctor Goldberg', specialty: 'NEUROLOGY', image: './assets/images/doctor1.jpeg' },
+  { name: 'Doctor Shaw', specialty: 'LUNGS', image: './assets/images/doctor2.jpeg' },
+  { name: 'Doctor Stewart', specialty: 'BRAIN', image: './assets/images/doctor3.jpeg' },
+  { name: "Doctor Smith", specialty: 'OTOLARYNGOLOGY', image: './assets/images/doctor4.jpeg' },
+  { name: 'Doctor Abrara', specialty: 'DERMATOLOGY', image: './assets/images/doctor5.jpeg'},
+  { name: 'Doctor Jackson', specialty: 'CARDIOVASCULAR', image: './assets/images/doctor6.jpeg' },
 ];
 
 const contactInfo = [
@@ -18,6 +18,19 @@ const contactInfo = [
 
 const Doctor = () => { 
   return (
+    <div className="min-h-screen bg-white">
+    {/* Hero Section */}
+    <section className="relative bg-cover bg-center h-64" style={{ backgroundImage: 'url(/assets/images/doctor_background.jpg)' }}>
+      <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+      <div className="relative z-10 flex justify-center items-center h-full">
+        <div className="text-center">
+          <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded">Book an Appointment</button>
+          <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded">Book an MRI Scan</button>
+          <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded">Book an X-Ray</button>
+        </div>
+      </div>
+    </section>
+
     <div className="p-4">
       <section className="text-center my-8">
         <h1 className="text-2xl font-bold">Our Doctors</h1>
@@ -58,6 +71,7 @@ const Doctor = () => {
         </div>
       </footer>
     </div>
+  </div>
     
   );
 }

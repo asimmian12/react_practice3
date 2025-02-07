@@ -36,7 +36,18 @@ function Login({ setIsLoggedIn }) {
   
 
   return (
-    <div>
+    <div className="min-h-screen bg-white">
+         {/* Hero Section */}
+         <section className="relative bg-cover bg-center h-64" style={{ backgroundImage: 'url(./assets/images/doctor_background.jpg)' }}>
+        <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+        <div className="relative z-10 flex justify-center items-center h-full">
+          <div className="text-center">
+            <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded">Book an Appointment</button>
+            <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded">Book an MRI Scan</button>
+            <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded">Book an X-Ray</button>
+          </div>
+        </div>
+      </section>
     <form className="max-w-sm mx-auto" onSubmit={handleSubmit}>
       <div className="mb-5">
         <label htmlFor="name" className="block mb-2 text-sm font-medium">

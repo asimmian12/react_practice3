@@ -1,25 +1,20 @@
 import React from 'react';
 
-
-
 const Appointment = () => {
   return (
-    <div className="bg-gray-100">
-      {/* Navbar */}
-      <nav className="bg-white shadow-md p-4 flex justify-between items-center">
-        <div className="text-lg font-bold">APPOINTMENT</div>
-        <div>
-          <button className="bg-purple-500 text-white px-4 py-2 rounded-lg">Register</button>
-        </div>
-      </nav>
-      
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="relative w-full h-64 bg-cover bg-center" style={{ backgroundImage: "url('/doctor.jpg')" }}>
-        <div className="absolute inset-0 bg-blue-500 bg-opacity-30 flex justify-center items-center">
-          <h1 className="text-white text-3xl font-bold">APPOINTMENT</h1>
+      <section className="relative bg-cover bg-center h-64" style={{ backgroundImage: 'url(/assets/images/doctor_background.jpg)' }}>
+        <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+        <div className="relative z-10 flex justify-center items-center h-full">
+          <div className="text-center">
+            <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded">Book an Appointment</button>
+            <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded">Book an MRI Scan</button>
+            <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded">Book an X-Ray</button>
+          </div>
         </div>
-      </div>
-      
+      </section>
+
       {/* Appointment Form */}
       <div className="flex justify-center my-10">
         <div className="bg-blue-500 text-white p-6 rounded-lg shadow-md w-80">
@@ -31,10 +26,11 @@ const Appointment = () => {
           <button className="w-full bg-yellow-400 p-2 mt-2 rounded">Submit</button>
         </div>
       </div>
-      
+
+      {/* Contact Section */}
       <section className="p-8 bg-white">
         <h2 className="text-2xl font-bold text-center text-blue-800">Contact</h2>
-        <div className="flex justify-center space-x-6 mt-4">
+        <div className="flex flex-wrap justify-center gap-6 mt-4">
           {[
             { title: 'EMERGENCY', detail: '0141 201 1100' },
             { title: 'LOCATION', detail: '1345 Govan Road, G51 4TF Glasgow UK' },
@@ -48,7 +44,7 @@ const Appointment = () => {
           ))}
         </div>
       </section>
-      
+
       {/* Footer */}
       <footer className="bg-blue-500 text-white p-6 text-center">
         <p>&copy; 2025 ASIM MIAN</p>
@@ -61,6 +57,5 @@ const Appointment = () => {
     </div>
   );
 };
-
 
 export default Appointment;

@@ -26,6 +26,21 @@ const Appointment = () => {
           <button className="w-full bg-yellow-400 p-2 mt-2 rounded">Submit</button>
         </div>
       </div>
+      <div className="flex items-center justify-center min-h-screen bg-white-100 p-6">
+  <div className="bg-blue-400 p-6 rounded-xl w-full max-w-md h-auto text-center">
+    <h2 className="text-xl font-semibold text-white mb-4">Schedule Hours</h2>
+    <div className="text-white space-y-2">
+      {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map(day => (
+        <div className="flex justify-between" key={day}>
+          <span>{day}</span>
+          <span>{day === 'Sunday' ? 'Closed' : '09:00 AM - 07:00 PM'}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+
 
       {/* Contact Section */}
       <section className="p-8 bg-white">

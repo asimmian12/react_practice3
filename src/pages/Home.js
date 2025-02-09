@@ -80,28 +80,12 @@ const Home = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-blue-500 text-white p-6">
-        <div className="flex justify-between items-center">
-          <div>
-            <h4 className="font-bold">ASIM MIAN</h4>
-            <p className="text-sm">&copy; 2024 Asim Mian</p>
-          </div>
-          <div>
-            <h4 className="font-bold">Page Links</h4>
-            <ul>
-              <li>Home</li>
-              <li>About Us</li>
-              <li>Services</li>
-              <li>Doctors</li>
-              <li>News</li>
-              <li>Contact</li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-bold">Newsletter</h4>
-            <input type="email" placeholder="Enter your email address" className="p-2 rounded w-full text-black" />
-            <button className="bg-blue-700 text-white px-4 py-2 mt-2 rounded">Subscribe</button>
-          </div>
+      <footer className="bg-blue-500 text-white p-6 text-center">
+        <p>&copy; 2025 ASIM MIAN</p>
+        <div className="flex justify-center gap-4 mt-2">
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="bg-white text-blue-500 p-2 rounded-full hover:bg-blue-100">LinkedIn</a>
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="bg-white text-blue-500 p-2 rounded-full hover:bg-blue-100">Facebook</a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="bg-white text-blue-500 p-2 rounded-full hover:bg-blue-100">Instagram</a>
         </div>
       </footer>
     </div>

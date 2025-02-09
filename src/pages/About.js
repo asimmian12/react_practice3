@@ -32,10 +32,10 @@ const About = () => {
       </section>
 
       {/* About Section */}
-      <section className="p-8 bg-gray-50">
+      <section className="p-8 bg-white-50">
         <h1 className="text-3xl text-blue-600 font-bold text-center">ABOUT US</h1>
         <div className="flex flex-col md:flex-row mt-4 items-center">
-          <img src="/assets/images/about_us.jpg" alt="About Us" className="w-full md:w-1/3 rounded-lg shadow-md" />
+          <img src="/assets/images/aboutus.jpg" alt="About Us" className="w-full md:w-1/3 rounded-lg shadow-md" />
           <div className="mt-4 md:mt-0 md:ml-6">
             <h2 className="text-xl font-semibold text-blue-700">WELCOME TO ASIM MIAN</h2>
             <p className="text-gray-700 mt-2">

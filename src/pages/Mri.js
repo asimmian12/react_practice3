@@ -3,7 +3,7 @@ import React from 'react';
 const MRI = () => {
   return (
     <div>
-      <section className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+      <section className="flex flex-col items-center justify-center min-h-screen bg-white-100 p-4">
         <div className="bg-white shadow-xl rounded-2xl p-6 w-full max-w-md text-center">
           <h1 className="text-2xl font-bold text-blue-600 mb-4">MRI Scan Details</h1>
           <p className="text-gray-700">Here you can find details about your MRI scans.</p>

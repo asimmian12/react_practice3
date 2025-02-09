@@ -6,7 +6,7 @@ const Profile = () => {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/user/1')  // Fetch user with ID 1
+    axios.get('http://localhost:5000/api/user/1') 
       .then(response => setUser(response.data))
       .catch(error => console.error(error));
   }, []);

@@ -48,9 +48,9 @@ const Map = () => {
       <footer className="bg-blue-500 text-white p-6 text-center">
         <p>&copy; 2025 ASIM MIAN</p>
         <div className="flex justify-center gap-4 mt-2">
-          <span className="bg-white text-blue-500 p-2 rounded-full cursor-pointer">LinkedIn</span>
-          <span className="bg-white text-blue-500 p-2 rounded-full cursor-pointer">Facebook</span>
-          <span className="bg-white text-blue-500 p-2 rounded-full cursor-pointer">Instagram</span>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="bg-white text-blue-500 p-2 rounded-full hover:bg-blue-100">LinkedIn</a>
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="bg-white text-blue-500 p-2 rounded-full hover:bg-blue-100">Facebook</a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="bg-white text-blue-500 p-2 rounded-full hover:bg-blue-100">Instagram</a>
         </div>
       </footer>
     </div>

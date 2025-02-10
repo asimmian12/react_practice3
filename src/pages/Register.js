@@ -10,8 +10,7 @@ const registerUser = async (userData, navigate) => {
       localStorage.setItem('token', response.data.token); // Store the JWT
     }
 
-    // Navigate to the login page after successful registration
-    navigate('/login');
+    navigate('/login'); // Navigate to the login page after successful registration
   } catch (error) {
     console.error('Registration error:', error.response?.data || error.message);
     alert('Error during registration. Please try again.');
@@ -19,9 +18,8 @@ const registerUser = async (userData, navigate) => {
 };
 
 function Register() {
-  const navigate = useNavigate(); // Use useNavigate here
+  const navigate = useNavigate();
 
-  // State for form inputs
   const [formData, setFormData] = useState({
     firstName: '',
     surname: '',
@@ -31,19 +29,18 @@ function Register() {
     telephone_number: '',
     password: '',
     confirm_password: '',
-    conpany: '',
+    company: '',
     url: '',
     dob: '',
   });
 
-  const [departments, setDepartments] = useState([]); // State for department list
+  const [departments, setDepartments] = useState([]);
 
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        // Fetch department details from the backend
         const response = await axios.get('http://localhost:5000/departments');
-        setDepartments(response.data); // Set departments state
+        setDepartments(response.data);
       } catch (error) {
         console.error('Error fetching departments:', error.response ? error.response.data : error.message);
         alert('Error fetching departments. Check console for details.');
@@ -53,109 +50,97 @@ function Register() {
     fetchDepartments();
   }, []);
 
-  // Handle input changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle form submission
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const { password, confirm_password, ...userData } = formData;
 
-    // Validate all fields are filled
     if (Object.values(formData).some((value) => !value)) {
       alert('Please fill in all fields.');
       return;
     }
 
-    // Validate email format
     if (!/\S+@\S+\.\S+/.test(formData.email)) {
       alert('Please enter a valid email address.');
       return;
     }
 
-    // Validate passwords match
     if (password !== confirm_password) {
       alert('Passwords do not match!');
       return;
     }
 
-    // Include the password in the payload
     userData.password = password;
 
-    // Call the registerUser function and pass navigate as argument
     await registerUser(userData, navigate);
   };
 
-  return ( 
-<form>
-    <div class=" mb-6 md:grid-cols-2">
-    <h4 className="text-gray-600 text-base mt-6">Register to access the hospital portal</h4>
+  return (
+    <form onSubmit={handleSubmit} className="p-6 bg-white rounded-lg shadow-md">
+      <h4 className="text-gray-600 text-base mb-4">Register to access the hospital portal</h4>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First name</label>
-            <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required value={formData.firstName} onChange={handleChange} />
+          <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900">First name</label>
+          <input type="text" id="first_name" name="firstName" placeholder="John" required value={formData.firstName} onChange={handleChange} className="input" />
         </div>
         <div>
-            <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last name</label>
-            <input type="text" id="last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Doe" required value={formData.surname} onChange={handleChange}/>
+          <label htmlFor="last_name" className="block mb-2 text-sm font-medium text-gray-900">Last name</label>
+          <input type="text" id="last_name" name="surname" placeholder="Doe" required value={formData.surname} onChange={handleChange} className="input" />
         </div>
         <div>
-            <label for="company" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company</label>
-            <input type="text" id="company" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Flowbite" required value={formData.company} onChange={handleChange}/>
-        </div>  
-        <div>
-            <label for="website" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Website URL</label>
-            <input type="url" id="website" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="www.google.com" required  value={formData.url} onChange={handleChange}/>
+          <label htmlFor="company" className="block mb-2 text-sm font-medium text-gray-900">Company</label>
+          <input type="text" id="company" name="company" placeholder="Flowbite" required value={formData.company} onChange={handleChange} className="input" />
         </div>
         <div>
-            <label for="visitors" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hospital visitors </label>
-            <input type="number" id="visitors" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="5" value={formData.hospital_number} onChange={handleChange} required />
+          <label htmlFor="website" className="block mb-2 text-sm font-medium text-gray-900">Website URL</label>
+          <input type="url" id="website" name="url" placeholder="www.google.com" required value={formData.url} onChange={handleChange} className="input" />
         </div>
-    </div>
-    <div class="mb-6">
-        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email address</label>
-        <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="20273835@myclyde.ac.uk" required value={formData.email} onChange={handleChange}/>
-    </div> 
-    <div class="mb-6">
-        <label for="date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date of Birth</label>
-        <input type="date" id="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="01/01/2001" value={formData.dob} onChange={handleChange} required />
-    </div> 
-    <div class="mb-6">
-        <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone Number: </label>
-        <input type="phone" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="0141 583 6088" value={formData.telephone_number} onChange={handleChange} required />
-    </div> 
-    <div class="mb-6">
-            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
-            <select
-              name="department_id"
-              className="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3 rounded focus:bg-transparent outline-blue-500 transition-all"
-              value={formData.department_id}
-              onChange={handleChange}>
-              <option value="">Select Department</option>
-              {departments.map((department) => (
-                <option key={department.id} value={department.id}>
-                  {department.name}
-                </option>
-              ))}
-            </select>
+        <div>
+          <label htmlFor="visitors" className="block mb-2 text-sm font-medium text-gray-900">Hospital visitors</label>
+          <input type="number" id="visitors" name="hospital_number" placeholder="5" required value={formData.hospital_number} onChange={handleChange} className="input" />
+        </div>
+        <div>
+          <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Email address</label>
+          <input type="email" id="email" name="email" placeholder="example@domain.com" required value={formData.email} onChange={handleChange} className="input" />
+        </div>
+        <div>
+          <label htmlFor="date" className="block mb-2 text-sm font-medium text-gray-900">Date of Birth</label>
+          <input type="date" id="date" name="dob" required value={formData.dob} onChange={handleChange} className="input" />
+        </div>
+        <div>
+          <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900">Phone Number</label>
+          <input type="tel" id="phone" name="telephone_number" placeholder="0141 583 6088" required value={formData.telephone_number} onChange={handleChange} className="input" />
+        </div>
+        <div>
+          <label className="block mb-2 text-sm font-medium text-gray-900">Department</label>
+          <select name="department_id" required value={formData.department_id} onChange={handleChange} className="input">
+            <option value="">Select Department</option>
+            {departments.map((department) => (
+              <option key={department.id} value={department.id}>{department.name}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">Password</label>
+          <input type="password" id="password" name="password" placeholder="•••••••••" required value={formData.password} onChange={handleChange} className="input" />
+        </div>
+        <div>
+          <label htmlFor="confirm_password" className="block mb-2 text-sm font-medium text-gray-900">Confirm password</label>
+          <input type="password" id="confirm_password" name="confirm_password" placeholder="•••••••••" required value={formData.confirm_password} onChange={handleChange} className="input" />
+        </div>
       </div>
 
-    <div class="mb-6">
-        <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-        <input type="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required value={formData.password} onChange={handleChange}/>
-    </div> 
-    <div class="mb-6">
-        <label for="confirm_password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm password</label>
-        <input type="password" id="confirm_password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required value={formData.confirm_password} onChange={handleChange}/>
-    </div> 
-    <div class="flex items-start mb-6">
-        <div class="flex items-center h-5">
-        <input id="remember" type="checkbox" value="" class="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" required />
-        </div>
-        <label for="remember" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">I agree with the <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">terms and conditions</a>.</label>
-    </div>
-    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"  onClick={handleSubmit}>Submit</button>
-    <section className="p-8 bg-white">
+      <div className="flex items-center mt-4">
+        <input id="terms" type="checkbox" required className="mr-2" />
+        <label htmlFor="terms" className="text-sm text-gray-900">I agree with the <a href="#" className="text-blue-600 hover:underline">terms and conditions</a>.</label>
+      </div>
+
+      <button type="submit" className="btn-primary mt-4 w-full">Submit</button>
+
+      <section className="p-8 bg-white mt-6">
         <h2 className="text-2xl font-bold text-center text-blue-800">Contact</h2>
         <div className="flex justify-center space-x-6 mt-4">
           {[
@@ -172,7 +157,7 @@ function Register() {
         </div>
       </section>
 
-      <footer className="bg-blue-500 text-white p-6 text-center">
+      <footer className="bg-blue-500 text-white p-6 text-center mt-6">
         <p>&copy; 2025 ASIM MIAN</p>
         <div className="flex justify-center gap-4 mt-2">
           <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="bg-white text-blue-500 p-2 rounded-full hover:bg-blue-100">LinkedIn</a>
@@ -180,8 +165,7 @@ function Register() {
           <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="bg-white text-blue-500 p-2 rounded-full hover:bg-blue-100">Instagram</a>
         </div>
       </footer>
-   </form>
- 
+    </form>
   );
 }
 

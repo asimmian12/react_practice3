@@ -52,7 +52,7 @@ function Login({ setIsLoggedIn }) {
       <form className="max-w-sm mx-auto p-6" onSubmit={handleSubmit}>
         <div className="mb-5">
           <label htmlFor="hospitalNumber" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-            Hospital Number
+            Hospital Number CHI
           </label>
           <input
             type="text"

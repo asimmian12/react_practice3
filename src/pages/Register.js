@@ -7,10 +7,10 @@ const registerUser = async (userData, navigate) => {
     const response = await axios.post('http://localhost:5000/register', userData);
 
     if (response.data.token) {
-      localStorage.setItem('token', response.data.token); // Store the JWT
+      localStorage.setItem('token', response.data.token);
     }
 
-    navigate('/login'); // Navigate to the login page after successful registration
+    navigate('/login');
   } catch (error) {
     console.error('Registration error:', error.response?.data || error.message);
     alert('Error during registration. Please try again.');
@@ -29,8 +29,6 @@ function Register() {
     telephone_number: '',
     password: '',
     confirm_password: '',
-    company: '',
-    url: '',
     dob: '',
   });
 
@@ -79,68 +77,156 @@ function Register() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-6 bg-white rounded-lg shadow-md">
-      <h4 className="text-gray-600 text-base mb-4">Register to access the hospital portal</h4>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900">First name</label>
-          <input type="text" id="first_name" name="firstName" placeholder="John" required value={formData.firstName} onChange={handleChange} className="input" />
+    <div className="min-h-screen bg-white">
+      <section className="relative bg-cover bg-center h-64" style={{ backgroundImage: 'url(./assets/images/doctor_background.jpg)' }}>
+        <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+        <div className="relative z-10 flex justify-center items-center h-full">
+          <div className="text-center">
+            <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded">Book an Appointment</button>
+            <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded">Book an MRI Scan</button>
+            <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded">Book an X-Ray</button>
+          </div>
         </div>
-        <div>
-          <label htmlFor="last_name" className="block mb-2 text-sm font-medium text-gray-900">Last name</label>
-          <input type="text" id="last_name" name="surname" placeholder="Doe" required value={formData.surname} onChange={handleChange} className="input" />
+      </section>
+
+      <form onSubmit={handleSubmit} className="max-w-sm mx-auto p-6">
+        <h4 className="text-gray-600 text-base mb-4">Register to access the hospital portal</h4>
+        <div className="mb-5">
+          <label htmlFor="hospital_number" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            Hospital Number CHI
+          </label>
+          <input
+            type="text"
+            id="hospital_number"
+            name="hospital_number"
+            value={formData.hospital_number}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Enter your hospital number"
+            required
+          />
         </div>
-        <div>
-          <label htmlFor="company" className="block mb-2 text-sm font-medium text-gray-900">Company</label>
-          <input type="text" id="company" name="company" placeholder="Flowbite" required value={formData.company} onChange={handleChange} className="input" />
+
+        <div className="mb-5">
+          <label htmlFor="firstName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
+          <input
+            type="text"
+            id="firstName"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Enter your first name"
+            required
+          />
         </div>
-        <div>
-          <label htmlFor="website" className="block mb-2 text-sm font-medium text-gray-900">Website URL</label>
-          <input type="url" id="website" name="url" placeholder="www.google.com" required value={formData.url} onChange={handleChange} className="input" />
+
+        <div className="mb-5">
+          <label htmlFor="surname" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Surname</label>
+          <input
+            type="text"
+            id="surname"
+            name="surname"
+            value={formData.surname}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Enter your surname"
+            required
+          />
         </div>
-        <div>
-          <label htmlFor="visitors" className="block mb-2 text-sm font-medium text-gray-900">Hospital visitors</label>
-          <input type="number" id="visitors" name="hospital_number" placeholder="5" required value={formData.hospital_number} onChange={handleChange} className="input" />
+
+        <div className="mb-5">
+          <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Enter your email address"
+            required
+          />
         </div>
-        <div>
-          <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Email address</label>
-          <input type="email" id="email" name="email" placeholder="example@domain.com" required value={formData.email} onChange={handleChange} className="input" />
+
+        <div className="mb-5">
+          <label htmlFor="dob" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date of Birth</label>
+          <input
+            type="date"
+            id="dob"
+            name="dob"
+            value={formData.dob}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            required
+          />
         </div>
-        <div>
-          <label htmlFor="date" className="block mb-2 text-sm font-medium text-gray-900">Date of Birth</label>
-          <input type="date" id="date" name="dob" required value={formData.dob} onChange={handleChange} className="input" />
+
+        <div className="mb-5">
+          <label htmlFor="telephone_number" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telephone Number</label>
+          <input
+            type="text"
+            id="telephone_number"
+            name="telephone_number"
+            value={formData.telephone_number}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Enter your telephone number"
+            required
+          />
         </div>
-        <div>
-          <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900">Phone Number</label>
-          <input type="tel" id="phone" name="telephone_number" placeholder="0141 583 6088" required value={formData.telephone_number} onChange={handleChange} className="input" />
-        </div>
-        <div>
-          <label className="block mb-2 text-sm font-medium text-gray-900">Department</label>
-          <select name="department_id" required value={formData.department_id} onChange={handleChange} className="input">
+
+        <div className="mb-5">
+          <label htmlFor="department_id" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
+          <select
+            id="department_id"
+            name="department_id"
+            value={formData.department_id}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            required
+          >
             <option value="">Select Department</option>
-            {departments.map((department) => (
-              <option key={department.id} value={department.id}>{department.name}</option>
+            {departments.map((dept) => (
+              <option key={dept.id} value={dept.id}>{dept.name}</option>
             ))}
           </select>
         </div>
-        <div>
-          <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">Password</label>
-          <input type="password" id="password" name="password" placeholder="•••••••••" required value={formData.password} onChange={handleChange} className="input" />
+
+        <div className="mb-5">
+          <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Enter your password"
+            required
+          />
         </div>
-        <div>
-          <label htmlFor="confirm_password" className="block mb-2 text-sm font-medium text-gray-900">Confirm password</label>
-          <input type="password" id="confirm_password" name="confirm_password" placeholder="•••••••••" required value={formData.confirm_password} onChange={handleChange} className="input" />
+
+        <div className="mb-5">
+          <label htmlFor="confirm_password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm Password</label>
+          <input
+            type="password"
+            id="confirm_password"
+            name="confirm_password"
+            value={formData.confirm_password}
+            onChange={handleChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Confirm your password"
+            required
+          />
         </div>
-      </div>
 
-      <div className="flex items-center mt-4">
-        <input id="terms" type="checkbox" required className="mr-2" />
-        <label htmlFor="terms" className="text-sm text-gray-900">I agree with the <a href="#" className="text-blue-600 hover:underline">terms and conditions</a>.</label>
-      </div>
+        <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          Register
+        </button>
+      </form>
 
-      <button type="submit" className="btn-primary mt-4 w-full">Submit</button>
-
-      <section className="p-8 bg-white mt-6">
+      <section className="p-8 bg-white">
         <h2 className="text-2xl font-bold text-center text-blue-800">Contact</h2>
         <div className="flex justify-center space-x-6 mt-4">
           {[
@@ -157,7 +243,7 @@ function Register() {
         </div>
       </section>
 
-      <footer className="bg-blue-500 text-white p-6 text-center mt-6">
+      <footer className="bg-blue-500 text-white p-6 text-center">
         <p>&copy; 2025 ASIM MIAN</p>
         <div className="flex justify-center gap-4 mt-2">
           <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="bg-white text-blue-500 p-2 rounded-full hover:bg-blue-100">LinkedIn</a>
@@ -165,7 +251,7 @@ function Register() {
           <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="bg-white text-blue-500 p-2 rounded-full hover:bg-blue-100">Instagram</a>
         </div>
       </footer>
-    </form>
+    </div>
   );
 }
 

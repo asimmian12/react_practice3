@@ -25,67 +25,13 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     <Link to="/" className="px-3 py-2 text-sm text-white hover:bg-gray-700 rounded-md">Home</Link>
-                    <Link to="/map" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Map</Link>
+                    <Link to="/About" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">About</Link>
                     <Link to="/login" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Login</Link>
                     <Link to="/register" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Register</Link>
+                    <Link to="/map" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Map</Link>
                     <Link to="/Contact" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Contact</Link>
                     <Link to="/Services" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Services</Link>
-                    <Link to="/Appointment" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Appointment</Link>
-                    <Link to="/Doctor" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Doctor</Link>
-                    <Link to="/About" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">About</Link>
-                    <Link to="/Videogames" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Video Games</Link>
-
-                    {/* PROFILE DROPDOWN */}
-                    <div className="relative">
-                      <button
-                        onClick={() => setIsProfileOpen(!isProfileOpen)}
-                        className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md flex items-center"
-                      >
-                        Profile
-                        <svg
-                          className="w-4 h-4 ml-1"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </button>
-
-                      {isProfileOpen && (
-                        <ul className="absolute mt-2 bg-gray-700 rounded-md shadow-lg w-40">
-                          <li>
-                            <Link
-                              to="/Profile"
-                              className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-600 hover:text-white"
-                              onClick={() => setIsProfileOpen(false)}
-                            >
-                              Profile Overview
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              to="/Mri"
-                              className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-600 hover:text-white"
-                              onClick={() => setIsProfileOpen(false)}
-                            >
-                              MRI
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              to="/Xray"
-                              className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-600 hover:text-white"
-                              onClick={() => setIsProfileOpen(false)}
-                            >
-                              X-Ray
-                            </Link>
-                          </li>
-                        </ul>
-                      )}
-                    </div>
-                  <button className="appointment"><a href="/appointment">Appointment</a></button>
+  
                   </div>
                 </div>
               </div>

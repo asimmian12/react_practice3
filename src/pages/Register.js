@@ -32,7 +32,6 @@ function Register() {
     password: '',
     confirm_password: '',
     conpany: '',
-    number: '',
     url: '',
     dob: '',
   });
@@ -104,10 +103,6 @@ function Register() {
             <label for="company" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company</label>
             <input type="text" id="company" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Flowbite" required value={formData.company} onChange={handleChange}/>
         </div>  
-        <div>
-            <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone number</label>
-            <input type="tel" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="123-45-678" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required value={formData.number} onChange={handleChange}/>
-        </div>
         <div>
             <label for="website" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Website URL</label>
             <input type="url" id="website" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="www.google.com" required  value={formData.url} onChange={handleChange}/>

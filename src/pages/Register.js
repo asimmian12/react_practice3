@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const registerUser = async (userData, navigate) => {
   try {
-    const response = await axios.post('http://localhost:5000/register', userData);
+    const response = await axios.post('http://localhost:3000/register', userData);
 
     if (response.data.token) {
       localStorage.setItem('token', response.data.token);

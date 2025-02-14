@@ -4,7 +4,8 @@ import axios from 'axios';
 
 const registerUser = async (userData, navigate) => {
   try {
-    const response = await axios.get('http://localhost:5000/departments', userData);
+    // Karen updates: you were calling the departments twice and not posting register details
+    const response = await axios.post('http://localhost:5000/register', userData);
 
     if (response.data.token) {
       localStorage.setItem('token', response.data.token);

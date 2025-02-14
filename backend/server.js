@@ -7,8 +7,8 @@ const path = require('path'); // Module for handling and resolving file paths
 const dotenv = require('dotenv'); // Module for loading environment variables from a .env file
 
 // Import route handlers
-const registerRoute = require('./routes/register'); // Route for handling user registration
-const loginRoute = require('./routes/login'); // Route for handling user login
+const registerRoute = require('./routes/register');
+const loginRoute = require('./routes/login');
 
 // Configure environment variables
 dotenv.config(); // Load environment variables from a .env file into process.env
@@ -33,12 +33,9 @@ const departments = JSON.parse(
 );
 // Synchronously read the departments.json file from the specified path, parse its content, and store it in the `departments` variable
 
-// Define routes
 app.use('/register', registerRoute);
-// Use the `registerRoute` handler for requests to the '/register' endpoint
 
 app.use('/login', loginRoute);
-// Use the `loginRoute` handler for requests to the '/login' endpoint
 
 app.get('/departments', (req, res) => {
   res.json(departments);

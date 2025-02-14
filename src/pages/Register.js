@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const registerUser = async (userData, navigate) => {
   try {
-    const response = await axios.post('http://localhost:3000/register', userData);
+    const response = await axios.get('http://localhost:5000/departments', userData);
 
     if (response.data.token) {
       localStorage.setItem('token', response.data.token);
@@ -37,7 +37,7 @@ function Register() {
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/departments');
+        const response = await axios.get('http://localhost:5000/departments');
         setDepartments(response.data);
       } catch (error) {
         console.error('Error fetching departments:', error.response ? error.response.data : error.message);

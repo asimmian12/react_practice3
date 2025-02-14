@@ -16,8 +16,8 @@ dotenv.config(); // Load environment variables from a .env file into process.env
 const app = express(); // Create an Express application
 
 // Middleware
-app.use(cors({ origin: 'http://localhost:3000' }));
-// Enable CORS for requests coming from 'http://localhost:3000', allowing the front-end to communicate with the server
+app.use(cors({ origin: 'http://localhost:5000' }));
+// Enable CORS for requests coming from 'http://localhost:5000', allowing the front-end to communicate with the server
 
 app.use(bodyParser.json());
 // Parse incoming request bodies in JSON format and make the parsed data available in req.body

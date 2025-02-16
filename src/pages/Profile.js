@@ -7,7 +7,16 @@ const Profile = () => {
 
   useEffect(() => {
     axios.get('http://localhost:5000/api/user/1') 
-      .then(response => setUser(response.data))
+      .then(response => {
+        if (response.data) {
+          const { name, created_at, last_active } = response.data;
+          setUser({
+            name: name || 'Unknown User',
+            created_at: created_at || null,
+            last_active: last_active || null
+          });
+        }
+      })
       .catch(error => console.error(error));
   }, []);
 
@@ -15,8 +24,8 @@ const Profile = () => {
     <div className="max-w-4xl mx-auto p-6">
       <div className="bg-white shadow-lg rounded-2xl p-6 mb-6 text-center">
         <h2 className="text-3xl font-bold text-blue-600 mb-2">{user.name}</h2>
-        <p className="text-gray-500">Account Created: {user.created_at}</p>
-        <p className="text-gray-500">Last Active: {user.last_active}</p>
+        <p className="text-gray-500">Account Created: {user.created_at ? new Date(user.created_at).toLocaleDateString() : 'No data available'}</p>
+        <p className="text-gray-500">Last Active: {user.last_active ? new Date(user.last_active).toLocaleString() : 'No data available'}</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

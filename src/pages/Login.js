@@ -6,49 +6,43 @@ function Login({ setIsLoggedIn }) {
   const [hospitalNumber, setHospitalNumber] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);  // Add isLoading state
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+    setIsLoading(true); // Start loading
+
     try {
       const response = await axios.post('http://localhost:5000/login', {
         hospital_number: hospitalNumber,
         password: password,
       });
-  
+
       if (response.status === 200) {
         const { user } = response.data;
-  
+
         // Store the logged-in user's data in localStorage
         localStorage.setItem('user', JSON.stringify(user));
-  
+
         // Update isLoggedIn state
         setIsLoggedIn(true);
-  
+
         // Redirect to dashboard
         navigate('/dashboard');
       }
     } catch (err) {
       setError('Invalid credentials');
+    } finally {
+      setIsLoading(false);  // End loading
     }
   };
-  
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="relative bg-cover bg-center h-64" style={{ backgroundImage: 'url(./assets/images/doctor_background.jpg)' }}>
-        <div className="absolute inset-0 bg-black bg-opacity-20"></div>
-        <div className="relative z-10 flex justify-center items-center h-full">
-          <div className="text-center">
-            <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded">Book an Appointment</button>
-            <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded">Book an MRI Scan</button>
-            <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded">Book an X-Ray</button>
-          </div>
-        </div>
-      </section>
-
+      {isLoading && <div className="loading-indicator">Loading...</div>}  {/* Add loading message or spinner */}
+      
+      {/* Login Form */}
       <form className="max-w-sm mx-auto p-6" onSubmit={handleSubmit}>
         <div className="mb-5">
           <label htmlFor="hospitalNumber" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -87,6 +81,7 @@ function Login({ setIsLoggedIn }) {
         </button>
       </form>
 
+      {/* Contact Section */}
       <section className="p-8 bg-white">
         <h2 className="text-2xl font-bold text-center text-blue-800">Contact</h2>
         <div className="flex justify-center space-x-6 mt-4">
@@ -104,6 +99,7 @@ function Login({ setIsLoggedIn }) {
         </div>
       </section>
 
+      {/* Footer */}
       <footer className="bg-blue-500 text-white p-6 text-center">
         <p>&copy; 2025 ASIM MIAN</p>
         <div className="flex justify-center gap-4 mt-2">

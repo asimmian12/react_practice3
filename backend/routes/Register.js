@@ -2,6 +2,8 @@
 const express = require('express'); // Express framework for routing and middleware
 const mysql = require('mysql2'); // MySQL library for interacting with the database
 const bcrypt = require('bcrypt'); // Library for hashing passwords securely
+const cors = require('cors');
+app.use(cors());
 require('dotenv').config(); // Load environment variables from a .env file
 
 const router = express.Router(); // Create an Express router to handle routes

@@ -3,7 +3,6 @@ const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
 const fs = require('fs');
 const path = require('path');
-const { details } = require('framer-motion/client');
 require('dotenv').config();
 
 const router = express.Router();
@@ -13,15 +12,16 @@ const departments = JSON.parse(
   fs.readFileSync(path.join(__dirname, 'json', 'departments.json'), 'utf-8')
 );
 
+// Create MySQL connection using environment variables
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'admin',
-  password: 'password', 
-  database: 'hospital',
-  port: 3306
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'admin',
+  password: process.env.DB_PASSWORD || 'password', 
+  database: process.env.DB_NAME || 'hospital',
+  port: process.env.DB_PORT || 3306
 });
 
-// To test the connection
+// Test the database connection
 db.connect((err) => {
   if (err) {
     console.error('Error connecting to the database:', err);
@@ -31,12 +31,18 @@ db.connect((err) => {
 });
 
 // Login route
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const { hospital_number, password } = req.body;
+
+  // Ensure inputs are valid
+  if (!hospital_number || !password) {
+    return res.status(400).json({ message: 'Hospital number and password are required' });
+  }
 
   const query = 'SELECT * FROM users WHERE hospital_number = ?';
   db.query(query, [hospital_number], async (err, result) => {
     if (err) {
+      console.error('Database query error:', err); // Log the error for debugging
       return res.status(500).json({ message: 'Database error' });
     }
 
@@ -46,34 +52,39 @@ router.post('/', (req, res) => {
 
     const user = result[0];
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    try {
+      // Compare the password using bcrypt
+      const isMatch = await bcrypt.compare(password, user.password);
 
-    if (isMatch) {
-      const department = departments.find((dept) => dept.id === user.department_id);
-      const departmentData = department || {name: 'Unknown', details: 'No details available'};
+      if (isMatch) {
+        // Fetch the department details
+        const department = departments.find((dept) => dept.id === user.department_id);
+        const departmentData = department || { name: 'Unknown', details: 'No details available' };
 
+        // Exclude the password from the response data
+        const { password, ...userWithoutPassword } = user;
 
-      // Remove password and prepare user data
-      const { password, ...userWithoutPassword } = user;
+        // Merge the user data with department data
+        const responseData = {
+          ...userWithoutPassword,
+          ...departmentData,
+        };
 
-      // Prepare response data
-      const responseData = {
-        ...userWithoutPassword,
-        ...departmentData,
-      };
+        // Log the response data for debugging purposes
+        console.log('Response Data (Backend):', responseData);
 
-      // Log the response data in the backend
-      console.log('Response Data (Backend):', responseData);  // <-- Log the user data with department
-
-      return res.status(200).json({
-        message: 'Login successful',
-        user: responseData,  // Send this back to the frontend
-      });
-    } else {
-      return res.status(401).json({ message: 'Invalid credentials' });
+        return res.status(200).json({
+          message: 'Login successful',
+          user: responseData, // Send this back to the frontend
+        });
+      } else {
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+    } catch (err) {
+      console.error('Error during password comparison:', err);
+      return res.status(500).json({ message: 'Error during login process' });
     }
   });
 });
-
 
 module.exports = router;

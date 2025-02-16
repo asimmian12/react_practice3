@@ -1,70 +1,52 @@
 [
-    {
-      "id": 1,
-      "name": "Food theif",
-      "details": "Description of the game",
-      "game_img": "/assets/images/games/food-theif.png",
-      "age_restriction": "8",
-      "game_url": "https://google.com"
-
-    },
-    {
-        "id": 2,
-        "name": "Food theif",
-        "details": "Description of the game",
-        "game_img": "/assets/images/games/food-theif.png",
-        "age_restriction": "8",
-        "game_url": "https://google.com"
-  
-      },
-      {
-        "id": 3,
-        "name": "Food theif",
-        "details": "Description of the game",
-        "game_img": "/assets/images/games/food-theif.png",
-        "age_restriction": "8",
-        "game_url": "https://google.com"
-
-  
-      },
-      {
-        "id": 4,
-        "name": "Food theif",
-        "details": "Description of the game",
-        "game_img": "/assets/images/games/food-theif.png",
-        "age_restriction": "8",
-        "game_url": "https://google.com"
-
-  
-      },
-      {
-        "id": 5,
-        "name": "Food theif",
-        "details": "Description of the game",
-        "game_img": "/assets/images/games/food-theif.png",
-        "age_restriction": "8",
-        "game_url": "https://google.com"
-
-  
-      },
-      {
-        "id": 6,
-        "name": "Food theif",
-        "details": "Description of the game",
-        "game_img": "/assets/images/games/food-theif.png",
-        "age_restriction": "8",
-        "game_url": "https://google.com"
-
-  
-      },
-      {
-        "id": 7,
-        "name": "Food theif",
-        "details": "Description of the game",
-        "game_img": "/assets/images/games/food-theif.png",
-        "age_restriction": "8",
-        "game_url": "https://google.com"
-
-  
-      }
+  {
+    "id": 1,
+    "name": "Animal Safari",
+    "details": "Explore the wild and learn about animals.",
+    "game_img": "/assets/images/games/animal-safari.png",
+    "age_restriction": "6",
+    "game_url": "https://kids.nationalgeographic.com/games/"
+  }, {
+    "id": 2,
+    "name": "Puzzle Adventures",
+    "details": "Solve fun puzzles and challenges.",
+    "game_img": "/assets/images/games/puzzle-adventures.png",
+    "age_restriction": "7",
+    "game_url": "https://pbskids.org/games/puzzles/"
+  }, {
+    "id": 3,
+    "name": "Space Explorer",
+    "details": "Learn about space while having fun.",
+    "game_img": "/assets/images/games/space-explorer.png",
+    "age_restriction": "8",
+    "game_url": "https://www.nasa.gov/kidsclub/index.html"
+  }, {
+    "id": 4,
+    "name": "Math Genius",
+    "details": "Sharpen your math skills with fun games.",
+    "game_img": "/assets/images/games/math-genius.png",
+    "age_restriction": "7",
+    "game_url": "https://www.coolmathgames.com/"
+  }, {
+    "id": 5,
+    "name": "Word Play",
+    "details": "Enjoy word games and improve your vocabulary.",
+    "game_img": "/assets/images/games/word-play.png",
+    "age_restriction": "8",
+    "game_url": "https://www.funbrain.com/games"
+  }, {
+    "id": 6,
+    "name": "Art Studio",
+    "details": "Get creative with digital art tools.",
+    "game_img": "/assets/images/games/art-studio.png",
+    "age_restriction": "6",
+    "game_url": "https://www.cbc.ca/kids/games/"
+  }, {
+    "id": 7,
+    "name": "Music Maker",
+    "details": "Create and play with music.",
+    "game_img": "/assets/images/games/music-maker.png",
+    "age_restriction": "8",
+    "game_url": "https://www.musicforkidsonline.com/"
+  }
 ]

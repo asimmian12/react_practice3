@@ -48,5 +48,13 @@
     "game_img": "/assets/images/games/music-maker.png",
     "age_restriction": "8",
     "game_url": "https://www.musicforkidsonline.com/"
+  }, {
+    "id": 8,
+    "name": "Colorful Shapes",
+    "details": "Explore and match colorful shapes to enhance your creativity and problem-solving skills.",
+    "game_img": "/assets/images/games/colorful-shapes.png",
+    "age_restriction": "4",
+    "game_url": "https://www.sheppardsoftware.com/colors/shapes/shapes_game.htm"
   }
+  
 ]

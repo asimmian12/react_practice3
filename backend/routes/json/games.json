@@ -55,7 +55,13 @@
     "game_img": "/assets/images/games/colorful-shapes.png",
     "age_restriction": "4",
     "game_url": "https://www.sheppardsoftware.com/colors/shapes/shapes_game.htm"
+  }, {
+    "id": 9,
+    "name": "Math Adventure",
+    "details": "Embark on an exciting journey to solve math puzzles and challenges, enhancing arithmetic skills in a fun way.",
+    "game_img": "/assets/images/games/math-adventure.png",
+    "age_restriction": "6",
+    "game_url": "https://www.roomrecess.com/"
   }
-  
 ]
 

@@ -7,6 +7,7 @@ const path = require('path'); // Module for handling and resolving file paths
 const dotenv = require('dotenv'); // Module for loading environment variables from a .env file
 
 // Import route handlers
+
 // Karen changes: You were calling them with lower case register / login
 // as you have copied my whole code over you have not made it work with your folder structure
 const registerRoute = require('./routes/Register'); // Route for handling user registration

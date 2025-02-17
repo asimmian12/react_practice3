@@ -6,56 +6,56 @@
     "game_img": "/assets/images/games/animal-safari.png",
     "age_restriction": "6",
     "game_url": "https://kids.nationalgeographic.com/games/"
-  }, {
+  },{
     "id": 2,
     "name": "Puzzle Adventures",
     "details": "Solve fun puzzles and challenges.",
     "game_img": "/assets/images/games/puzzle-adventures.png",
     "age_restriction": "7",
     "game_url": "https://pbskids.org/games/puzzles/"
-  }, {
+  },{
     "id": 3,
     "name": "Space Explorer",
     "details": "Learn about space while having fun.",
     "game_img": "/assets/images/games/space-explorer.png",
     "age_restriction": "8",
     "game_url": "https://www.nasa.gov/kidsclub/index.html"
-  }, {
+  },{
     "id": 4,
     "name": "Math Genius",
     "details": "Sharpen your math skills with fun games.",
     "game_img": "/assets/images/games/math-genius.png",
     "age_restriction": "7",
     "game_url": "https://www.coolmathgames.com/"
-  }, {
+  },{
     "id": 5,
     "name": "Word Play",
     "details": "Enjoy word games and improve your vocabulary.",
     "game_img": "/assets/images/games/word-play.png",
     "age_restriction": "8",
     "game_url": "https://www.funbrain.com/games"
-  }, {
+  },{
     "id": 6,
     "name": "Art Studio",
     "details": "Get creative with digital art tools.",
     "game_img": "/assets/images/games/art-studio.png",
     "age_restriction": "6",
     "game_url": "https://www.cbc.ca/kids/games/"
-  }, {
+  },{
     "id": 7,
     "name": "Music Maker",
     "details": "Create and play with music.",
     "game_img": "/assets/images/games/music-maker.png",
     "age_restriction": "8",
     "game_url": "https://www.musicforkidsonline.com/"
-  }, {
+  },{
     "id": 8,
     "name": "Colorful Shapes",
     "details": "Explore and match colorful shapes to enhance your creativity and problem-solving skills.",
     "game_img": "/assets/images/games/colorful-shapes.png",
     "age_restriction": "4",
     "game_url": "https://www.sheppardsoftware.com/colors/shapes/shapes_game.htm"
-  }, {
+  },{
     "id": 9,
     "name": "Math Adventure",
     "details": "Embark on an exciting journey to solve math puzzles and challenges, enhancing arithmetic skills in a fun way.",

@@ -24,7 +24,7 @@ const Xray = () => {
         <div className="mt-6 text-center">
           <a href="/profile" className="text-blue-500 hover:underline">Back to Profile</a>
         </div>
-    </section>
+  </section>
 
   
   <section className="p-8 bg-white">

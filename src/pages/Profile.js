@@ -1,29 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 
 const Profile = () => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/user/1') 
-      .then(response => {
-        if (response.data) {
-          const { name, created_at } = response.data;
-          setUser({
-            name: name || 'Unknown User',
-            created_at: created_at || null,
-
-          });
-        }
-      })
-      .catch(error => console.error(error));
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
   }, []);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="max-w-4xl mx-auto p-6">
       <div className="bg-white shadow-lg rounded-2xl p-6 mb-6 text-center">
-        <h2 className="text-3xl font-bold text-blue-600 mb-2">{user.name}</h2>
+        <h2 className="text-3xl font-bold text-blue-600 mb-2">{user.firstName} {user.surname}</h2>
         <p className="text-gray-500">Account Created: {user.created_at ? new Date(user.created_at).toLocaleDateString() : 'No data available'}</p>
       </div>
 
@@ -42,6 +37,32 @@ const Profile = () => {
           </div>
         </Link>
       </div>
+      
+      <section className="p-8 bg-white">
+        <h2 className="text-2xl font-bold text-center text-blue-800">Contact</h2>
+        <div className="flex justify-center space-x-6 mt-4">
+          {[
+            { title: 'EMERGENCY', detail: '0141 201 1100' },
+            { title: 'LOCATION', detail: '1345 Govan Road, G51 4TF Glasgow UK' },
+            { title: 'EMAIL', detail: 'info.qeht@nhs.net' },
+            { title: 'WORKING HOURS', detail: 'Mon-Sat 09:00-20:00, Sunday Emergency only' }
+          ].map((info, index) => (
+            <div key={index} className="bg-blue-400 text-white p-4 rounded-md w-48 text-center">
+              <h3 className="font-bold">{info.title}</h3>
+              <p>{info.detail}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <footer className="bg-blue-500 text-white p-6 text-center">
+        <p>&copy; 2025 ASIM MIAN</p>
+        <div className="flex justify-center gap-4 mt-2">
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="bg-white text-blue-500 p-2 rounded-full hover:bg-blue-100">LinkedIn</a>
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="bg-white text-blue-500 p-2 rounded-full hover:bg-blue-100">Facebook</a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="bg-white text-blue-500 p-2 rounded-full hover:bg-blue-100">Instagram</a>
+        </div>
+      </footer>
     </div>
   );
 };

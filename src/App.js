@@ -60,7 +60,7 @@ function App() {
             <Route path="/dashboard" element={isLoggedIn ? <Dashboard /> : <Navigate to="/login" />} />
             <Route path="/account" element={isLoggedIn ? <Account /> : <Navigate to="/login" />} />
             <Route path="/games" element={isLoggedIn ? <Games /> : <Navigate to="/login" />} />
-            <Route path="/map" element={<Map />} />
+            <Route path="/Map" element={<Map />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/appointment" element={<Appointment />} />
             <Route path="/rotate" element={<Rotate />} />

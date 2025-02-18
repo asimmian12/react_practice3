@@ -28,7 +28,7 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
                     <Link to="/About" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">About</Link>
                     <Link to="/login" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Login</Link>
                     <Link to="/register" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Register</Link>
-                    <Link to="/map" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Map</Link>
+                    <Link to="/Map" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Map</Link>
                     <Link to="/Contact" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Contact</Link>
                     <Link to="/Services" className="px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">Services</Link>
   

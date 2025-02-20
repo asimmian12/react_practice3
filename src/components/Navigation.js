@@ -39,7 +39,7 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
           </div>
         </nav>
       ) : (
-        <nav className="bg-[#1E8BCC] h-[200vh] min-w-[350px] py-6 px-4 text-white">
+        <nav className="bg-[#1E8BCC] h-[250vh] min-w-[350px] py-6 px-4 text-white">
           <div className="flex flex-col items-center">
             <p className="bg-gray-300 w-12 h-12 rounded-full flex items-center justify-center font-bold text-black text-xl">P</p>
             <div className="text-center mt-2">

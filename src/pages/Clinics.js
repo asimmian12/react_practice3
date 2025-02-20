@@ -65,5 +65,3 @@ const Clinics = () => {
 };
 
 export default Clinics;
-
-

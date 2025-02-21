@@ -24,9 +24,9 @@ const Doctor = () => {
       <div className="absolute inset-0 bg-black bg-opacity-20"></div>
       <div className="relative z-10 flex justify-center items-center h-full">
         <div className="text-center">
-          <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded">Book an Appointment</button>
-          <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded">Book an MRI Scan</button>
-          <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded">Book an X-Ray</button>
+          <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded hover:bg-blue-600 transition duration-300">Book an Appointment</button>
+          <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded hover:bg-blue-600 transition duration-300">Book an MRI Scan</button>
+          <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded hover:bg-blue-600 transition duration-300">Book an X-Ray</button>
         </div>
       </div>
     </section>

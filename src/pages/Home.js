@@ -41,7 +41,7 @@ const Home = () => {
 
 
       
-      <section className="p-8 bg-gray-100 text-center">
+      <section className="p-8 bg-white-100 text-center">
         <h2 className="text-3xl font-bold text-blue-700 mb-6">Our Specialties</h2>
         <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4">
           {[

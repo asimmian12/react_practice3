@@ -31,9 +31,9 @@ const Doctor = () => {
       </div>
     </section>
 
-    <div className="p-4">
+    <section className="p-4">
       <section className="text-center my-8">
-        <h1 className="text-2xl font-bold">Our Doctors</h1>
+        <h1 className="text-2xl font-bold text-blue-800">Our Doctors</h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
           {doctors.map((doctor, index) => (
             <div key={index} className="bg-white shadow-lg rounded-lg overflow-hidden">
@@ -48,10 +48,10 @@ const Doctor = () => {
             </div>
           ))}
         </div>
-      </section>
+    </section>
 
-      <section className="bg-gray-50 p-8">
-        <h2 className="text-center text-2xl font-bold mb-4">Contact</h2>
+      <section className="bg-white-100 p-8">
+        <h2 className="text-2xl font-bold text-center text-blue-800">Contact</h2>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {contactInfo.map((info, index) => (
             <div key={index} className="bg-blue-400 text-white p-4 rounded-lg text-center">
@@ -70,7 +70,7 @@ const Doctor = () => {
           <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="bg-white text-blue-500 p-2 rounded-full hover:bg-blue-100">Instagram</a>
         </div>
       </footer>
-    </div>
+    </section>
   </div>
     
   );

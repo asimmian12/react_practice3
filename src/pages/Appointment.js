@@ -23,7 +23,7 @@ const Appointment = () => {
           <input type="email" placeholder="Email" className="w-full p-2 mb-2 rounded text-black" />
           <input type="tel" placeholder="Phone" className="w-full p-2 mb-2 rounded text-black" />
           <textarea placeholder="Message" className="w-full p-2 mb-2 rounded text-black"></textarea>
-          <button className="w-full bg-yellow-400 p-2 mt-2 rounded">Submit</button>
+          <button className="w-full bg-yellow-400 p-2 mt-2 rounded hover:bg-blue-600 transition duration-300">Submit</button>
         </div>
       </div>
       <div className="flex items-center justify-center min-h-screen bg-white-100 p-6">

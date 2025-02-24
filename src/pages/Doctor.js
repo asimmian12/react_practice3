@@ -42,7 +42,7 @@ const Doctor = () => {
                 <h2 className="font-bold text-lg">{doctor.name}</h2>
                 <p className="font-semibold text-yellow-300">{doctor.specialty}</p>
               </div>
-              <div className="bg-yellow-300 text-center p-2">
+              <div className="bg-yellow-300 text-center p-2 hover:bg-blue-600 transition duration-300">
                 <button className="text-white font-semibold">View Profile</button>
               </div>
             </div>

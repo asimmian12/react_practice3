@@ -1,4 +1,3 @@
-// src/pages/PlayPage.js
 import React from 'react';
 
 const Play = () => {

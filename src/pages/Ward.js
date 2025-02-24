@@ -1,4 +1,3 @@
-// src/pages/WardsPage.js
 import React from 'react';
 
 const Wards = () => {

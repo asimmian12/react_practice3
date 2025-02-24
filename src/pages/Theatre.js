@@ -1,4 +1,3 @@
-// src/pages/TheatresPage.js
 import React from 'react';
 
 const Theatres = () => {

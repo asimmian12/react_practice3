@@ -29,14 +29,14 @@ const Home = () => {
               <div className="p-4 bg-blue-100">
                 <h3 className="text-xl font-semibold text-blue-700">{doctor.name}</h3>
                 <p className="text-gray-600">{doctor.specialty}</p>
-                <button className="mt-2 bg-yellow-400 text-white px-4 py-2 rounded">View Profile</button>
+                <button className="mt-2 bg-yellow-400 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300">View Profile</button>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Our Specialties Section */}
+      
       <section className="p-8 bg-gray-100 text-center">
         <h2 className="text-3xl font-bold text-blue-700 mb-6">Our Specialties</h2>
         <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4">

@@ -36,7 +36,7 @@ const Doctor = () => {
         <h1 className="text-2xl font-bold text-blue-800">Our Doctors</h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
           {doctors.map((doctor, index) => (
-            <div key={index} className="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div key={index} className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform duration-500 ease-[cubic-bezier(0.175,_0.885,_0.32,_1.275)] hover:scale-105">
               <img src={doctor.image} alt={doctor.name} className="w-full h-48 object-cover" />
               <div className="bg-blue-400 text-white p-4">
                 <h2 className="font-bold text-lg">{doctor.name}</h2>

@@ -16,25 +16,29 @@ const Home = () => {
       </section>
 
       {/* Our Doctors Section */}
-      <section className="p-8 text-center">
-        <h2 className="text-3xl font-bold text-blue-700 mb-6">Our Doctors</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[
-            { name: 'Doctor Goldberg', specialty: 'NEUROLOGY', image: './assets/images/doctor1.jpeg' },
-            { name: 'Doctor Shaw', specialty: 'LUNGS',  image: './assets/images/doctor2.jpeg' },
-            { name: 'Doctor Stewart', specialty: 'BRAIN', image: './assets/images/doctor3.jpeg' }
-          ].map((doctor, index) => (
-            <div key={index} className="bg-white shadow-md rounded-xl overflow-hidden">
-              <img src={doctor.image} alt={doctor.name} className="w-full h-48 object-cover" />
-              <div className="p-4 bg-blue-100">
-                <h3 className="text-xl font-semibold text-blue-700">{doctor.name}</h3>
-                <p className="text-gray-600">{doctor.specialty}</p>
-                <button className="mt-2 bg-yellow-400 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300">View Profile</button>
-              </div>
-            </div>
-          ))}
+      <section className="p-8 text-center"> 
+  <h2 className="text-3xl font-bold text-blue-700 mb-6">Our Doctors</h2>
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {[
+      { name: 'Doctor Goldberg', specialty: 'NEUROLOGY', image: './assets/images/doctor1.jpeg' },
+      { name: 'Doctor Shaw', specialty: 'LUNGS', image: './assets/images/doctor2.jpeg' },
+      { name: 'Doctor Stewart', specialty: 'BRAIN', image: './assets/images/doctor3.jpeg' }
+    ].map((doctor, index) => (
+      <div
+        key={index}
+        className="bg-white shadow-md rounded-xl overflow-hidden transition-transform duration-500 ease-[cubic-bezier(0.175,_0.885,_0.32,_1.275)] hover:scale-105"
+      >
+        <img src={doctor.image} alt={doctor.name} className="w-full h-48 object-cover" />
+        <div className="p-4 bg-blue-100">
+          <h3 className="text-xl font-semibold text-blue-700">{doctor.name}</h3>
+          <p className="text-gray-600">{doctor.specialty}</p>
+          <button className="mt-2 bg-yellow-400 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300">View Profile</button>
         </div>
-      </section>
+      </div>
+    ))}
+  </div>
+</section>
+
 
       
       <section className="p-8 bg-gray-100 text-center">
@@ -56,26 +60,20 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section className="p-8 text-center">
-        <h2 className="text-3xl font-bold text-blue-700 mb-6">Contact</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="p-4 bg-blue-100 rounded-xl">
-            <h3 className="font-bold">EMERGENCY</h3>
-            <p>041 201 1101</p>
-          </div>
-          <div className="p-4 bg-blue-100 rounded-xl">
-            <h3 className="font-bold">LOCATION</h3>
-            <p>1845 Green Road, G61 6TT Glasgow UK</p>
-          </div>
-          <div className="p-4 bg-blue-100 rounded-xl">
-            <h3 className="font-bold">EMAIL</h3>
-            <p>info@asimmian.net</p>
-          </div>
-          <div className="p-4 bg-blue-100 rounded-xl">
-            <h3 className="font-bold">WORKING HOURS</h3>
-            <p>Mon-Sat: 08:00-20:00<br />Sunday: Emergency only</p>
-          </div>
+      <section className="p-8 bg-white">
+        <h2 className="text-2xl font-bold text-center text-blue-800">Contact</h2>
+        <div className="flex justify-center space-x-6 mt-4">
+          {[
+            { title: 'EMERGENCY', detail: '0141 201 1100' },
+            { title: 'LOCATION', detail: '1345 Govan Road, G51 4TF Glasgow UK' },
+            { title: 'EMAIL', detail: 'info.qeht@nhs.net' },
+            { title: 'WORKING HOURS', detail: 'Mon-Sat 09:00-20:00, Sunday Emergency only' }
+          ].map((info, index) => (
+            <div key={index} className="bg-blue-400 text-white p-4 rounded-md w-48 text-center">
+              <h3 className="font-bold">{info.title}</h3>
+              <p>{info.detail}</p>
+            </div>
+          ))}
         </div>
       </section>
 

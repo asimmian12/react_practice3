@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 
 const Navigation = ({ isLoggedIn, handleLogout }) => {
   const [userData, setUserData] = useState(null);
-  const [isProfileOpen, setIsProfileOpen] = useState(false); // For dropdown toggle
+  const [isProfileOpen, setIsProfileOpen] = useState(false); 
+  // const age_restriction = isLoggedIn >= 6
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -54,7 +55,10 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
             <li><Link to="/dashboard" className="hover:bg-[#36336b] px-4 py-3 rounded-md block">Dashboard</Link></li>
             <li><Link to="/account" className="hover:bg-[#36336b] px-4 py-3 rounded-md block">Account</Link></li>
             <li><Link to="/About" className="hover:bg-[#36336b] px-4 py-3 rounded-md block">About</Link></li>
+            
+            {/* if ({age_restriction >= 6}) { */}
             <li><Link to="/games" className="hover:bg-[#36336b] px-4 py-3 rounded-md block">Games</Link></li>
+{/* } */}
             <li><Link to="/Map" className="hover:bg-[#36336b] px-4 py-3 rounded-md block">Map</Link></li>
             <li><Link to="/Appointment" className="hover:bg-[#36336b] px-4 py-3 rounded-md block">Appointment</Link></li>
             <li><Link to="/Doctor" className="hover:bg-[#36336b] px-4 py-3 rounded-md block">Doctor</Link></li>

@@ -22,11 +22,6 @@ const Map = () => {
 
       {/* Hospital Map Image */}
       <div className="flex justify-center py-4">
-        <img src="/assets/images/hospital_map.jpg" alt="Hospital Map" className="max-w-full h-auto" />
-      </div>
-      
-      {/* Hospital Map Image */}
-      <div className="flex justify-center py-4">
         <img src="/assets/images/hospital2_map.jpg" alt="Hospital Map" className="max-w-full h-auto" />
       </div>
       

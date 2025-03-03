@@ -21,10 +21,7 @@ import Rotate from './pages/interactive/Rotate';
 import Drawing from './pages/interactive/Drawing';
 import SlackIntro from './animata/SlackIntro';
 import Appointment from './pages/Appointment';
-import Clinics from './pages/Clinics';
-import Ward from './pages/Ward';
-import Play from './pages/Play';
-import Theatres from './pages/Theatre';
+
 
 function App() {
 
@@ -73,12 +70,9 @@ function App() {
             <Route path="/Xray" element={<Xray />} />
             <Route path="/Mri" element={<MRI />} />
             <Route path="/Doctor" element={<Doctor />} />
-            <Route path="/Theatre" element={<Theatres />} />
             <Route path="/About" element={<About />} />
             <Route path="/Services" element={<Services />} />
-            <Route path="/Clinics" element={<Clinics />} />
-            <Route path="/Ward" element={<Ward />} />
-            <Route path="/Play" element={<Play />} />
+       
           </Routes>
           </main>
         </Router>

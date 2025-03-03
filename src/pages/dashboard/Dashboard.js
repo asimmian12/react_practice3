@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-// import Image from '../../assets/images/chest_xray.webp';
 
 const Dashboard = () => {
  

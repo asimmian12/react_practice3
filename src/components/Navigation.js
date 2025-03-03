@@ -44,7 +44,7 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
               P
             </p>
             <div className="text-center mt-2">
-              <p className="text-lg">{userData?.firstName}</p> {/* Increased font size */}
+              <p className="text-lg">{userData?.firstName}</p>
               <p className="text-xs text-white-500">Patient Number: {userData?.hospital_number}</p>
             </div>
           </div>

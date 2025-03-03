@@ -58,10 +58,6 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
             <li><Link to="/Map" className="hover:bg-[#36336b] px-4 py-3 rounded-md block">Map</Link></li>
             <li><Link to="/Appointment" className="hover:bg-[#36336b] px-4 py-3 rounded-md block">Appointment</Link></li>
             <li><Link to="/Doctor" className="hover:bg-[#36336b] px-4 py-3 rounded-md block">Doctor</Link></li>
-            <li><Link to="/Clinics" className="hover:bg-[#36336b] px-4 py-3 rounded-md block">Clinics</Link></li>
-            <li><Link to="/Ward" className="hover:bg-[#36336b] px-4 py-3 rounded-md block">Ward</Link></li>
-            <li><Link to="/Play" className="hover:bg-[#36336b] px-4 py-3 rounded-md block">Play</Link></li>
-            <li><Link to="/Theatre" className="hover:bg-[#36336b] px-4 py-3 rounded-md block">Theatre</Link></li>
             <li><Link to="/Services" className="hover:bg-[#36336b] px-4 py-3 rounded-md block">Services</Link></li>
             <li><Link to="/Contact" className="hover:bg-[#36336b] px-4 py-3 rounded-md block">Contact</Link></li>
 

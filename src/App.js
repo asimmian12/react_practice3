@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Navigation from './components/Navigation';
 import Home from './pages/Home';
 import Contact from './pages/Contact';
@@ -17,9 +16,6 @@ import Xray from './pages/Xray';
 import Dashboard from './pages/dashboard/Dashboard';
 import Account from './pages/dashboard/Account';
 import Games from './pages/dashboard/Games';
-import Rotate from './pages/interactive/Rotate';
-import Drawing from './pages/interactive/Drawing';
-import SlackIntro from './animata/SlackIntro';
 import Appointment from './pages/Appointment';
 
 
@@ -63,9 +59,6 @@ function App() {
             <Route path="/Map" element={<Map />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/appointment" element={<Appointment />} />
-            <Route path="/rotate" element={<Rotate />} />
-            <Route path="/drawing" element={<Drawing />} />
-            <Route path="/intro" element={<SlackIntro />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/Xray" element={<Xray />} />
             <Route path="/Mri" element={<MRI />} />

@@ -20,13 +20,18 @@ const Map = () => {
         <h1 className="text-4xl font-semibold">Map</h1>
       </div>
 
+       {/* Hospital Map Images */}
+       <div className="flex justify-center py-4">
+        <img src="/assets/images/hospital_map.jpg" alt="Hospital Map" width="500" height="500" className="max-w-full h-auto" />
+        </div>
+
       {/* Hospital Map Images */}
       <div className="flex justify-center py-4">
-        <img src="/assets/images/hospital2_map.jpg" alt="Hospital Map" className="max-w-full h-auto" />
+        <img src="/assets/images/hospital2_map.jpg" alt="Hospital Map" width="500" height="500" className="max-w-full h-auto" />
       </div>
       
       <div className="flex justify-center py-4">
-        <img src="/assets/images/hospital3_map.jpg" alt="Hospital Map" className="max-w-full h-auto" />
+        <img src="/assets/images/hospital3_map.jpg" alt="Hospital Map" width="500" height="500" className="max-w-full h-auto" />
       </div>
 
       {/* Contact Section */}

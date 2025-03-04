@@ -23,7 +23,7 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
                   Clyde Children's Hospital
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
-                  <div className="flex space-x-6"> {/* Increased space between links */}
+                  <div className="flex space-x-6"> 
                     <Link to="/" className="px-4 py-3 text-lg text-white-300 hover:bg-white-700 hover:text-white rounded-md">Home</Link> {/* Increased padding and font size */}
                     <Link to="/About" className="px-4 py-3 text-lg text-white-300 hover:bg-white-700 hover:text-white rounded-md">About</Link>
                     <Link to="/login" className="px-4 py-3 text-lg text-white-300 hover:bg-white-700 hover:text-white rounded-md">Login</Link>

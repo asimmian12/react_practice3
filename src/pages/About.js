@@ -39,8 +39,9 @@ const About = () => {
           <div className="mt-4 md:mt-0 md:ml-6">
             <h2 className="text-xl font-semibold text-blue-700">WELCOME TO ASIM MIAN</h2>
             <p className="text-gray-700 mt-2">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque placerat scelerisque tortor ornare ornare.
-              Quisque placerat scelerisque tortor ornare ornare. Convallis felis vitae tortor augue. Velit nascetur proin massa in.
+            At Clyde Children's Hospital, we are dedicated to providing compassionate and high-quality care for young patients in a welcoming and supportive environment. Our team of skilled healthcare professionals works tirelessly to ensure that every child receives the best medical attention tailored to their needs.
+            Beyond medical care, we prioritize emotional well-being by creating a child-friendly atmosphere with engaging activities and interactive programs. Our commitment extends to families, offering guidance and support throughout their journey.
+            With a focus on innovation and excellence, Clyde Children's Hospital continues to evolve, integrating advanced medical treatments and technology to enhance patient care. We strive to make every child's hospital experience as comfortable and positive as possible.
             </p>
           </div>
         </div>

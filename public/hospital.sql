@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 24, 2025 at 03:14 PM
+-- Generation Time: Mar 04, 2025 at 03:12 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -56,6 +56,7 @@ CREATE TABLE `users` (
   `hospital_number` varchar(20) DEFAULT NULL,
   `email` varchar(100) NOT NULL,
   `department_id` int(11) DEFAULT NULL,
+  `department_name` varchar(100) DEFAULT NULL,
   `telephone_number` varchar(15) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp()
@@ -65,32 +66,11 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `firstName`, `surname`, `dob`, `hospital_number`, `email`, `department_id`, `telephone_number`, `password`, `created_at`) VALUES
-(7, 'Asim', 'Mian', '2002-12-31', '1', '20273835@myclyde.ac.uk', 1, '0141 383 6089', '$2b$10$5QVGzx3rMq19Cht4h72p5uPSc41d0MNbQcY96VxM1l6NCE.zm3W9C', '2025-02-10 14:42:18'),
-(11, 'David', 'Stewart', '2002-12-30', 'CHI1234567890', 'asim.mian7878@gmail.com', 2, '01413836089', 'Sajid365', '2025-02-10 15:33:28'),
-(16, 'Karen', 'Sturgon', '1333-12-12', '133', 'ksturgon@yahoo.com', 1, '01414445674', '$2b$10$Jev6NGmHXt3WYDYyQUbh7uMScSpsYBCDtK9q1QhRk/G7kMRPx9Hg.', '2025-02-16 18:06:57'),
-(17, 'Iain', 'Shaw', '1222-04-04', '124', 'ishaw@gmail.com', 2, '01414532321', '$2b$10$VwrUNBmeykOK.cWmEj3zbupzdQgmX4qFMmLwfyvfJfYPqNlO5SSba', '2025-02-17 14:35:04')
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+INSERT INTO `users` (`id`, `firstName`, `surname`, `dob`, `hospital_number`, `email`, `department_id`, `department_name`, `telephone_number`, `password`, `created_at`) VALUES
+(7, 'Asim', 'Mian', '2002-12-31', '1', '20273835@myclyde.ac.uk', 1, 'Cardiology', '0141 383 6089', '$2b$10$5QVGzx3rMq19Cht4h72p5uPSc41d0MNbQcY96VxM1l6NCE.zm3W9C', '2025-02-10 14:42:18'),
+(11, 'David', 'Stewart', '2002-12-30', 'CHI1234567890', 'asim.mian7878@gmail.com', 2, 'Neurology', '01413836089', 'Sajid365', '2025-02-10 15:33:28'),
+(16, 'Karen', 'Sturgon', '1333-12-12', '133', 'ksturgon@yahoo.com', 1, 'Cardiology', '01414445674', '$2b$10$Jev6NGmHXt3WYDYyQUbh7uMScSpsYBCDtK9q1QhRk/G7kMRPx9Hg.', '2025-02-16 18:06:57'),
+(17, 'Iain', 'Shaw', '1222-04-04', '124', 'ishaw@gmail.com', 2, 'Neurology', '01414532321', '$2b$10$VwrUNBmeykOK.cWmEj3zbupzdQgmX4qFMmLwfyvfJfYPqNlO5SSba', '2025-02-17 14:35:04');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

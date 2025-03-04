@@ -5,7 +5,7 @@ const doctors = [
   { name: 'Doctor Shaw', specialty: 'LUNGS', image: './assets/images/doctor2.jpeg' },
   { name: 'Doctor Stewart', specialty: 'BRAIN', image: './assets/images/doctor3.jpeg' },
   { name: "Doctor Smith", specialty: 'OTOLARYNGOLOGY', image: './assets/images/doctor4.jpeg' },
-  { name: 'Doctor Abrara', specialty: 'DERMATOLOGY', image: './assets/images/doctor5.jpeg'},
+  { name: 'Doctor Abrara', specialty: 'DERMATOLOGY', image: './assets/images/doctor5.jpeg' },
   { name: 'Doctor Jackson', specialty: 'CARDIOVASCULAR', image: './assets/images/doctor6.jpeg' },
 ];
 
@@ -19,37 +19,40 @@ const contactInfo = [
 const Doctor = () => { 
   return (
     <div className="min-h-screen bg-white">
-    {/* Hero Section */}
-    <section className="relative bg-cover bg-center h-64" style={{ backgroundImage: 'url(/assets/images/doctor_background.jpg)' }}>
-      <div className="absolute inset-0 bg-black bg-opacity-20"></div>
-      <div className="relative z-10 flex justify-center items-center h-full">
-        <div className="text-center">
-          <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded hover:bg-blue-600 transition duration-300">Book an Appointment</button>
-          <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded hover:bg-blue-600 transition duration-300">Book an MRI Scan</button>
-          <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded hover:bg-blue-600 transition duration-300">Book an X-Ray</button>
+      {/* Hero Section */}
+      <section className="relative bg-cover bg-center h-64" style={{ backgroundImage: 'url(/assets/images/doctor_background.jpg)' }}>
+        <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+        <div className="relative z-10 flex justify-center items-center h-full">
+          <div className="text-center">
+            <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded hover:bg-blue-600 transition duration-300">Book an Appointment</button>
+            <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded hover:bg-blue-600 transition duration-300">Book an MRI Scan</button>
+            <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded hover:bg-blue-600 transition duration-300">Book an X-Ray</button>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section className="p-4">
-      <section className="text-center my-8">
-        <h1 className="text-2xl font-bold text-blue-800">Our Doctors</h1>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-          {doctors.map((doctor, index) => (
-            <div key={index} className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform duration-500 ease-[cubic-bezier(0.175,_0.885,_0.32,_1.275)] hover:scale-105">
-              <img src={doctor.image} alt={doctor.name} className="w-full h-48 object-cover" />
-              <div className="bg-blue-400 text-white p-4">
-                <h2 className="font-bold text-lg">{doctor.name}</h2>
-                <p className="font-semibold text-yellow-300">{doctor.specialty}</p>
+      {/* Doctors Section */}
+      <section className="p-4">
+        <section className="text-center my-8">
+          <h1 className="text-2xl font-bold text-blue-800">Our Doctors</h1>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+            {doctors.map((doctor, index) => (
+              <div key={index} className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform duration-500 ease-[cubic-bezier(0.175,_0.885,_0.32,_1.275)] hover:scale-105">
+                <img src={doctor.image} alt={doctor.name} className="w-full h-48 object-cover" />
+                <div className="bg-blue-400 text-white p-4">
+                  <h2 className="font-bold text-lg">{doctor.name}</h2>
+                  <p className="font-semibold text-yellow-300">{doctor.specialty}</p>
+                </div>
+                <div className="bg-yellow-300 text-center p-2 hover:bg-blue-600 transition duration-300">
+                  <button className="text-white font-semibold">View Profile</button>
+                </div>
               </div>
-              <div className="bg-yellow-300 text-center p-2 hover:bg-blue-600 transition duration-300">
-                <button className="text-white font-semibold">View Profile</button>
-              </div>
-            </div>
-          ))}
-        </div>
-    </section>
+            ))}
+          </div>
+        </section>
+      </section>
 
+      {/* Contact Section */}
       <section className="bg-white-100 p-8">
         <h2 className="text-2xl font-bold text-center text-blue-800">Contact</h2>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -61,7 +64,8 @@ const Doctor = () => {
           ))}
         </div>
       </section>
-      
+
+      {/* Footer Section */}
       <footer className="bg-blue-500 text-white p-6 text-center">
         <p>&copy; 2025 ASIM MIAN</p>
         <div className="flex justify-center gap-4 mt-2">
@@ -70,9 +74,7 @@ const Doctor = () => {
           <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="bg-white text-blue-500 p-2 rounded-full hover:bg-blue-100">Instagram</a>
         </div>
       </footer>
-    </section>
-  </div>
-    
+    </div>
   );
 }
 

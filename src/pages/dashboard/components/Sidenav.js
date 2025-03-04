@@ -13,7 +13,7 @@ function Sidenav() {
 
           <div class="text-center mt-2">
             <p class="text-base text-white">Patient Name</p>
-            <p class="text-xs text-gray-300 mt-0.5">Patient Number</p>
+            <p class="text-xs text-gray-300 mt-0.5">Patient ID</p>
           </div>
         </div>
 

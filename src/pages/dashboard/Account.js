@@ -24,7 +24,7 @@ const Account = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
+    
       <section className="relative bg-cover bg-center h-64" style={{ backgroundImage: 'url(./images/doctor_background.jpg)' }}>
         <div className="absolute inset-0 bg-black bg-opacity-20"></div>
         <div className="relative z-10 flex justify-center items-center h-full">
@@ -42,12 +42,12 @@ const Account = () => {
         </div>
       </section>
 
-      {/* Account Management Section */}
+     
       <section className="p-4">
         <section className="text-center my-8">
           <h1 className="text-2xl font-bold text-blue-800">Manage Your Account</h1>
           <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-8">
-            {/* Profile Image */}
+           
             <div className="flex justify-center mb-6">
               <img
                 src={userData.hospital_account_img || './images/account2.png'}
@@ -56,7 +56,7 @@ const Account = () => {
               />
             </div>
             
-            {/* Account Details */}
+            
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <p className="text-gray-600 text-lg">Hospital Number:</p>
@@ -79,7 +79,7 @@ const Account = () => {
                 <p className="font-semibold text-gray-900 text-lg">{userData.dob}</p>
               </div>
 
-              {/* Edit Button */}
+              
               <a
               href="https://forms.office.com/e/hhGqujh4Uh"
               target="_blank"
@@ -94,7 +94,7 @@ const Account = () => {
         </section>
       </section>
 
-      {/* Contact Section */}
+    
       <section className="bg-white p-8">
         <h2 className="text-2xl font-bold text-center text-blue-800">Contact</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
@@ -107,7 +107,7 @@ const Account = () => {
         </div>
       </section>
 
-      {/* Footer Section */}
+
       <footer className="bg-blue-500 text-white p-6 text-center">
         <p>&copy; 2025 ASIM MIAN</p>
         <div className="flex justify-center gap-4 mt-2">

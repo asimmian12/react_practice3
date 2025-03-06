@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Navigation from './components/Navigation';
+import Navigation from './pages/Navigation';
 import Home from './pages/Home';
 import Contact from './pages/Contact';
 import Login from './pages/Login';
@@ -13,9 +13,9 @@ import About from './pages/About';
 import Doctor from './pages/Doctor';
 import Services from './pages/Services';
 import Xray from './pages/Xray';
-import Dashboard from './pages/dashboard/Dashboard';
-import Account from './pages/dashboard/Account';
-import Games from './pages/dashboard/Games';
+import Dashboard from './pages/Dashboard';
+import Account from './pages/Account';
+import Games from './pages/Games';
 import Appointment from './pages/Appointment';
 
 

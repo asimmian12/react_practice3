@@ -25,12 +25,16 @@ app.use(bodyParser.json());
 console.log('Current directory:', __dirname);
 
 // Define file paths
-const gamesPath = path.join(__dirname, 'routes', 'json', 'games.json');
-const departmentsPath = path.join(__dirname, 'routes', 'json', 'departments.json');
+const gamesPath = path.join(__dirname, 'games.json');
+const departmentsPath = path.join(__dirname, 'departments.json');
 
 // Log file existence
-console.log(`Games file exists: ${fs.existsSync(gamesPath)}`);
-console.log(`Departments file exists: ${fs.existsSync(departmentsPath)}`);
+console.log('Fixed Games file path:', gamesPath);
+console.log('Fixed Departments file path:', departmentsPath);
+console.log('Games file exists:', fs.existsSync(gamesPath));
+console.log('Departments file exists:', fs.existsSync(departmentsPath));
+
+
 
 // Define routes
 app.use('/register', registerRoute);
@@ -58,20 +62,17 @@ app.get('/departments', (req, res) => {
 
 app.get('/api/games', (req, res) => {
   try {
-    // Check if file exists
     if (!fs.existsSync(gamesPath)) {
       console.error('Games file not found at:', gamesPath);
       return res.status(404).json({ message: 'Games file not found' });
     }
-    
-    // Synchronously read the file
+
     const data = fs.readFileSync(gamesPath, 'utf8');
-    
-    // Try to parse JSON
+
     try {
       const gamesData = JSON.parse(data);
-      console.log('Games data sent from the backend:', gamesData.length, 'games found');
-      res.json(gamesData); // Send the games data as JSON
+      console.log('Games data sent from backend:', gamesData.length, 'games found');
+      res.json(gamesData);
     } catch (parseErr) {
       console.error('Error parsing games JSON:', parseErr);
       return res.status(500).json({ message: 'Invalid JSON in games file' });
@@ -82,15 +83,12 @@ app.get('/api/games', (req, res) => {
   }
 });
 
+
 // Add an endpoint to show all possible locations
 app.get('/api/debug-paths', (req, res) => {
   const testPaths = [
-    path.join(__dirname, 'games.json'),
-    path.join(__dirname, 'routes', 'json', 'games.json'),
-    path.join(__dirname, 'routes', 'games.json'),
     path.join(__dirname, 'json', 'games.json'),
-    path.join(__dirname, 'backend', 'json', 'games.json'),
-    path.join(__dirname, 'backend', 'games.json')
+    path.join(__dirname, 'backend', 'games.json'),
   ];
 
   const results = testPaths.map(p => ({

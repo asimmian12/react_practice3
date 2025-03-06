@@ -8,7 +8,8 @@ require('dotenv').config();
 const router = express.Router();
 
 // Correctly define the path to departments.json
-const departmentsPath = path.join(__dirname, 'routes', 'json', 'departments.json');
+const departmentsPath = path.join(__dirname, 'departments.json');
+
 
 // Load departments.json
 let departments;
@@ -20,7 +21,7 @@ try {
 }
 
 // Correctly define the path to departments.json
-const gamesPath = path.join(__dirname, 'routes', 'json', 'games.json');
+const gamesPath = path.join(__dirname, 'games.json');
 
 // Load departments.json
 let games;

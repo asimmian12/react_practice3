@@ -59,8 +59,9 @@ function Login({ setIsLoggedIn }) {
 
       <div className="min-h-screen bg-white">
       <h1 className="text-3xl font-bold text-center text-blue-700 mb-8">Login</h1>
-        {isLoading && <div className="loading-indicator">Loading...</div>}  {/* Add loading message or spinner */}
-        {/* Login Form */}
+        {isLoading && <div className="loading-indicator">Loading...</div>}
+        <h4 className="text-gray-600 text-base mb-4">Login to access the hospital portal</h4>
+       
         <form className="max-w-sm mx-auto p-6" onSubmit={handleSubmit}>
           <div className="mb-5">
             <label htmlFor="hospitalNumber" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

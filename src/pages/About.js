@@ -2,12 +2,12 @@ import React from 'react';
 
 const About = () => {
   const doctors = [
-    { name: 'Doctor Goldberg', specialty: 'NEUROLOGY', image: '/assets/images/doctor1.jpeg' },
-    { name: 'Doctor Shaw', specialty: 'LUNGS', image: '/assets/images/doctor2.jpeg' },
-    { name: 'Doctor Stewart', specialty: 'BRAIN', image: '/assets/images/doctor3.jpeg' },
-    { name: 'Doctor Smith', specialty: 'OTOLARYNGOLOGY', image: '/assets/images/doctor4.jpeg' },
-    { name: 'Doctor Abrara', specialty: 'DERMATOLOGY', image: '/assets/images/doctor5.jpeg' },
-    { name: 'Doctor Jackson', specialty: 'CARDIOVASCULAR', image: '/assets/images/doctor6.jpeg' },
+    { name: 'Doctor Goldberg', specialty: 'NEUROLOGY', image: './images/doctor1.jpeg' },
+    { name: 'Doctor Shaw', specialty: 'LUNGS', image: './images/doctor2.jpeg' },
+    { name: 'Doctor Stewart', specialty: 'BRAIN', image: './images/doctor3.jpeg' },
+    { name: 'Doctor Smith', specialty: 'OTOLARYNGOLOGY', image: './images/doctor4.jpeg' },
+    { name: 'Doctor Abrara', specialty: 'DERMATOLOGY', image: './images/doctor5.jpeg' },
+    { name: 'Doctor Jackson', specialty: 'CARDIOVASCULAR', image: './images/doctor6.jpeg' },
   ];
 
   const contactInfo = [
@@ -20,7 +20,7 @@ const About = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-cover bg-center h-64" style={{ backgroundImage: 'url(/assets/images/doctor_background.jpg)' }}>
+      <section className="relative bg-cover bg-center h-64" style={{ backgroundImage: 'url(./images/doctor_background.jpg)' }}>
         <div className="absolute inset-0 bg-black bg-opacity-20"></div>
         <div className="relative z-10 flex justify-center items-center h-full">
           <div className="text-center">
@@ -35,7 +35,7 @@ const About = () => {
       <section className="p-8 bg-white-50">
         <h1 className="text-3xl text-blue-600 font-bold text-center">ABOUT US</h1>
         <div className="flex flex-col md:flex-row mt-4 items-center">
-          <img src="/assets/images/aboutus.jpg" alt="About Us" className="w-full md:w-1/3 rounded-lg shadow-md" />
+          <img src="./images/aboutus.jpg" alt="About Us" className="w-full md:w-1/3 rounded-lg shadow-md" />
           <div className="mt-4 md:mt-0 md:ml-6">
             <h2 className="text-xl font-semibold text-blue-700">WELCOME TO ASIM MIAN</h2>
             <p className="text-gray-700 mt-2">

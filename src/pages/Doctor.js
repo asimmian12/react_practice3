@@ -1,12 +1,12 @@
 import React from 'react';
 
 const doctors = [
-  { name: 'Doctor Goldberg', specialty: 'NEUROLOGY', image: './assets/images/doctor1.jpeg' },
-  { name: 'Doctor Shaw', specialty: 'LUNGS', image: './assets/images/doctor2.jpeg' },
-  { name: 'Doctor Stewart', specialty: 'BRAIN', image: './assets/images/doctor3.jpeg' },
-  { name: "Doctor Smith", specialty: 'OTOLARYNGOLOGY', image: './assets/images/doctor4.jpeg' },
-  { name: 'Doctor Abrara', specialty: 'DERMATOLOGY', image: './assets/images/doctor5.jpeg' },
-  { name: 'Doctor Jackson', specialty: 'CARDIOVASCULAR', image: './assets/images/doctor6.jpeg' },
+  { name: 'Doctor Goldberg', specialty: 'NEUROLOGY', image: './images/doctor1.jpeg' },
+  { name: 'Doctor Shaw', specialty: 'LUNGS', image: './images/doctor2.jpeg' },
+  { name: 'Doctor Stewart', specialty: 'BRAIN', image: './images/doctor3.jpeg' },
+  { name: "Doctor Smith", specialty: 'OTOLARYNGOLOGY', image: './images/doctor4.jpeg' },
+  { name: 'Doctor Abrara', specialty: 'DERMATOLOGY', image: './images/doctor5.jpeg' },
+  { name: 'Doctor Jackson', specialty: 'CARDIOVASCULAR', image: './images/doctor6.jpeg' },
 ];
 
 const contactInfo = [
@@ -20,7 +20,7 @@ const Doctor = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-cover bg-center h-64" style={{ backgroundImage: 'url(/assets/images/doctor_background.jpg)' }}>
+      <section className="relative bg-cover bg-center h-64" style={{ backgroundImage: 'url(./images/doctor_background.jpg)' }}>
         <div className="absolute inset-0 bg-black bg-opacity-20"></div>
         <div className="relative z-10 flex justify-center items-center h-full">
           <div className="text-center">

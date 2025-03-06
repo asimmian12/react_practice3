@@ -30,7 +30,7 @@ const Dashboard = () => {
                 <div class="grid lg:grid-cols-2 md:grid-cols-2 gap-8 justify-center mt-12">
                     <div class="border rounded-md overflow-hidden max-md:max-w-[300px] hover:bg-blue-600 transition duration-300">
                         <Link to="/account">
-                            <img src="/assets/images/account.png" class="w-full h-60 object-contain object-top bg-gray-200 hover:bg-blue-600 transition duration-300" />
+                            <img src="./images/account.png" class="w-full h-60 object-contain object-top bg-gray-200 hover:bg-blue-600 transition duration-300" />
                         </Link>
                         <div class="p-4">
                             <h4 class="text-gray-800 text-base font-bold">{userData.firstName}'s Details</h4>
@@ -68,7 +68,7 @@ const Dashboard = () => {
 
                     <div class="border rounded-md overflow-hidden max-md:max-w-[300px] hover:bg-blue-600 transition duration-300">
                         <Link to="/games">
-                        <img src="/assets/images/games/food-theif.png" class="w-full h-60 object-contain object-top bg-gray-200 hover:bg-blue-600 transition duration-300" />
+                        <img src="./images/games/food-theif.png" class="w-full h-60 object-contain object-top bg-gray-200 hover:bg-blue-600 transition duration-300" />
                         </Link>
 
                         <div class="p-4">

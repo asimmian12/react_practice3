@@ -90,7 +90,7 @@ const Games = () => {
                 className="w-full h-48 object-cover"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = "/assets/images/fruit-ninja.png";
+                  e.target.src = "./images/fruit-ninja.png";
                 }}
               />
               <div className="p-4">

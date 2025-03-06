@@ -4,7 +4,7 @@ const Map = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-cover bg-center h-64" style={{ backgroundImage: 'url(./assets/images/doctor_background.jpg)' }}>
+      <section className="relative bg-cover bg-center h-64" style={{ backgroundImage: 'url(./images/doctor_background.jpg)' }}>
         <div className="absolute inset-0 bg-black bg-opacity-20"></div>
         <div className="relative z-10 flex justify-center items-center h-full">
           <div className="text-center">
@@ -22,16 +22,16 @@ const Map = () => {
 
        {/* Hospital Map Images */}
        <div className="flex justify-center py-4">
-        <img src="/assets/images/hospital_map.jpg" alt="Hospital Map" width="500" height="500" className="max-w-full h-auto" />
+        <img src="./images/hospital_map.jpg" alt="Hospital Map" width="500" height="500" className="max-w-full h-auto" />
         </div>
 
       {/* Hospital Map Images */}
       <div className="flex justify-center py-4">
-        <img src="/assets/images/hospital2_map.jpg" alt="Hospital Map" width="500" height="500" className="max-w-full h-auto" />
+        <img src="./images/hospital2_map.jpg" alt="Hospital Map" width="500" height="500" className="max-w-full h-auto" />
       </div>
       
       <div className="flex justify-center py-4">
-        <img src="/assets/images/hospital3_map.jpg" alt="Hospital Map" width="500" height="500" className="max-w-full h-auto" />
+        <img src="./images/hospital3_map.jpg" alt="Hospital Map" width="500" height="500" className="max-w-full h-auto" />
       </div>
 
       {/* Contact Section */}

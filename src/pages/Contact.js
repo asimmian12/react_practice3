@@ -22,7 +22,7 @@ function Contact() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-cover bg-center h-64" style={{ backgroundImage: 'url(/assets/images/doctor_background.jpg)' }}>
+      <section className="relative bg-cover bg-center h-64" style={{ backgroundImage: 'url(./images/doctor_background.jpg)' }}>
         <div className="absolute inset-0 bg-black bg-opacity-20"></div>
         <div className="relative z-10 flex justify-center items-center h-full">
           <div className="text-center">

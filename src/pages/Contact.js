@@ -21,7 +21,7 @@ function Contact() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
+     
       <section className="relative bg-cover bg-center h-64" style={{ backgroundImage: 'url(./images/doctor_background.jpg)' }}>
         <div className="absolute inset-0 bg-black bg-opacity-20"></div>
         <div className="relative z-10 flex justify-center items-center h-full">
@@ -39,7 +39,7 @@ function Contact() {
         </div>
       </section>
 
-      {/* Contact Form */}
+   
       <section className="container mx-auto py-10">
         <h1 className="text-3xl font-bold text-center text-blue-700 mb-8">Contact Us</h1>
         <form className="max-w-md mx-auto p-4 bg-white shadow-md rounded-lg" onSubmit={handleSubmit}>
@@ -79,7 +79,7 @@ function Contact() {
         </form>
       </section>
 
-      {/* Contact Information */}
+    
       <section className="bg-white p-8">
         <h2 className="text-2xl font-bold text-center text-blue-800">Contact</h2>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
@@ -92,7 +92,7 @@ function Contact() {
         </div>
       </section>
 
-      {/* Footer Section */}
+      
       <footer className="bg-blue-500 text-white p-6 text-center">
         <p>&copy; 2025 ASIM MIAN</p>
         <div className="flex justify-center gap-4 mt-2">

@@ -38,7 +38,7 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
           </div>
         </nav>
       ) : (
-        <nav className="flex flex-col items-center w-100 h-100 pb-4 border-gray-300 bg-blue-900 text-white"> 
+        <nav className="flex flex-col items-center w-250 h-250 pb-4 border-gray-300 bg-blue-900 text-white"> 
           <div className="flex flex-col items-center">
             <p className="bg-gray-300 w-16 h-16 rounded-full flex items-center justify-center font-bold text-white text-2xl"> 
               <img src="./images/account2.png"></img>

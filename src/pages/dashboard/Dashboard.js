@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link } from 'react-router-dom';
+
+const contactInfo = [
+  { title: 'EMERGENCY', details: '0141 201 1100' },
+  { title: 'LOCATION', details: '1345 Govan Road, G51 4TF Glasgow UK' },
+  { title: 'EMAIL', details: 'info.qeht@nhs.net' },
+  { title: 'WORKING HOURS', details: 'Mon-Sat 09:00-20:00, Sunday Emergency only' },
+];
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
@@ -17,97 +24,106 @@ const Dashboard = () => {
   }
 
   return (
-    <>
-      <main className="flex h-full m-auto">
-        <div className="flex flex-col flex-wrap items-center justify-evenly">
-          <div className="font-[sans-serif] my-4">
-            <div className="max-w-5xl max-lg:max-w-2xl mx-auto">
-              <div className="max-w-2xl mx-auto text-center">
-                <h2 className="text-6xl font-semibold text-center text-blue-600 mb-4">
-                  Welcome, {userData.firstName} {userData.surname}!
-                </h2>
-                <p className="text-gray-600 text-sm mt-4 leading-relaxed">
-                  Welcome to your hospital portal! We're so happy you're here. This is your special space where you can find everything you need to know about your health and your visits. You’ll be able to see all your important details, explore fun activities, and get ready for your next adventure at the hospital. We're here to help you every step of the way—let's make sure you feel comfortable and excited!
-                </p>
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <section className="relative bg-cover bg-center h-64" style={{ backgroundImage: 'url(./images/doctor_background.jpg)' }}>
+        <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+        <div className="relative z-10 flex justify-center items-center h-full">
+          <div className="text-center">
+            <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded hover:bg-blue-600 transition duration-300">Book an Appointment</button>
+            <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded hover:bg-blue-600 transition duration-300">Book an MRI Scan</button>
+            <button className="bg-blue-500 text-white px-4 py-2 m-2 rounded hover:bg-blue-600 transition duration-300">Book an X-Ray</button>
+          </div>
+        </div>
+      </section>
+
+      {/* Cards Section */}
+      <section className="p-4">
+        <div className="grid lg:grid-cols-2 md:grid-cols-2 gap-4 justify-center mt-6">
+          {/* Account Management Card */}
+          <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm">
+            <div className="flex justify-end px-4 pt-4">
+              <button className="inline-block text-gray-500 hover:bg-gray-100 rounded-lg text-sm p-1.5">
+                <span className="sr-only">Open dropdown</span>
+                <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
+                  <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                </svg>
+              </button>
+            </div>
+            <div className="flex flex-col items-center pb-6">
+              <img
+                className="w-24 h-24 mb-3 rounded-full shadow-lg"
+                src={userData.hospital_account_img || './images/account2.png'}
+                alt="User profile"
+              />
+              <h5 className="mb-1 text-xl font-medium text-gray-900">{userData.firstName} {userData.surname}</h5>
+              <span className="text-sm text-gray-500">{userData.position}</span>
+              <div className="flex mt-4">
+                <Link
+                  to="/account"
+                  className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800"
+                >
+                  Manage Account Details
+                </Link>
               </div>
+            </div>
+          </div>
 
-              <div className="grid lg:grid-cols-2 md:grid-cols-2 gap-8 justify-center mt-12">
-                {/* First Card for Account Management */}
-                <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-                  <div className="flex justify-end px-4 pt-4">
-                    <button
-                      id="dropdownButton"
-                      data-dropdown-toggle="dropdown"
-                      className="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"
-                      type="button"
-                    >
-                      <span className="sr-only">Open dropdown</span>
-                      <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
-                        <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
-                      </svg>
-                    </button>
-                  </div>
-                  <div className="flex flex-col items-center pb-10">
-                    <img
-                      className="w-24 h-24 mb-3 rounded-full shadow-lg"
-                      src="./images/account2.png"
-                      alt="User profile"
-                    />
-                    <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">{userData.firstName} {userData.surname}</h5>
-                    <span className="text-sm text-gray-500 dark:text-gray-400">{userData.position}</span>
-                    <div className="flex mt-4 md:mt-6">
-                      {/* Use Link from react-router-dom for navigation */}
-                      <Link
-                        to="/account"
-                        className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                      >
-                        Manage Account Details
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Second Card for Games */}
-                <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-                  <div className="flex justify-end px-4 pt-4">
-                    <button
-                      id="dropdownButton"
-                      data-dropdown-toggle="dropdown"
-                      className="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"
-                      type="button"
-                    >
-                      <span className="sr-only">Open dropdown</span>
-                      <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
-                        <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
-                      </svg>
-                    </button>
-                  </div>
-                  <div className="flex flex-col items-center pb-10">
-                    <img
-                      className="w-24 h-24 mb-3 rounded-full shadow-lg"
-                      src="./images/games/food-theif.png"
-                      alt="Games"
-                    />
-                    <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">Games</h5>
-                    <span className="text-sm text-gray-500 dark:text-gray-400">Click here to enjoy fun and games!</span>
-                    <div className="flex mt-4 md:mt-6">
-                      {/* Use Link from react-router-dom for navigation */}
-                      <Link
-                        to="/games"
-                        className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                      >
-                        Go to Games
-                      </Link>
-                    </div>
-                  </div>
-                </div>
+          {/* Games Card */}
+          <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm">
+            <div className="flex justify-end px-4 pt-4">
+              <button className="inline-block text-gray-500 hover:bg-gray-100 rounded-lg text-sm p-1.5">
+                <span className="sr-only">Open dropdown</span>
+                <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
+                  <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                </svg>
+              </button>
+            </div>
+            <div className="flex flex-col items-center pb-6">
+              <img
+                className="w-24 h-24 mb-3 rounded-full shadow-lg"
+                src="./images/games/food-theif.png"
+                alt="Games"
+              />
+              <h5 className="mb-1 text-xl font-medium text-gray-900">Games</h5>
+              <span className="text-sm text-gray-500">Click here to enjoy fun and games!</span>
+              <div className="flex mt-4">
+                <Link
+                  to="/games"
+                  className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800"
+                >
+                  Go to Games
+                </Link>
               </div>
             </div>
           </div>
         </div>
-      </main>
-    </>
+      </section>
+
+     {/* Contact Section */}
+     <section className="bg-white-100 p-8">
+        <h2 className="text-2xl font-bold text-center text-blue-800">Contact</h2>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          {contactInfo.map((info, index) => (
+            <div key={index} className="bg-blue-400 text-white p-4 rounded-lg text-center">
+              <h3 className="font-bold text-lg">{info.title}</h3>
+              <p>{info.details}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Footer Section */}
+      <footer className="bg-blue-500 text-white p-6 text-center">
+        <p>&copy; 2025 ASIM MIAN</p>
+        <div className="flex justify-center gap-4 mt-2">
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="bg-white text-blue-500 p-2 rounded-full hover:bg-blue-100">LinkedIn</a>
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="bg-white text-blue-500 p-2 rounded-full hover:bg-blue-100">Facebook</a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="bg-white text-blue-500 p-2 rounded-full hover:bg-blue-100">Instagram</a>
+        </div>
+      </footer>
+    </div>
   );
-};
+}
 
 export default Dashboard;

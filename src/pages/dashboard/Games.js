@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
 const Games = () => {
   const [games, setGames] = useState([]); // State to hold games data
@@ -10,16 +9,56 @@ const Games = () => {
     // Fetch the games from the backend API
     const fetchGames = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/games"); 
+        console.log("Attempting to fetch games from: http://localhost:5000/api/games");
+        const response = await fetch("http://localhost:5000/api/games");
+
+        // Log the response status
+        console.log("Response status:", response.status);
+        console.log("Response headers:", [...response.headers.entries()]);
+
+        // Check if the response is OK
         if (!response.ok) {
-          throw new Error("Failed to fetch games");
+          const errorText = await response.text();
+          console.error("Error response body:", errorText);
+          throw new Error(`Failed to fetch games: ${response.status} ${response.statusText}`);
         }
+
         const data = await response.json();
-        setGames(data); // Store the games data
+        console.log("Games data received:", data);
+        console.log("Type of data:", typeof data);
+        console.log("Is array:", Array.isArray(data));
+        console.log("Data length:", data ? data.length : 0);
+
+        // Check if data is an array
+        if (Array.isArray(data) && data.length > 0) {
+          setGames(data); // Store the games data if it's valid
+        } else {
+          console.warn("Data is not an array or is empty:", data);
+          setGames([]); // If the data is not an array or is empty, clear the games state
+        }
       } catch (err) {
-        setError(err.message);
+        console.error("Error fetching games:", err);
+        setError(err.message); // Set the error state if something goes wrong
+        
+        // Fallback to alternative endpoint
+        try {
+          console.log("Attempting fallback fetch from: http://localhost:5000/api/games-file");
+          const fallbackResponse = await fetch("http://localhost:5000/api/games-file");
+          
+          if (fallbackResponse.ok) {
+            const fallbackData = await fallbackResponse.json();
+            console.log("Fallback data received:", fallbackData);
+            
+            if (Array.isArray(fallbackData) && fallbackData.length > 0) {
+              setGames(fallbackData);
+              setError(null); // Clear error if fallback succeeds
+            }
+          }
+        } catch (fallbackErr) {
+          console.error("Fallback fetch also failed:", fallbackErr);
+        }
       } finally {
-        setLoading(false);
+        setLoading(false); // Stop loading once the data is fetched or error occurred
       }
     };
 
@@ -34,12 +73,9 @@ const Games = () => {
     return <p>Error: {error}</p>;
   }
 
-  const contactInfo = [
-    { title: 'EMERGENCY', details: '0141 201 1100' },
-    { title: 'LOCATION', details: '1345 Govan Road, G51 4TF Glasgow UK' },
-    { title: 'EMAIL', details: 'info.qeht@nhs.net' },
-    { title: 'WORKING HOURS', details: 'Mon-Sat 09:00-20:00, Sunday Emergency only' },
-  ];
+  if (games.length === 0) {
+    return <p>No games available. Please check the server configuration.</p>;
+  }
 
   return (
     <main className="flex flex-col h-full">
@@ -47,12 +83,15 @@ const Games = () => {
       <div className="games-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
         {games.map((game) => (
           <div key={game.id} className="game-card bg-white shadow rounded-lg overflow-hidden">
-            {/* we don't use link for external URL's, <Link>is for internal routing */}
             <a href={game.game_url} target="_blank" rel="noopener noreferrer">
               <img
                 src={game.game_img}
                 alt={game.name}
                 className="w-full h-48 object-cover"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "/assets/images/placeholder.png";
+                }}
               />
               <div className="p-4">
                 <h3 className="text-lg font-semibold text-gray-900">{game.name}</h3>
@@ -65,48 +104,6 @@ const Games = () => {
           </div>
         ))}
       </div>
-
-      <section className="bg-white-100 p-8">
-        <h2 className="text-2xl font-bold text-center text-blue-800">Contact</h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          {contactInfo.map((info, index) => (
-            <div key={index} className="bg-blue-400 text-white p-4 rounded-lg text-center">
-              <h3 className="font-bold text-lg">{info.title}</h3>
-              <p>{info.details}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <footer className="bg-blue-500 text-white p-6 text-center">
-        <p>&copy; 2025 ASIM MIAN</p>
-        <div className="flex justify-center gap-4 mt-2">
-          <a
-            href="https://linkedin.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-white text-blue-500 p-2 rounded-full hover:bg-blue-100"
-          >
-            LinkedIn
-          </a>
-          <a
-            href="https://facebook.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-white text-blue-500 p-2 rounded-full hover:bg-blue-100"
-          >
-            Facebook
-          </a>
-          <a
-            href="https://instagram.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-white text-blue-500 p-2 rounded-full hover:bg-blue-100"
-          >
-            Instagram
-          </a>
-        </div>
-      </footer>
     </main>
   );
 };

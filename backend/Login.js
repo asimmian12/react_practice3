@@ -7,16 +7,35 @@ require('dotenv').config();
 
 const router = express.Router();
 
+// Correctly define the path to departments.json
+const departmentsPath = path.join(__dirname, 'routes', 'json', 'departments.json');
+
 // Load departments.json
-const departments = JSON.parse(
-  fs.readFileSync(path.join(__dirname, 'json', 'departments.json'), 'utf-8')
-);
+let departments;
+try {
+  departments = JSON.parse(fs.readFileSync(departmentsPath, 'utf8'));
+} catch (err) {
+  console.error('Error loading departments.json:', err);
+  departments = []; // Fallback to an empty array if loading the file fails
+}
+
+// Correctly define the path to departments.json
+const gamesPath = path.join(__dirname, 'routes', 'json', 'games.json');
+
+// Load departments.json
+let games;
+try {
+  games = JSON.parse(fs.readFileSync(gamesPath, 'utf8'));
+} catch (err) {
+  console.error('Error loading games.json:', err);
+  games = []; // Fallback to an empty array if loading the file fails
+}
 
 // Create MySQL connection using environment variables
 const db = mysql.createConnection({
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'admin',
-  password: process.env.DB_PASSWORD || 'password', 
+  password: process.env.DB_PASSWORD || 'password',
   database: process.env.DB_NAME || 'hospital',
   port: process.env.DB_PORT || 3306
 });
@@ -88,5 +107,3 @@ router.post('/', async (req, res) => {
 });
 
 module.exports = router;
-
-

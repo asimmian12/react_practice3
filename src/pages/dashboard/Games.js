@@ -10,7 +10,7 @@ const Games = () => {
     // Fetch the games from the backend API
     const fetchGames = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/games"); // Replace with your backend URL
+        const response = await fetch("http://localhost:5000/api/games"); 
         if (!response.ok) {
           throw new Error("Failed to fetch games");
         }

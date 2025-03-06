@@ -22,6 +22,7 @@ function Sidenav() {
         <ul class="space-y-3 flex-1">
           <li>
             <a
+              // The javascript:void(0) is a JavaScript expression that ensures the page doesn't reload or redirect when the link is clicked. It essentially "does nothing" and can be useful when the <a> tag is used as a placeholder or for triggering JavaScript functionality without causing any page navigation.
               href="javascript:void(0)"
               class="text-gray-300 hover:text-white text-sm flex items-center hover:bg-[#36336b] rounded px-4 py-3 transition-all"
             >
@@ -41,6 +42,7 @@ function Sidenav() {
           </li>
           <li>
             <a
+              // The javascript:void(0) is a JavaScript expression that ensures the page doesn't reload or redirect when the link is clicked. It essentially "does nothing" and can be useful when the <a> tag is used as a placeholder or for triggering JavaScript functionality without causing any page navigation.
               href="javascript:void(0)"
               class="text-gray-300 hover:text-white text-sm flex items-center hover:bg-[#36336b] rounded px-4 py-3 transition-all"
             >
@@ -60,6 +62,7 @@ function Sidenav() {
           </li>
           <li>
             <a
+              // The javascript:void(0) is a JavaScript expression that ensures the page doesn't reload or redirect when the link is clicked. It essentially "does nothing" and can be useful when the <a> tag is used as a placeholder or for triggering JavaScript functionality without causing any page navigation.
               href="javascript:void(0)"
               class="text-gray-300 hover:text-white text-sm flex items-center hover:bg-[#36336b] rounded px-4 py-3 transition-all"
             >
@@ -87,6 +90,7 @@ function Sidenav() {
           </li>
           <li>
             <a
+              // The javascript:void(0) is a JavaScript expression that ensures the page doesn't reload or redirect when the link is clicked. It essentially "does nothing" and can be useful when the <a> tag is used as a placeholder or for triggering JavaScript functionality without causing any page navigation.
               href="javascript:void(0)"
               class="text-gray-300 hover:text-white text-sm flex items-center hover:bg-[#36336b] rounded px-4 py-3 transition-all"
             >

@@ -51,7 +51,7 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
 
           <hr className="my-6 border-gray-400" />
 
-          <ul className="space-y-4"> {/* Increased space between items */}
+          <ul className="space-y-4"> 
             <li><Link to="/dashboard" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">Dashboard</Link></li>
             <li><Link to="/account" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">Account</Link></li>
             <li><Link to="/About" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">About</Link></li>

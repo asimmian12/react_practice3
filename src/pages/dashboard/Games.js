@@ -79,24 +79,26 @@ const Games = () => {
 
   return (
     <main className="flex flex-col h-full">
-      <div>Show all games</div>
-      <div className="games-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
+      <div className="games-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
         {games.map((game) => (
-          <div key={game.id} className="game-card bg-white shadow rounded-lg overflow-hidden">
+          <div
+            key={game.id}
+            className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 overflow-hidden transition-transform duration-500 ease-[cubic-bezier(0.175,_0.885,_0.32,_1.275)] hover:scale-105"
+          >
             <a href={game.game_url} target="_blank" rel="noopener noreferrer">
               <img
                 src={game.game_img}
                 alt={game.name}
-                className="w-full h-48 object-cover"
+                className="w-full h-48 object-cover rounded-t-lg"
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = "./images/fruit-ninja.png";
                 }}
               />
               <div className="p-4">
-                <h3 className="text-lg font-semibold text-gray-900">{game.name}</h3>
-                <p className="text-gray-700 text-sm mt-2">{game.details}</p>
-                <p className="text-gray-500 text-sm mt-2">
+                <h3 className="text-lg font-semibold text-white-900 dark:text-white truncate">{game.name}</h3>
+                <p className="text-white truncate text-sm mt-2">{game.details}</p>
+                <p className="text-white truncate text-sm mt-2">
                   Age Restriction: {game.age_restriction}+
                 </p>
               </div>
@@ -104,6 +106,7 @@ const Games = () => {
           </div>
         ))}
       </div>
+      <button className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mb-6 w-auto mx-auto" onClick={() => { console.log("Show all games button clicked"); }}>Show all games</button>
     </main>
   );
 };

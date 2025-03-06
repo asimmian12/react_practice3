@@ -19,9 +19,9 @@ const Appointment = () => {
       <div className="flex justify-center my-10">
         <div className="bg-blue-500 text-white p-6 rounded-lg shadow-md w-80">
           <h2 className="text-lg font-bold mb-4">Appointment</h2>
-          <input type="text" placeholder="Name" className="w-full p-2 mb-2 rounded text-black" />
-          <input type="email" placeholder="Email" className="w-full p-2 mb-2 rounded text-black" />
-          <input type="tel" placeholder="Phone" className="w-full p-2 mb-2 rounded text-black" />
+          <input type="text" placeholder="Name" className="w-full p-2 mb-2 rounded text-black" required/>
+          <input type="email" placeholder="Email" className="w-full p-2 mb-2 rounded text-black" required/>
+          <input type="tel" placeholder="Phone" className="w-full p-2 mb-2 rounded text-black" required/>
           <textarea placeholder="Message" className="w-full p-2 mb-2 rounded text-black"></textarea>
           <button className="w-full bg-yellow-400 p-2 mt-2 rounded hover:bg-blue-600 transition duration-300">Submit</button>
         </div>

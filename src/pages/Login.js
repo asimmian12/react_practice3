@@ -58,6 +58,7 @@ function Login({ setIsLoggedIn }) {
       </section>
 
       <div className="min-h-screen bg-white">
+      <h1 className="text-3xl font-bold text-center text-blue-700 mb-8">Login</h1>
         {isLoading && <div className="loading-indicator">Loading...</div>}  {/* Add loading message or spinner */}
         {/* Login Form */}
         <form className="max-w-sm mx-auto p-6" onSubmit={handleSubmit}>

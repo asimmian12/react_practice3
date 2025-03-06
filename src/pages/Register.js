@@ -89,7 +89,8 @@ function Register() {
           </div>
         </div>
       </section>
-
+      
+      <h1 className="text-3xl font-bold text-center text-blue-700 mb-8">Register</h1>
       <form onSubmit={handleSubmit} className="max-w-sm mx-auto p-6">
         <h4 className="text-gray-600 text-base mb-4">Register to access the hospital portal</h4>
         <div className="mb-5">

@@ -45,7 +45,7 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
             </p>
             <div className="text-center mt-2">
               <p className="text-lg">{userData?.firstName}</p>
-              <p className="text-xs text-white-500">Patient ID: {userData?.hospital_number}</p>
+              <p className="text-xs text-white-500">Hospital Patient ID: {userData?.hospital_number}</p>
             </div>
           </div>
 

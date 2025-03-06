@@ -23,8 +23,7 @@ const Dashboard = () => {
   <div class="font-[sans-serif] my-4">
             <div class="max-w-5xl max-lg:max-w-2xl mx-auto">
                 <div class="max-w-2xl mx-auto text-center">
-                    <h2 class="text-gray-800 text-4xl font-extrabold">Welcome, {userData.firstName} {userData.surname}!
-                    </h2>
+                    <h2 class="text-6xl font-semibold text-center text-blue-600 mb-4">Welcome, {userData.firstName} {userData.surname}!</h2>
                     <p class="text-gray-600 text-sm mt-4 leading-relaxed">Welcome to your hospital portal! We're so happy you're here. This is your special space where you can find everything you need to know about your health and your visits. You’ll be able to see all your important details, explore fun activities, and get ready for your next adventure at the hospital. We're here to help you every step of the way—let's make sure you feel comfortable and excited!</p>
                 </div>
                 <div class="grid lg:grid-cols-2 md:grid-cols-2 gap-8 justify-center mt-12">

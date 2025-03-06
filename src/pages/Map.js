@@ -17,7 +17,7 @@ const Map = () => {
       
       {/* Map Title */}
       <div className="text-center py-4">
-        <h1 className="text-4xl font-semibold">Map</h1>
+        <h1 className="text-2xl font-semibold text-center text-blue-600 mb-4">Map</h1>
       </div>
 
        {/* Hospital Map Images */}

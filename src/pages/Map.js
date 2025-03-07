@@ -29,10 +29,11 @@ const Map = () => {
           </div>
         </div>
       </section>
-    
+      
+      <h1 className="text-2xl font-bold text-blue-800">Map</h1>
       {/* Carousel Section */}
-      <div id="animation-carousel" className="relative w-full">
-        <div className="relative h-72 overflow-hidden rounded-lg md:h-80">
+      <div id="animation-carousel" className="relative w-full max-w-lg mx-auto">
+        <div className="relative h-48 overflow-hidden rounded-lg md:h-56">
           {/* Slide 1 */}
           <div className={`absolute duration-200 ease-linear w-full h-full ${activeSlide === 0 ? 'block' : 'hidden'}`}>
             <img src="/images/hospital_map.jpg" alt="Hospital Map" className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 max-w-full h-full object-cover" />

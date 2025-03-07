@@ -3,22 +3,35 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "axios": "^1.7.9",
+    "assert": "^2.1.0",
+    "axios": "^1.8.1",
     "bcrypt": "^5.1.1",
+    "browserify-zlib": "^0.2.0",
     "cors": "^2.8.5",
     "cra-template": "1.2.0",
+    "css-loader": "^7.1.2",
+    "flowbite": "^3.1.2",
     "framer-motion": "^11.18.1",
+    "https-browserify": "^1.0.0",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.474.0",
     "motion": "^11.18.1",
     "mysql2": "^3.12.0",
+    "postcss-loader": "^8.1.1",
     "preline": "^2.7.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.1.1",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "react-transition-group": "^4.4.5",
-    "web-vitals": "^4.2.4"
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "style-loader": "^4.0.0",
+    "url": "^0.11.4",
+    "util": "^0.12.5",
+    "web-vitals": "^4.2.4",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -45,6 +58,13 @@
     ]
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "autoprefixer": "^10.4.20",
+    "buffer": "^6.0.3",
+    "customize-cra": "^1.0.0",
+    "nodemon": "^3.1.9",
+    "postcss": "^8.5.3",
+    "process": "^0.11.10",
+    "react-app-rewired": "^2.2.1",
+    "tailwindcss": "^4.0.11"
   }
 }

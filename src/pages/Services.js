@@ -40,7 +40,7 @@ const Service = () => {
               <h2 className="text-xl font-semibold text-blue-600 mb-2">{service.title}</h2>
               <p className="text-gray-600">{service.desc}</p>
               <button className="mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md">
-                Learn More
+                <a href="https://forms.office.com/e/UJHzzBQwja">Learn More</a>
               </button>
             </div>
           ))}

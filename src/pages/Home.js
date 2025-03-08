@@ -32,7 +32,7 @@ const Home = () => {
         <div className="p-4 bg-blue-100">
           <h3 className="text-xl font-semibold text-blue-700">{doctor.name}</h3>
           <p className="text-gray-600">{doctor.specialty}</p>
-          <button className="mt-2 bg-yellow-400 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300">View Profile</button>
+          <button className="mt-2 bg-yellow-400 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"><a href="https://forms.office.com/e/DygXuhpVFt">View Profile</a></button>
         </div>
       </div>
     ))}

@@ -60,7 +60,7 @@ const About = () => {
               </div>
               
             <div className="bg-yellow-300 text-center p-2 hover:bg-blue-600 transition duration-300">
-              <button className="text-white font-semibold hover:underline">View Profile</button>
+              <button className="text-white font-semibold"><a href="https://forms.office.com/e/DygXuhpVFt">View Profile</a></button>
               </div>
             </div>
           ))}

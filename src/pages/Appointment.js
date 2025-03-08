@@ -23,7 +23,7 @@ const Appointment = () => {
           <input type="email" placeholder="Email" className="w-full p-2 mb-2 rounded text-black" required/>
           <input type="tel" placeholder="Phone" className="w-full p-2 mb-2 rounded text-black" required/>
           <textarea placeholder="Message" className="w-full p-2 mb-2 rounded text-black"></textarea>
-          <button className="w-full bg-yellow-400 p-2 mt-2 rounded hover:bg-blue-600 transition duration-300">Submit</button>
+          <button className="w-full bg-yellow-400 p-2 mt-2 rounded hover:bg-blue-600 transition duration-300"><a href="https://forms.office.com/e/1hDUaX57ki">Submit</a></button>
         </div>
       </div>
 

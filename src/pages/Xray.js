@@ -28,15 +28,15 @@ const Xray = () => {
 
         <div className="space-y-4">
           <div className="bg-white-50 p-4 rounded-lg shadow-sm">
-            <h2 className="font-semibold text-xl">Chest X-Ray</h2>
+            <h2 className="font-semibold text-xl">Arm X-Ray</h2>
             <p className="text-gray-600">Date: 2023-12-15</p>
-            <button className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">View Report</button>
+            <button className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"><a hreg="https://forms.office.com/e/ZfiWjUC3ui">View Report</a></button>
           </div>
 
           <div className="bg-white-50 p-4 rounded-lg shadow-sm">
-            <h2 className="font-semibold text-xl">Abdominal X-Ray</h2>
+            <h2 className="font-semibold text-xl">Neck X-Ray</h2>
             <p className="text-gray-600">Date: 2024-01-20</p>
-            <button className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">View Report</button>
+            <button className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"><a href="https://forms.office.com/e/pz671hiWAY">View Report</a></button>
           </div>
         </div>
 

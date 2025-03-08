@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import Confetti from "react-confetti";
 
 const Games = () => {
   const [games, setGames] = useState([]); // State to hold games data
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
+  const [confetti, setConfetti] = useState(false); // Confetti trigger state
 
   useEffect(() => {
     // Fetch the games from the backend API
@@ -65,6 +67,19 @@ const Games = () => {
     fetchGames();
   }, []); // Empty dependency array ensures this runs only once
 
+  const handleCardClick = (event, gameUrl) => {
+    event.preventDefault(); // Prevent immediate navigation
+
+    // Trigger confetti animation
+    setConfetti(true);
+
+    // Delay the navigation to allow the animation to complete
+    setTimeout(() => {
+      setConfetti(false); // Reset confetti state
+      window.location.href = gameUrl; // Redirect to the game page
+    }, 2000); // Duration of confetti animation (adjust based on confetti behavior)
+  };
+
   if (loading) {
     return <p>Loading games...</p>;
   }
@@ -79,11 +94,15 @@ const Games = () => {
 
   return (
     <main className="flex flex-col h-full">
+      {/* Render Confetti when triggered */}
+      {confetti && <Confetti recycle={false} numberOfPieces={200} />}
+
       <div className="games-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
         {games.map((game) => (
           <div
             key={game.id}
             className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 overflow-hidden transition-transform duration-500 ease-[cubic-bezier(0.175,_0.885,_0.32,_1.275)] hover:scale-105"
+            onClick={(e) => handleCardClick(e, game.game_url)}
           >
             <a href={game.game_url} target="_blank" rel="noopener noreferrer">
               <img

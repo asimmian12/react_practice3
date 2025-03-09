@@ -91,7 +91,6 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
             <li><Link to="/account" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">Account</Link></li>
             <li><Link to="/About" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">About</Link></li>
 
-            {/* Conditionally render Games link if eligible */}
             {isEligibleForGames && (
               <li><Link to="/games" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">Games</Link></li>
             )}
@@ -102,7 +101,6 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
             <li><Link to="/Services" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">Services</Link></li>
             <li><Link to="/Contact" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">Contact</Link></li>
 
-            {/* PROFILE DROPDOWN */}
             <li>
               <button
                 onClick={() => setIsProfileOpen(!isProfileOpen)}

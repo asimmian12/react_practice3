@@ -82,17 +82,17 @@ const Dashboard = () => {
             <div className="flex flex-col items-center pb-6">
               <img
                 className="w-24 h-24 mb-3 rounded-full shadow-lg"
-                src="./images/food-theif.png"
-                alt="Games"
+                alt="Appointment"
+                src='./images/account2.png'
               />
-              <h5 className="mb-1 text-xl font-medium text-gray-900">Games</h5>
-              <span className="text-sm text-gray-500">Click here to enjoy fun and games!</span>
+              <h5 className="mb-1 text-xl font-medium text-gray-900">Appointment</h5>
+              <span className="text-sm text-gray-500">Click here to book an appointment!</span>
               <div className="flex mt-4">
                 <Link
-                  to="/games"
+                  to="/appointment"
                   className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800"
                 >
-                  Go to Games
+                  Go to Appointment
                 </Link>
               </div>
             </div>

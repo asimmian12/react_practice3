@@ -1,6 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Appointment = () => {
+  const [userData, setUserData] = useState(null);
+  
+  useEffect(() => {
+    // Retrieve the user data from localStorage
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+        setUserData(JSON.parse(storedUser));
+    }
+    }, []);
+  
+  if (!userData) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -15,18 +29,18 @@ const Appointment = () => {
         </div>
       </section>
 
-      {/* Appointment Form */}
-      <div className="flex justify-center my-10">
-        <div className="bg-blue-500 text-white p-6 rounded-lg shadow-md w-80">
-          <h2 className="text-lg font-bold mb-4">Appointment</h2>
-          <input type="text" placeholder="Name" className="w-full p-2 mb-2 rounded text-black" required/>
-          <input type="email" placeholder="Email" className="w-full p-2 mb-2 rounded text-black" required/>
-          <input type="tel" placeholder="Phone" className="w-full p-2 mb-2 rounded text-black" required/>
-          <textarea placeholder="Message" className="w-full p-2 mb-2 rounded text-black"></textarea>
-          <button className="w-full bg-yellow-400 p-2 mt-2 rounded hover:bg-blue-600 transition duration-300"><a href="https://forms.office.com/e/1hDUaX57ki">Submit</a></button>
-        </div>
-      </div>
-
+      <p>Hi {userData.firstName}, {userData.surname} Welcome to our clyde portal hospital</p>
+      <br></br>
+      <p>Last Active:  {userData.created_at}</p>
+      <br></br>
+      <p>Telephone: {userData.telephone_number}</p>
+      <br></br>
+      <p>Your upcoming appointment is with is listed below</p>
+      <br></br>
+      <p>The department Name:  {userData.department_name}</p>
+      <br></br>
+      <p>The department details:  {userData.details}</p>
+      
       {/* Schedule Hours Section */}
       <div className="flex items-center justify-center min-h-screen bg-white-100 p-6">
         <div className="bg-blue-400 p-6 rounded-xl w-full max-w-md h-auto text-center">

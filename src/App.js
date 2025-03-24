@@ -7,12 +7,9 @@ import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Map from './pages/Map';
-import Profile from './pages/Profile';
-import MRI from './pages/Mri';
 import About from './pages/About';
 import Doctor from './pages/Doctor';
 import Services from './pages/Services';
-import Xray from './pages/Xray';
 import Dashboard from './pages/Dashboard';
 import Account from './pages/Account';
 import Games from './pages/Games';
@@ -60,9 +57,6 @@ function App() {
             <Route path="/Map" element={<Map />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/appointment" element={<Appointment />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/Xray" element={<Xray />} />
-            <Route path="/Mri" element={<MRI />} />
             <Route path="/Doctor" element={<Doctor />} />
             <Route path="/About" element={<About />} />
             <Route path="/Services" element={<Services />} />

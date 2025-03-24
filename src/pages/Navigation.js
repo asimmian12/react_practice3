@@ -90,37 +90,14 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
             <li><Link to="/dashboard" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">Dashboard</Link></li>
             <li><Link to="/account" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">Account</Link></li>
             <li><Link to="/About" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">About</Link></li>
-
-            {isEligibleForGames && (
-              <li><Link to="/games" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">Games</Link></li>
-            )}
-
             <li><Link to="/Map" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">Map</Link></li>
+            <li><Link to="/games" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">Games</Link></li>
             <li><Link to="/Appointment" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">Appointment</Link></li>
             <li><Link to="/Doctor" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">Doctor</Link></li>
             <li><Link to="/Services" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">Services</Link></li>
             <li><Link to="/Contact" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">Contact</Link></li>
 
-            <li>
-              <button
-                onClick={() => setIsProfileOpen(!isProfileOpen)}
-                className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md w-full text-left flex items-center justify-between"
-              >
-                Profile
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-
-              {isProfileOpen && (
-                <ul className="ml-4 space-y-2">
-                  <li><Link to="/Profile" className="block hover:bg-[#4a4a6a] px-4 py-2 text-lg rounded">Profile Overview</Link></li>
-                  <li><Link to="/Mri" className="block hover:bg-[#4a4a6a] px-4 py-2 text-lg rounded">MRI</Link></li>
-                  <li><Link to="/Xray" className="block hover:bg-[#4a4a6a] px-4 py-2 text-lg rounded">X-Ray</Link></li>
-                </ul>
-              )}
-            </li>
-
+  
             <li><button onClick={handleLogout} className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md w-full text-left">Logout</button></li>
           </ul>
         </nav>

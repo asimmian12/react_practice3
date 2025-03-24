@@ -45,7 +45,7 @@ const Account = () => {
      
       <section className="p-4">
         <section className="text-center my-8">
-          <h1 className="text-2xl font-bold text-blue-800">Manage Your Account</h1>
+          <h1 className="text-2xl font-bold text-blue-800">View Your Account</h1>
           <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-8">
            
             <div className="flex justify-center mb-6">
@@ -80,15 +80,9 @@ const Account = () => {
               </div>
 
               
-              <a
-              href="https://forms.office.com/e/hhGqujh4Uh"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 mt-6 text-center block"
-              >
+              <div className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 mt-6 text-center block">
                 Edit Profile
-              </a>
-
+              </div>  
             </div>
           </div>
         </section>

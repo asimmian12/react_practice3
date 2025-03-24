@@ -29,7 +29,7 @@ const Appointment = () => {
         </div>
       </section>
 
-      <p>Hi {userData.firstName}, {userData.surname} Welcome to our clyde portal hospital</p>
+      <p>Hi {userData.firstName} {userData.surname} Welcome to our clyde portal hospital</p>
       <br></br>
       <p>Last Active:  {userData.created_at}</p>
       <br></br>
@@ -40,6 +40,7 @@ const Appointment = () => {
       <p>The department Name:  {userData.department_name}</p>
       <br></br>
       <p>The department details:  {userData.details}</p>
+      <p>Your doctor is with:  {userData.doctor}</p>
       
       {/* Schedule Hours Section */}
       <div className="flex items-center justify-center min-h-screen bg-white-100 p-6">

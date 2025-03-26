@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 
 const Navigation = ({ isLoggedIn, handleLogout }) => {
   const [userData, setUserData] = useState(null);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [isEligibleForGames, setIsEligibleForGames] = useState(false); 
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -22,23 +20,23 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
           return;
         }
 
-        const today = new Date();
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const monthDiff = today.getMonth() - birthDate.getMonth();
+        // const today = new Date();
+        // let age = today.getFullYear() - birthDate.getFullYear();
+        // const monthDiff = today.getMonth() - birthDate.getMonth();
 
-        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-          age--;
-        }
+        // if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        //   age--;
+        // }
 
-        console.log("Calculated Age:", age);
-        setIsEligibleForGames(age < 6);
+        // console.log("Calculated Age:", age);
+        // setIsEligibleForGames(age < 6);
       }
     }
   }, []);
 
   const handleOutsideClick = (e) => {
     if (!e.target.closest("nav")) {
-      setIsProfileOpen(false);
+      // setIsProfileOpen(false);
     }
   };
 

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.2
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 09, 2025 at 08:54 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.1.25
+-- Host: localhost:3306
+-- Generation Time: Mar 26, 2025 at 03:42 AM
+-- Server version: 8.4.3
+-- PHP Version: 8.3.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,8 +28,8 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `departments` (
-  `id` int(11) NOT NULL,
-  `name` varchar(32) NOT NULL
+  `id` int NOT NULL,
+  `name` varchar(32) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -49,17 +49,17 @@ INSERT INTO `departments` (`id`, `name`) VALUES
 --
 
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `firstName` varchar(50) NOT NULL,
-  `surname` varchar(50) NOT NULL,
+  `id` int NOT NULL,
+  `firstName` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `surname` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `dob` date DEFAULT NULL,
-  `hospital_number` varchar(20) DEFAULT NULL,
-  `email` varchar(100) NOT NULL,
-  `department_id` int(11) DEFAULT NULL,
-  `department_name` varchar(100) DEFAULT NULL,
-  `telephone_number` varchar(15) DEFAULT NULL,
-  `password` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp()
+  `hospital_number` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `department_id` int DEFAULT NULL,
+  `department_name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `telephone_number` varchar(15) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -68,7 +68,28 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `firstName`, `surname`, `dob`, `hospital_number`, `email`, `department_id`, `department_name`, `telephone_number`, `password`, `created_at`) VALUES
 (7, 'Asim', 'Mian', '2002-12-31', '1', '20273835@myclyde.ac.uk', 1, 'Cardiology', '0141 383 6089', '$2b$10$5QVGzx3rMq19Cht4h72p5uPSc41d0MNbQcY96VxM1l6NCE.zm3W9C', '2025-02-10 14:42:18'),
-(17, 'Iain', 'Shaw', '1222-04-04', '124', 'ishaw@gmail.com', 2, 'Neurology', '01414532321', '$2b$10$VwrUNBmeykOK.cWmEj3zbupzdQgmX4qFMmLwfyvfJfYPqNlO5SSba', '2025-02-17 14:35:04');
+(17, 'Iain', 'Shaw', '1222-04-04', '124', 'ishaw@gmail.com', 2, 'Neurology', '01414532321', '$2b$10$VwrUNBmeykOK.cWmEj3zbupzdQgmX4qFMmLwfyvfJfYPqNlO5SSba', '2025-02-17 14:35:04'),
+(18, 'David', 'Stewart', '1965-12-18', '125', 'dstewart@gmail.com', 1, 'Cardiology', '01415834532', '$2b$10$WDnB4gFaU4f2SluHa2fq3OO8kR6tp/awbDbvr25BGJ57KiTfpja2m', '2025-03-26 02:17:48');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

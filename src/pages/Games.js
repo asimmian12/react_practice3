@@ -1,131 +1,245 @@
 import React, { useEffect, useState } from "react";
 import Confetti from "react-confetti";
+import { Heart, Filter, Search, X, Star } from "lucide-react";
 
 const Games = () => {
-  const [games, setGames] = useState([]); // State to hold games data
-  const [loading, setLoading] = useState(true); // Loading state
-  const [error, setError] = useState(null); // Error state
-  const [confetti, setConfetti] = useState(false); // Confetti trigger state
+  const [games, setGames] = useState([]); // Original games data
+  const [displayedGames, setDisplayedGames] = useState([]); // Games to display
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [confetti, setConfetti] = useState(false);
+  
+  // New interactive state
+  const [favorites, setFavorites] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [ageFilter, setAgeFilter] = useState(null);
+  const [showFilters, setShowFilters] = useState(false);
+  const [visibleGames, setVisibleGames] = useState(8); // Pagination
 
   useEffect(() => {
-    // Fetch the games from the backend API
     const fetchGames = async () => {
       try {
-        console.log("Attempting to fetch games from: http://localhost:5000/api/games");
         const response = await fetch("http://localhost:5000/api/games");
-
-        // Log the response status
-        console.log("Response status:", response.status);
-        console.log("Response headers:", [...response.headers.entries()]);
-
-        // Check if the response is OK
+        
         if (!response.ok) {
-          const errorText = await response.text();
-          console.error("Error response body:", errorText);
-          throw new Error(`Failed to fetch games: ${response.status} ${response.statusText}`);
+          throw new Error(`Failed to fetch games: ${response.status}`);
         }
 
         const data = await response.json();
-        console.log("Games data received:", data);
-        console.log("Type of data:", typeof data);
-        console.log("Is array:", Array.isArray(data));
-        console.log("Data length:", data ? data.length : 0);
-
-        // Check if data is an array
+        
         if (Array.isArray(data) && data.length > 0) {
-          setGames(data); // Store the games data if it's valid
-        } else {
-          console.warn("Data is not an array or is empty:", data);
-          setGames([]); // If the data is not an array or is empty, clear the games state
+          setGames(data);
+          setDisplayedGames(data);
         }
       } catch (err) {
-        console.error("Error fetching games:", err);
-        setError(err.message); // Set the error state if something goes wrong
-        
-        // Fallback to alternative endpoint
-        try {
-          console.log("Attempting fallback fetch from: http://localhost:5000/api/games-file");
-          const fallbackResponse = await fetch("http://localhost:5000/api/games-file");
-          
-          if (fallbackResponse.ok) {
-            const fallbackData = await fallbackResponse.json();
-            console.log("Fallback data received:", fallbackData);
-            
-            if (Array.isArray(fallbackData) && fallbackData.length > 0) {
-              setGames(fallbackData);
-              setError(null); // Clear error if fallback succeeds
-            }
-          }
-        } catch (fallbackErr) {
-          console.error("Fallback fetch also failed:", fallbackErr);
-        }
+        setError(err.message);
       } finally {
-        setLoading(false); // Stop loading once the data is fetched or error occurred
+        setLoading(false);
       }
     };
 
     fetchGames();
-  }, []); // Empty dependency array ensures this runs only once
+  }, []);
 
+  // Interactive game card click handler
   const handleCardClick = (event, gameUrl) => {
-    event.preventDefault(); // Prevent immediate navigation
-
-    // Trigger confetti animation
+    event.preventDefault();
     setConfetti(true);
 
-    // Delay the navigation to allow the animation to complete
     setTimeout(() => {
-      setConfetti(false); // Reset confetti state
-      window.location.href = gameUrl; // Redirect to the game page
-    }, 2000); // Duration of confetti animation (adjust based on confetti behavior)
+      setConfetti(false);
+      window.location.href = gameUrl;
+    }, 2000);
+  };
+
+  // Favorite toggle handler
+  const toggleFavorite = (gameId) => {
+    setFavorites(prevFavorites => 
+      prevFavorites.includes(gameId)
+        ? prevFavorites.filter(id => id !== gameId)
+        : [...prevFavorites, gameId]
+    );
+  };
+
+  // Search and filter logic
+  useEffect(() => {
+    let filtered = games;
+
+    // Search filter
+    if (searchTerm) {
+      filtered = filtered.filter(game => 
+        game.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    // Age restriction filter
+    if (ageFilter) {
+      filtered = filtered.filter(game => 
+        parseInt(game.age_restriction) <= ageFilter
+      );
+    }
+
+    setDisplayedGames(filtered);
+  }, [searchTerm, ageFilter, games]);
+
+  // Load more games
+  const loadMoreGames = () => {
+    setVisibleGames(prev => prev + 4);
+  };
+
+  // Clear all filters
+  const clearFilters = () => {
+    setSearchTerm("");
+    setAgeFilter(null);
+    setShowFilters(false);
   };
 
   if (loading) {
-    return <p>Loading games...</p>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-blue-500"></div>
+      </div>
+    );
   }
 
   if (error) {
-    return <p>Error: {error}</p>;
-  }
-
-  if (games.length === 0) {
-    return <p>No games available. Please check the server configuration.</p>;
+    return (
+      <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+        <strong className="font-bold">Oops! </strong>
+        <span className="block sm:inline">{error}</span>
+      </div>
+    );
   }
 
   return (
-    <main className="flex flex-col h-full">
-      {/* Render Confetti when triggered */}
+    <main className="container mx-auto px-4 py-8">
+      {/* Confetti Animation */}
       {confetti && <Confetti recycle={false} numberOfPieces={200} />}
 
-      <div className="games-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
-        {games.map((game) => (
-          <div
-            key={game.id}
-            className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 overflow-hidden transition-transform duration-500 ease-[cubic-bezier(0.175,_0.885,_0.32,_1.275)] hover:scale-105"
-            onClick={(e) => handleCardClick(e, game.game_url)}
+      {/* Search and Filter Section */}
+      <div className="mb-6 flex flex-col md:flex-row gap-4">
+        <div className="relative flex-grow">
+          <input 
+            type="text" 
+            placeholder="Search games..." 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full p-2 pl-8 border rounded-lg"
+          />
+          <Search className="absolute left-2 top-3 text-gray-400" size={20} />
+        </div>
+
+        <div className="flex gap-2">
+          <button 
+            onClick={() => setShowFilters(!showFilters)}
+            className="bg-blue-500 text-white p-2 rounded-lg flex items-center"
           >
-            <a href={game.game_url} target="_blank" rel="noopener noreferrer">
+            <Filter size={20} className="mr-2" /> 
+            Filters
+          </button>
+
+          {(searchTerm || ageFilter) && (
+            <button 
+              onClick={clearFilters}
+              className="bg-red-500 text-white p-2 rounded-lg flex items-center"
+            >
+              <X size={20} className="mr-2" /> 
+              Clear
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Age Filter Dropdown */}
+      {showFilters && (
+        <div className="mb-6 flex items-center gap-4">
+          <label>Max Age Restriction:</label>
+          {[12, 16, 18].map(age => (
+            <button
+              key={age}
+              onClick={() => setAgeFilter(age)}
+              className={`
+                px-4 py-2 rounded-lg 
+                ${ageFilter === age 
+                  ? 'bg-blue-500 text-white' 
+                  : 'bg-gray-200 text-gray-700'}
+              `}
+            >
+              {age}+
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Games Grid */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {displayedGames.slice(0, visibleGames).map((game) => (
+          <div 
+            key={game.id} 
+            className="relative bg-white border rounded-lg shadow-md overflow-hidden group"
+          >
+            {/* Favorite Button */}
+            <button 
+              onClick={() => toggleFavorite(game.id)}
+              className="absolute top-2 right-2 z-10 bg-white/70 rounded-full p-1"
+            >
+              <Heart 
+                size={24} 
+                fill={favorites.includes(game.id) ? 'red' : 'none'}
+                stroke={favorites.includes(game.id) ? 'red' : 'black'}
+              />
+            </button>
+
+            <div 
+              onClick={(e) => handleCardClick(e, game.game_url)}
+              className="cursor-pointer"
+            >
               <img
                 src={game.game_img}
                 alt={game.name}
-                className="w-full h-48 object-cover rounded-t-lg"
+                className="w-full h-48 object-cover transition-transform group-hover:scale-110"
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = "./images/fruit-ninja.png";
                 }}
               />
               <div className="p-4">
-                <h3 className="text-lg font-semibold text-white-900 dark:text-white truncate">{game.name}</h3>
-                <p className="text-white truncate text-sm mt-2">{game.details}</p>
-                <p className="text-white truncate text-sm mt-2">
-                  Age Restriction: {game.age_restriction}+
+                <h3 className="text-lg font-semibold truncate flex items-center">
+                  {game.name}
+                  {favorites.includes(game.id) && (
+                    <Star size={16} fill="gold" className="ml-2" />
+                  )}
+                </h3>
+                <p className="text-gray-600 truncate text-sm mt-2">
+                  {game.details}
+                </p>
+                <p className="text-sm mt-2 bg-blue-100 rounded px-2 py-1 inline-block">
+                  Age: {game.age_restriction}+
                 </p>
               </div>
-            </a>
+            </div>
           </div>
         ))}
       </div>
-      <button className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mb-6 w-auto mx-auto">Show More Games</button>
+
+      {/* Load More Button */}
+      {visibleGames < displayedGames.length && (
+        <div className="text-center mt-8">
+          <button 
+            onClick={loadMoreGames}
+            className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition"
+          >
+            Load More Games
+          </button>
+        </div>
+      )}
+
+      {/* No Results Message */}
+      {displayedGames.length === 0 && (
+        <div className="text-center text-gray-500 mt-8">
+          No games found. Try adjusting your search or filters.
+        </div>
+      )}
     </main>
   );
 };

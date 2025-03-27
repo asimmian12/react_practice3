@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Phone, MapPin, Mail, Clock, ChevronDown, ChevronUp, X, Heart, Star, Calendar, Plus, Minus } from 'lucide-react';
-import Confetti from 'react-confetti';
+import { motion } from 'framer-motion';
 
 const Service = () => {
   // State for interactive elements
@@ -119,33 +119,47 @@ const Service = () => {
   };
 
   return (
-    <div className="min-h-screen bg-blue-50">
-      {confetti && <Confetti recycle={false} numberOfPieces={200} />}
-
-      {/* Hero Section with Interactive Buttons */}
-      <section className="relative bg-cover bg-center h-96 flex items-center justify-center" 
-               style={{ backgroundImage: 'url(./images/doctor_background.jpg)' }}>
-        <div className="absolute inset-0 bg-blue-900 bg-opacity-60"></div>
-        <div className="relative z-10 text-center px-4">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">Child-Friendly Medical Services</h1>
-          <p className="text-xl text-white mb-8 max-w-2xl mx-auto">
-            Making healthcare visits comfortable and engaging for children of all ages
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <button 
-              onClick={() => document.getElementById('services-section').scrollIntoView({ behavior: 'smooth' })}
-              className="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
-            >
-              Explore Services
-            </button>
-            <button 
-              className="bg-white hover:bg-blue-100 text-blue-900 font-bold px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
-            >
-              Emergency Services
-            </button>
-          </div>
-        </div>
-      </section>
+    <div className="min-h-screen bg-white">
+    {/* Hero Section with Animation */}
+    <motion.section 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="relative bg-cover bg-center h-72" 
+      style={{ backgroundImage: 'url(./images/doctor_background.jpg)' }}
+    >
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-blue-600 opacity-60"></div>
+      <div className="relative z-10 flex justify-center items-center h-full">
+        <motion.div 
+          initial={{ y: -20 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center"
+        >
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="bg-white text-blue-600 px-6 py-3 m-2 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md"
+          >
+            <a href="/appointment">Book an Appointment</a>
+          </motion.button>
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="bg-white text-blue-600 px-6 py-3 m-2 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md"
+          >
+            <a href="/Mri">Book an MRI Scan</a>
+          </motion.button>
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="bg-white text-blue-600 px-6 py-3 m-2 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md"
+          >
+            <a href="/Xray">Book an X-Ray</a>
+          </motion.button>
+        </motion.div>
+      </div>
+    </motion.section>
 
       {/* Search and Filter Section */}
       <section id="services-section" className="container mx-auto px-4 py-12">

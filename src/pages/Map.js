@@ -3,9 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   FaPhone, FaMapMarkerAlt, FaEnvelope, FaClock, 
   FaLinkedin, FaFacebook, FaInstagram, FaChevronLeft, 
-  FaChevronRight, FaDirections, FaParking, FaBus, FaWheelchair
+  FaChevronRight, FaDirections, FaParking, FaBus, FaWheelchair,
+  FaHeart
 } from 'react-icons/fa';
 import { MdClose, MdStreetview } from 'react-icons/md';
+import { Phone, MapPin, Mail, Clock } from 'lucide-react';
 
 const Map = () => {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -23,10 +25,30 @@ const Map = () => {
   };
 
   const contactInfo = [
-    { title: 'EMERGENCY', details: '0141 201 1100', icon: <FaPhone />, action: 'tel' },
-    { title: 'LOCATION', details: '1345 Govan Road, G51 4TF Glasgow UK', icon: <FaMapMarkerAlt />, action: 'map' },
-    { title: 'EMAIL', details: 'info.qeht@nhs.net', icon: <FaEnvelope />, action: 'mail' },
-    { title: 'WORKING HOURS', details: 'Mon-Sat 09:00-20:00, Sunday Emergency only', icon: <FaClock />, action: null }
+    { 
+      title: 'EMERGENCY', 
+      details: '0141 201 1100', 
+      icon: <Phone className="text-yellow-300 mx-auto" size={24} />, 
+      action: 'tel' 
+    },
+    { 
+      title: 'LOCATION', 
+      details: '1345 Govan Road, G51 4TF Glasgow UK', 
+      icon: <MapPin className="text-yellow-300 mx-auto" size={24} />, 
+      action: 'map' 
+    },
+    { 
+      title: 'EMAIL', 
+      details: 'info.qeht@nhs.net', 
+      icon: <Mail className="text-yellow-300 mx-auto" size={24} />, 
+      action: 'mail' 
+    },
+    { 
+      title: 'WORKING HOURS', 
+      details: 'Mon-Sat 09:00-20:00, Sunday Emergency only', 
+      icon: <Clock className="text-yellow-300 mx-auto" size={24} />, 
+      action: null 
+    }
   ];
 
   const services = [
@@ -100,47 +122,48 @@ const Map = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      {/* Animated Hero Section */}
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
       <motion.section 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="relative bg-gradient-to-br from-blue-600 to-teal-500 h-80 flex items-center justify-center overflow-hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="relative bg-cover bg-center h-72 md:h-96" 
+        style={{ backgroundImage: 'url(./images/doctor_background.jpg)' }}
       >
-        <div className="absolute inset-0 opacity-20 bg-gradient-to-r from-white/10 to-transparent"></div>
-        
-        <div className="relative z-10 flex flex-col justify-center items-center h-full px-4 text-center">
-          <motion.h1 
-            initial={{ scale: 0.9 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="text-4xl md:text-5xl font-bold text-white mb-6 drop-shadow-lg"
-          >
-            Welcome to Clyde Hospital
-          </motion.h1>
-          
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="flex flex-wrap justify-center gap-4"
-          >
-            {['Appointment', 'MRI Scan', 'X-Ray'].map((service, i) => (
-              <motion.button 
-                key={i}
-                whileHover={{ scale: 1.05, boxShadow: "0 10px 20px rgba(0,0,0,0.2)" }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-white text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition-all duration-300 shadow-lg flex items-center gap-2"
-              >
-                <span>Book {service}</span>
-                <FaChevronRight className="text-sm" />
-              </motion.button>
-            ))}
-          </motion.div>
-        </div>
-      </motion.section>
-
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-blue-600 opacity-60"></div>
+        <div className="relative z-10 flex justify-center items-center h-full">
+                  <motion.div 
+                    initial={{ y: -20 }}
+                    animate={{ y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="text-center"
+                  >
+                    <motion.button 
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="bg-white text-blue-600 px-6 py-3 m-2 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md"
+                    >
+                      <a href="/appointment">Book an Appointment</a>
+                    </motion.button>
+                    <motion.button 
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="bg-white text-blue-600 px-6 py-3 m-2 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md"
+                    >
+                      <a href="/Mri">Book an MRI Scan</a>
+                    </motion.button>
+                    <motion.button 
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="bg-white text-blue-600 px-6 py-3 m-2 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md"
+                    >
+                      <a href="/Xray">Book an X-Ray</a>
+                    </motion.button>
+                  </motion.div>
+                </div>
+              </motion.section>
+ 
       {/* Interactive Map Section */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -327,49 +350,29 @@ const Map = () => {
         </div>
       </motion.div>
 
-      {/* Interactive Contact Section */}
-      <motion.section 
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        className="bg-gradient-to-r from-blue-50 to-teal-50 py-12 px-4"
-      >
-        <div className="max-w-7xl mx-auto">
-          <motion.h2 
-            whileHover={{ scale: 1.01 }}
-            className="text-3xl font-bold text-center text-blue-800 mb-12"
-          >
-            Contact Information
-          </motion.h2>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Contact Section */}
+      <section className="bg-blue-900 text-white py-12">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-8">Contact Information</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {contactInfo.map((info, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                viewport={{ once: true }}
                 whileHover={{ y: -5 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => handleContactClick(info.action, info.details)}
-                className={`bg-white p-6 rounded-xl shadow-md transition-all duration-300 hover:shadow-lg cursor-pointer ${info.action ? 'hover:bg-blue-50' : ''}`}
+                className={`bg-blue-800 rounded-xl p-6 text-center cursor-pointer ${info.action ? 'hover:bg-blue-700' : ''}`}
               >
-                <div className="text-blue-600 text-3xl mb-4">{info.icon}</div>
-                <h3 className="font-bold text-lg text-blue-800 mb-2">{info.title}</h3>
-                <p className="text-gray-700">{info.details}</p>
-                {info.action && (
-                  <motion.div 
-                    initial={{ width: 0 }}
-                    whileHover={{ width: '100%' }}
-                    className="h-0.5 bg-blue-500 mt-3 origin-left"
-                  />
-                )}
+                <div className="mb-3">
+                  {info.icon}
+                </div>
+                <h3 className="font-bold text-xl mb-2">{info.title}</h3>
+                <p>{info.details}</p>
               </motion.div>
             ))}
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Street View Modal */}
       <AnimatePresence>
@@ -430,85 +433,25 @@ const Map = () => {
         )}
       </AnimatePresence>
 
-      {/* Interactive Footer */}
-      <motion.footer 
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        className="bg-blue-900 text-white py-12 mt-auto"
-      >
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <motion.div
-              whileHover={{ y: -3 }}
-              className="space-y-4"
-            >
-              <h3 className="text-xl font-bold">Clyde Hospital</h3>
-              <p className="text-blue-200">
-                Providing exceptional healthcare services to our community since 1985.
-              </p>
-              <div className="flex gap-4">
-                {['linkedin.com', 'facebook.com', 'instagram.com'].map((social, i) => (
-                  <motion.a
-                    key={i}
-                    whileHover={{ y: -5, scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    href={`https://${social}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-blue-800 hover:bg-blue-700 w-10 h-10 rounded-full flex items-center justify-center transition"
-                  >
-                    {[<FaLinkedin />, <FaFacebook />, <FaInstagram />][i]}
-                  </motion.a>
-                ))}
-              </div>
-            </motion.div>
-            
-            <div className="space-y-4">
-              <h3 className="text-xl font-bold">Quick Links</h3>
-              <ul className="space-y-2">
-                {['Services', 'Doctors', 'Appointments', 'Emergency'].map((link, i) => (
-                  <motion.li
-                    key={i}
-                    whileHover={{ x: 5 }}
-                    className="text-blue-200 hover:text-white transition cursor-pointer"
-                  >
-                    {link}
-                  </motion.li>
-                ))}
-              </ul>
+      {/* Footer */}
+      <footer className="bg-blue-950 text-white py-8">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="mb-4 md:mb-0">
+              <h3 className="text-xl font-bold">Clyde Children's Hospital</h3>
+              <p className="text-blue-300">Making hospital visits easier for kids</p>
             </div>
-            
-            <div className="space-y-4">
-              <h3 className="text-xl font-bold">Newsletter</h3>
-              <p className="text-blue-200">
-                Subscribe for health tips and hospital updates
-              </p>
-              <motion.div
-                whileHover={{ scale: 1.01 }}
-                className="flex"
-              >
-                <input 
-                  type="email" 
-                  placeholder="Your email" 
-                  className="px-4 py-2 rounded-l-lg w-full text-gray-800 focus:outline-none"
-                />
-                <motion.button
-                  whileHover={{ backgroundColor: '#1d4ed8' }}
-                  whileTap={{ scale: 0.95 }}
-                  className="bg-blue-600 px-4 py-2 rounded-r-lg font-medium"
-                >
-                  Subscribe
-                </motion.button>
-              </motion.div>
+            <div className="flex space-x-4">
+              <a href="#" className="hover:text-yellow-300 transition">Privacy Policy</a>
+              <a href="#" className="hover:text-yellow-300 transition">Terms of Service</a>
+              <a href="#" className="hover:text-yellow-300 transition">Accessibility</a>
             </div>
           </div>
-          
-          <div className="border-t border-blue-800 mt-8 pt-8 text-center text-blue-300">
-            <p>&copy; {new Date().getFullYear()} Clyde Hospital. All rights reserved.</p>
+          <div className="mt-6 pt-6 border-t border-blue-800 text-center text-blue-300">
+            <p>&copy; {new Date().getFullYear()} ASIM MIAN. All rights reserved.</p>
           </div>
         </div>
-      </motion.footer>
+      </footer>
     </div>
   );
 };

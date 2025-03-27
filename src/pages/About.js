@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaPhone, FaMapMarkerAlt, FaEnvelope, FaClock, FaLinkedin, FaFacebook, FaInstagram } from 'react-icons/fa';
+import { FaPhone, FaMapMarkerAlt, FaEnvelope, FaClock, FaLinkedin, FaFacebook, FaInstagram, FaUserAlt, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { Phone, MapPin, Mail, Clock } from 'lucide-react';
 
 const About = () => {
   const [selectedDoctor, setSelectedDoctor] = useState(null);
@@ -58,10 +59,30 @@ const About = () => {
   ];
 
   const contactInfo = [
-    { title: 'EMERGENCY', details: '0141 201 1100', icon: <FaPhone />, action: 'tel' },
-    { title: 'LOCATION', details: '1345 Govan Road, G51 4TF Glasgow UK', icon: <FaMapMarkerAlt />, action: 'map' },
-    { title: 'EMAIL', details: 'info.qeht@nhs.net', icon: <FaEnvelope />, action: 'mail' },
-    { title: 'WORKING HOURS', details: 'Mon-Sat 09:00-20:00, Sunday Emergency only', icon: <FaClock />, action: null },
+    { 
+      title: 'EMERGENCY', 
+      details: '0141 201 1100', 
+      icon: <Phone className="text-yellow-300 mx-auto" size={24} />, 
+      action: 'tel' 
+    },
+    { 
+      title: 'LOCATION', 
+      details: '1345 Govan Road, G51 4TF Glasgow UK', 
+      icon: <MapPin className="text-yellow-300 mx-auto" size={24} />, 
+      action: 'map' 
+    },
+    { 
+      title: 'EMAIL', 
+      details: 'info.qeht@nhs.net', 
+      icon: <Mail className="text-yellow-300 mx-auto" size={24} />, 
+      action: 'mail' 
+    },
+    { 
+      title: 'WORKING HOURS', 
+      details: 'Mon-Sat 09:00-20:00, Sunday Emergency only', 
+      icon: <Clock className="text-yellow-300 mx-auto" size={24} />, 
+      action: null 
+    }
   ];
 
   const openModal = (doctor) => {
@@ -94,47 +115,50 @@ const About = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-cover bg-center h-96" style={{ backgroundImage: 'url(./images/doctor_background.jpg)' }}>
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-blue-600 opacity-70"></div>
-        <div className="relative z-10 flex flex-col justify-center items-center h-full px-4">
-          <motion.h1 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-4xl md:text-5xl font-bold text-white mb-6 text-center"
-          >
-            About Clyde Children's Hospital
-          </motion.h1>
+      <motion.section 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="relative bg-cover bg-center h-72 md:h-96" 
+        style={{ backgroundImage: 'url(./images/doctor_background.jpg)' }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-blue-600 opacity-60"></div>
+        <div className="relative z-10 flex justify-center items-center h-full">
           <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="flex flex-wrap justify-center gap-4"
+            initial={{ y: -20 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center px-4"
           >
-            <motion.button 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-white text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-100 transition duration-300 shadow-lg"
-            >
-              <a href="/appointment">Book an Appointment</a>
-            </motion.button>
-            <motion.button 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-white text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-100 transition duration-300 shadow-lg"
-            >
-              <a href="/Mri">Book an MRI Scan</a>
-            </motion.button>
-            <motion.button 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-white text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-100 transition duration-300 shadow-lg"
-            >
-              <a href="/Xray">Book an X-Ray</a>
-            </motion.button>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4"></h1>
+            <p className="text-xl text-white mb-8 max-w-2xl mx-auto">
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-2">
+              <motion.button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
+              >
+                <a href="/appointment">Book an Appointment</a>
+              </motion.button>
+              <motion.button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
+              >
+                <a href="/Mri">Book an MRI Scan</a>
+              </motion.button>
+              <motion.button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
+              >
+                <a href="/Xray">Book an X-Ray</a>
+              </motion.button>
+            </div>
           </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* About Section */}
       <section className="p-8 md:p-12 bg-blue-50">
@@ -341,98 +365,49 @@ const About = () => {
       )}
 
       {/* Contact Section */}
-      <section className="p-8 md:p-12 bg-blue-50">
-        <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="max-w-6xl mx-auto"
-        >
-          <h2 className="text-3xl font-bold text-center text-blue-800 mb-12">Contact Us</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <section className="bg-blue-900 text-white py-12">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-8">Contact Information</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {contactInfo.map((info, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.6 }}
                 whileHover={{ y: -5 }}
-                onClick={() => handleContactClick(info.action, info.details)}
-                className={`bg-white p-6 rounded-xl shadow-md transition-all duration-300 hover:shadow-lg cursor-pointer ${info.action ? 'hover:bg-blue-100' : ''}`}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  if (info.action === 'tel') window.location.href = `tel:${info.details.replace(/\s/g, '')}`;
+                  if (info.action === 'mail') window.location.href = `mailto:${info.details}`;
+                  if (info.action === 'map') window.open(`https://maps.google.com?q=${encodeURIComponent(info.details)}`, '_blank');
+                }}
+                className={`bg-blue-800 rounded-xl p-6 text-center cursor-pointer ${info.action ? 'hover:bg-blue-700' : ''}`}
               >
-                <div className="text-blue-600 text-3xl mb-4">{info.icon}</div>
-                <h3 className="font-bold text-xl text-blue-800 mb-2">{info.title}</h3>
-                <p className="text-gray-700">{info.details}</p>
+                <div className="mb-3">
+                  {info.icon}
+                </div>
+                <h3 className="font-bold text-xl mb-2">{info.title}</h3>
+                <p>{info.details}</p>
               </motion.div>
             ))}
           </div>
-        </motion.div>
-      </section>
-
-      {/* Interactive Map Section */}
-      <section className="h-96 w-full bg-gray-200 relative">
-        <iframe 
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2238.755353587785!2d-4.316578723078045!3d55.86162497262864!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48884421b98f7583%3A0x3f21e4d4dd8c9f3e!2s1345%20Govan%20Rd%2C%20Glasgow%20G51%204TF%2C%20UK!5e0!3m2!1sen!2sus!4v1712345678901"
-          width="100%" 
-          height="100%" 
-          style={{ border: 0 }} 
-          allowFullScreen="" 
-          loading="lazy" 
-          referrerPolicy="no-referrer-when-downgrade"
-          className="absolute inset-0"
-        ></iframe>
+        </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-blue-800 text-white py-12">
-        <div className="max-w-6xl mx-auto px-4">
+      <footer className="bg-blue-950 text-white py-8">
+        <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-6 md:mb-0">
-              <h3 className="text-2xl font-bold mb-4">Clyde Children's Hospital</h3>
-              <p className="text-blue-200 max-w-md">
-                Providing compassionate, specialized care for children in a welcoming and supportive environment.
-              </p>
+            <div className="mb-4 md:mb-0">
+              <h3 className="text-xl font-bold">Clyde Children's Hospital</h3>
+              <p className="text-blue-300">Making hospital visits easier for kids</p>
             </div>
-            
-            <div className="flex flex-col items-center md:items-end">
-              <div className="flex gap-4 mb-6">
-                <motion.a 
-                  whileHover={{ y: -3 }}
-                  href="https://linkedin.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-12 h-12 bg-blue-700 rounded-full flex items-center justify-center hover:bg-blue-600 transition text-xl"
-                  aria-label="LinkedIn"
-                >
-                  <FaLinkedin />
-                </motion.a>
-                <motion.a 
-                  whileHover={{ y: -3 }}
-                  href="https://facebook.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-12 h-12 bg-blue-700 rounded-full flex items-center justify-center hover:bg-blue-600 transition text-xl"
-                  aria-label="Facebook"
-                >
-                  <FaFacebook />
-                </motion.a>
-                <motion.a 
-                  whileHover={{ y: -3 }}
-                  href="https://instagram.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-12 h-12 bg-blue-700 rounded-full flex items-center justify-center hover:bg-blue-600 transition text-xl"
-                  aria-label="Instagram"
-                >
-                  <FaInstagram />
-                </motion.a>
-              </div>
-              <p className="text-blue-300 text-sm">
-                &copy; 2025 Clyde Children's Hospital. All rights reserved.
-              </p>
+            <div className="flex space-x-4">
+              <a href="#" className="hover:text-yellow-300 transition">Privacy Policy</a>
+              <a href="#" className="hover:text-yellow-300 transition">Terms of Service</a>
+              <a href="#" className="hover:text-yellow-300 transition">Accessibility</a>
             </div>
+          </div>
+          <div className="mt-6 pt-6 border-t border-blue-800 text-center text-blue-300">
+            <p>&copy; {new Date().getFullYear()} ASIM MIAN. All rights reserved.</p>
           </div>
         </div>
       </footer>

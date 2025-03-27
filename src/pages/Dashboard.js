@@ -1,11 +1,33 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { Phone, MapPin, Mail, Clock } from 'lucide-react';
 
 const contactInfo = [
-  { title: 'EMERGENCY', details: '0141 201 1100' },
-  { title: 'LOCATION', details: '1345 Govan Road, G51 4TF Glasgow UK' },
-  { title: 'EMAIL', details: 'info.qeht@nhs.net' },
-  { title: 'WORKING HOURS', details: 'Mon-Sat 09:00-20:00, Sunday Emergency only' },
+  { 
+    title: 'EMERGENCY', 
+    details: '0141 201 1100', 
+    icon: <Phone className="text-yellow-300 mx-auto" size={24} />, 
+    action: 'tel' 
+  },
+  { 
+    title: 'LOCATION', 
+    details: '1345 Govan Road, G51 4TF Glasgow UK', 
+    icon: <MapPin className="text-yellow-300 mx-auto" size={24} />, 
+    action: 'map' 
+  },
+  { 
+    title: 'EMAIL', 
+    details: 'info.qeht@nhs.net', 
+    icon: <Mail className="text-yellow-300 mx-auto" size={24} />, 
+    action: 'mail' 
+  },
+  { 
+    title: 'WORKING HOURS', 
+    details: 'Mon-Sat 09:00-20:00, Sunday Emergency only', 
+    icon: <Clock className="text-yellow-300 mx-auto" size={24} />, 
+    action: null 
+  }
 ];
 
 const Dashboard = () => {
@@ -32,36 +54,53 @@ const Dashboard = () => {
   }
 
   return (
-    <div className={`min-h-screen bg-white transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}>
-      {/* Hero Section with Parallax Effect */}
-      <section 
-        className="relative bg-cover bg-center h-64 bg-fixed" 
-        style={{ backgroundImage: 'url(./images/doctor_background.jpg)' }}
-      >
-        <div className="absolute inset-0 bg-black bg-opacity-20"></div>
-        <div className="relative z-10 flex justify-center items-center h-full">
-          <div className="text-center space-y-4">
-            <h1 className="text-4xl font-bold text-white drop-shadow-lg animate-fadeIn">
-              Welcome Back, {userData.firstName} {userData.surname}!
-            </h1>
-            <div className="flex flex-wrap justify-center gap-4">
-              {['Book an Appointment', 'Book an MRI Scan', 'Book an X-Ray'].map((text, index) => (
-                <button 
-                  key={index}
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-                  onMouseEnter={() => setIsHovering(index)}
-                  onMouseLeave={() => setIsHovering(null)}
-                >
-                  <span className={`inline-block ${isHovering === index ? 'animate-bounce' : ''}`}>
-                    {text}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
+     <div className="min-h-screen bg-white">
+       {/* Hero Section */}
+       <motion.section 
+         initial={{ opacity: 0 }}
+         animate={{ opacity: 1 }}
+         transition={{ duration: 0.5 }}
+         className="relative bg-cover bg-center h-72 md:h-96" 
+         style={{ backgroundImage: 'url(./images/doctor_background.jpg)' }}
+       >
+         <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-blue-600 opacity-60"></div>
+         <div className="relative z-10 flex justify-center items-center h-full">
+           <motion.div 
+             initial={{ y: -20 }}
+             animate={{ y: 0 }}
+             transition={{ duration: 0.5 }}
+             className="text-center px-4"
+           >
+             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4"></h1>
+             <p className="text-xl text-white mb-8 max-w-2xl mx-auto">
+             </p>
+             <div className="flex flex-col sm:flex-row justify-center items-center gap-2">
+               <motion.button 
+                 whileHover={{ scale: 1.05 }}
+                 whileTap={{ scale: 0.95 }}
+                 className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
+               >
+                 <a href="/appointment">Book an Appointment</a>
+               </motion.button>
+               <motion.button 
+                 whileHover={{ scale: 1.05 }}
+                 whileTap={{ scale: 0.95 }}
+                 className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
+               >
+                 <a href="/Mri">Book an MRI Scan</a>
+               </motion.button>
+               <motion.button 
+                 whileHover={{ scale: 1.05 }}
+                 whileTap={{ scale: 0.95 }}
+                 className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
+               >
+                 <a href="/Xray">Book an X-Ray</a>
+               </motion.button>
+             </div>
+           </motion.div>
+         </div>
+       </motion.section>
+ 
       {/* Cards Section with Floating Animation */}
       <section className="p-4">
         <div className="grid lg:grid-cols-2 md:grid-cols-2 gap-8 justify-center mt-6">
@@ -143,50 +182,51 @@ const Dashboard = () => {
         </div>
       </section>
 
-      {/* Contact Section with Interactive Cards */}
-      <section className="bg-white-100 p-8">
-        <h2 className="text-2xl font-bold text-center text-blue-800 mb-8">Contact</h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {contactInfo.map((info, index) => (
-            <div 
-              key={index}
-              className={`bg-gradient-to-br from-blue-500 to-blue-600 text-white p-6 rounded-xl shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl ${isHovering === `contact-${index}` ? 'transform scale-105 z-10' : ''}`}
-              onMouseEnter={() => setIsHovering(`contact-${index}`)}
-              onMouseLeave={() => setIsHovering(null)}
-            >
-              <h3 className="font-bold text-xl mb-3">{info.title}</h3>
-              <p className="text-blue-100">{info.details}</p>
-              {isHovering === `contact-${index}` && (
-                <div className="mt-4 animate-fadeIn">
-                  <button className="text-xs bg-white text-blue-600 px-3 py-1 rounded-full">
-                    {info.title === 'EMERGENCY' ? 'Call Now' : 'More Info'}
-                  </button>
+      {/* Contact Information Section - Consistent with Login Page */}
+      <section className="bg-blue-900 text-white py-12">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-8">Contact Information</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {contactInfo.map((info, index) => (
+              <motion.div
+                key={index}
+                whileHover={{ y: -5 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  if (info.action === 'tel') window.location.href = `tel:${info.details.replace(/\s/g, '')}`;
+                  if (info.action === 'mail') window.location.href = `mailto:${info.details}`;
+                  if (info.action === 'map') window.open(`https://maps.google.com?q=${encodeURIComponent(info.details)}`, '_blank');
+                }}
+                className={`bg-blue-800 rounded-xl p-6 text-center cursor-pointer ${info.action ? 'hover:bg-blue-700' : ''}`}
+              >
+                <div className="mb-3">
+                  {info.icon}
                 </div>
-              )}
-            </div>
-          ))}
+                <h3 className="font-bold text-xl mb-2">{info.title}</h3>
+                <p>{info.details}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Footer Section */}
-      <footer className="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-8 text-center">
-        <p className="mb-4">&copy; 2025 ASIM MIAN - Hospital Portal</p>
-        <div className="flex justify-center gap-6">
-          {['linkedin', 'facebook', 'instagram'].map((social, index) => (
-            <a
-              key={index}
-              href={`https://${social}.com`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`bg-white text-blue-600 p-3 rounded-full hover:bg-blue-100 transition-all duration-300 flex items-center justify-center w-12 h-12 ${isHovering === `social-${index}` ? 'animate-bounce' : ''}`}
-              onMouseEnter={() => setIsHovering(`social-${index}`)}
-              onMouseLeave={() => setIsHovering(null)}
-            >
-              {social === 'linkedin' && <span className="text-xl">Li</span>}
-              {social === 'facebook' && <span className="text-xl">Fb</span>}
-              {social === 'instagram' && <span className="text-xl">Ig</span>}
-            </a>
-          ))}
+      {/* Footer - Consistent with Login Page */}
+      <footer className="bg-blue-950 text-white py-8">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="mb-4 md:mb-0">
+              <h3 className="text-xl font-bold">Children's Hospital Portal</h3>
+              <p className="text-blue-300">Making hospital visits easier for kids</p>
+            </div>
+            <div className="flex space-x-4">
+              <a href="#" className="hover:text-yellow-300 transition">Privacy Policy</a>
+              <a href="#" className="hover:text-yellow-300 transition">Terms of Service</a>
+              <a href="#" className="hover:text-yellow-300 transition">Accessibility</a>
+            </div>
+          </div>
+          <div className="mt-6 pt-6 border-t border-blue-800 text-center text-blue-300">
+            <p>&copy; {new Date().getFullYear()} ASIM MIAN. All rights reserved.</p>
+          </div>
         </div>
       </footer>
 

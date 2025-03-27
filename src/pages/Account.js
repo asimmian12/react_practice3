@@ -1,11 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Phone, MapPin, Mail, Clock } from 'lucide-react';
 
 const contactInfo = [
-  { title: 'EMERGENCY', details: '0141 201 1100', icon: '🚑' },
-  { title: 'LOCATION', details: '1345 Govan Road, G51 4TF Glasgow UK', icon: '📍' },
-  { title: 'EMAIL', details: 'info.qeht@nhs.net', icon: '✉️' },
-  { title: 'WORKING HOURS', details: 'Mon-Sat 09:00-20:00, Sunday Emergency only', icon: '⏰' },
+  { 
+    title: 'EMERGENCY', 
+    details: '0141 201 1100', 
+    icon: <Phone className="text-yellow-300 mx-auto" size={24} />, 
+    action: 'tel' 
+  },
+  { 
+    title: 'LOCATION', 
+    details: '1345 Govan Road, G51 4TF Glasgow UK', 
+    icon: <MapPin className="text-yellow-300 mx-auto" size={24} />, 
+    action: 'map' 
+  },
+  { 
+    title: 'EMAIL', 
+    details: 'info.qeht@nhs.net', 
+    icon: <Mail className="text-yellow-300 mx-auto" size={24} />, 
+    action: 'mail' 
+  },
+  { 
+    title: 'WORKING HOURS', 
+    details: 'Mon-Sat 09:00-20:00, Sunday Emergency only', 
+    icon: <Clock className="text-yellow-300 mx-auto" size={24} />, 
+    action: null 
+  }
 ];
 
 const Account = () => {
@@ -15,6 +37,7 @@ const Account = () => {
   const [activeTab, setActiveTab] = useState('profile');
   const [appointments, setAppointments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isHovering, setIsHovering] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -71,35 +94,49 @@ const Account = () => {
   }
 
   return (
-    <div className="min-h-screen bg-blue-50">
-      {/* Hero Section with Interactive Background */}
-      <section className="relative bg-cover bg-center h-72 md:h-80" style={{ backgroundImage: 'url(./images/doctor_background.jpg)' }}>
+    <div className="min-h-screen bg-white">
+      <motion.section 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="relative bg-cover bg-center h-72 md:h-96" 
+        style={{ backgroundImage: 'url(./images/doctor_background.jpg)' }}
+      >
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-blue-600 opacity-60"></div>
-        <div className="relative z-10 flex flex-col justify-center items-center h-full px-4">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-6 text-center">Welcome Back, {userData.firstName} {userData.surname}!</h1>
-          
-          <div className="flex flex-wrap justify-center gap-4">
-            <button 
-              onClick={() => navigate('/appointment')}
-              className="bg-white text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-100 transition duration-300 shadow-lg flex items-center gap-2"
-            >
-              <span>📅</span> Book Appointment
-            </button>
-            <button 
-              onClick={() => navigate('/Mri')}
-              className="bg-white text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-100 transition duration-300 shadow-lg flex items-center gap-2"
-            >
-              <span>🖼️</span> Book MRI Scan
-            </button>
-            <button 
-              onClick={() => navigate('/Xray')}
-              className="bg-white text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-100 transition duration-300 shadow-lg flex items-center gap-2"
-            >
-              <span>🦴</span> Book X-Ray
-            </button>
-          </div>
+        <div className="relative z-10 flex justify-center items-center h-full">
+          <motion.div 
+            initial={{ y: -20 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center px-4"
+          >
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">Welcome Back, {userData.firstName} {userData.surname}!</h1>
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-2">
+              <motion.button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
+              >
+                <a href="/appointment">Book an Appointment</a>
+              </motion.button>
+              <motion.button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
+              >
+                <a href="/Mri">Book an MRI Scan</a>
+              </motion.button>
+              <motion.button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
+              >
+                <a href="/Xray">Book an X-Ray</a>
+              </motion.button>
+            </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8 -mt-16 relative z-20">
@@ -357,76 +394,71 @@ const Account = () => {
         </div>
       </div>
 
-      {/* Contact Information Section */}
-      <section className="bg-white py-12 px-4">
-        <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center text-blue-800 mb-8">Need Help?</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Contact Information Section - Consistent with Dashboard */}
+      <section className="bg-blue-900 text-white py-12">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-8">Contact Information</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {contactInfo.map((info, index) => (
-              <div 
-                key={index} 
-                className="bg-blue-100 p-6 rounded-xl shadow-md hover:shadow-lg transition cursor-pointer transform hover:-translate-y-1"
+              <motion.div
+                key={index}
+                whileHover={{ y: -5 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => {
-                  if (info.title === 'EMAIL') {
-                    window.location.href = `mailto:${info.details}`;
-                  } else if (info.title === 'EMERGENCY') {
-                    window.location.href = `tel:${info.details.replace(/\s/g, '')}`;
-                  }
+                  if (info.action === 'tel') window.location.href = `tel:${info.details.replace(/\s/g, '')}`;
+                  if (info.action === 'mail') window.location.href = `mailto:${info.details}`;
+                  if (info.action === 'map') window.open(`https://maps.google.com?q=${encodeURIComponent(info.details)}`, '_blank');
                 }}
+                className={`bg-blue-800 rounded-xl p-6 text-center cursor-pointer ${info.action ? 'hover:bg-blue-700' : ''}`}
               >
-                <div className="text-3xl mb-3">{info.icon}</div>
-                <h3 className="font-bold text-lg text-blue-800 mb-2">{info.title}</h3>
-                <p className="text-gray-700">{info.details}</p>
-              </div>
+                <div className="mb-3">
+                  {info.icon}
+                </div>
+                <h3 className="font-bold text-xl mb-2">{info.title}</h3>
+                <p>{info.details}</p>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Interactive Footer */}
-      <footer className="bg-blue-800 text-white py-8">
+      {/* Footer - Consistent with Dashboard */}
+      <footer className="bg-blue-950 text-white py-8">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-4 md:mb-0">
-              <h3 className="text-xl font-bold mb-2">Children's Hospital Portal</h3>
-              <p className="text-blue-200">Making hospital visits easier for kids</p>
+              <h3 className="text-xl font-bold">Children's Hospital Portal</h3>
+              <p className="text-blue-300">Making hospital visits easier for kids</p>
             </div>
-            
-            <div className="flex flex-col items-center md:items-end">
-              <div className="flex gap-4 mb-4">
-                <a 
-                  href="https://linkedin.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-10 h-10 bg-blue-700 rounded-full flex items-center justify-center hover:bg-blue-600 transition"
-                  aria-label="LinkedIn"
-                >
-                  <span className="text-lg">🔗</span>
-                </a>
-                <a 
-                  href="https://facebook.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-10 h-10 bg-blue-700 rounded-full flex items-center justify-center hover:bg-blue-600 transition"
-                  aria-label="Facebook"
-                >
-                  <span className="text-lg">👍</span>
-                </a>
-                <a 
-                  href="https://instagram.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-10 h-10 bg-blue-700 rounded-full flex items-center justify-center hover:bg-blue-600 transition"
-                  aria-label="Instagram"
-                >
-                  <span className="text-lg">📷</span>
-                </a>
-              </div>
-              <p className="text-blue-200 text-sm">&copy; 2025 ASIM MIAN. All rights reserved.</p>
+            <div className="flex space-x-4">
+              <a href="#" className="hover:text-yellow-300 transition">Privacy Policy</a>
+              <a href="#" className="hover:text-yellow-300 transition">Terms of Service</a>
+              <a href="#" className="hover:text-yellow-300 transition">Accessibility</a>
             </div>
+          </div>
+          <div className="mt-6 pt-6 border-t border-blue-800 text-center text-blue-300">
+            <p>&copy; {new Date().getFullYear()} ASIM MIAN. All rights reserved.</p>
           </div>
         </div>
       </footer>
+
+      {/* Add some floating decorative elements */}
+      <div className="fixed top-0 left-0 w-full h-full pointer-events-none overflow-hidden z-0">
+        {[...Array(5)].map((_, i) => (
+          <div 
+            key={i}
+            className="absolute rounded-full bg-blue-100 opacity-20"
+            style={{
+              width: `${Math.random() * 100 + 50}px`,
+              height: `${Math.random() * 100 + 50}px`,
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              animation: `float ${Math.random() * 10 + 10}s linear infinite`,
+              animationDelay: `${Math.random() * 5}s`
+            }}
+          ></div>
+        ))}
+      </div>
     </div>
   );
 };

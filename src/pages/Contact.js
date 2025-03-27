@@ -1,20 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  FaPhone, 
-  FaMapMarkerAlt, 
-  FaEnvelope, 
-  FaClock, 
-  FaUser, 
-  FaSpinner 
-} from 'react-icons/fa';
-
-const contactInfo = [
-  { title: 'EMERGENCY', details: '0141 201 1100', icon: FaPhone, action: 'tel' },
-  { title: 'LOCATION', details: '1345 Govan Road, G51 4TF Glasgow UK', icon: FaMapMarkerAlt, action: 'map' },
-  { title: 'EMAIL', details: 'info.qeht@nhs.net', icon: FaEnvelope, action: 'mail' },
-  { title: 'WORKING HOURS', details: 'Mon-Sat 09:00-20:00, Sunday Emergency only', icon: FaClock, action: null }
-];
+import { Phone, MapPin, Mail, Clock, User } from 'lucide-react';
+import { FaSpinner } from 'react-icons/fa';
 
 function Contact() {
   const [formData, setFormData] = useState({ 
@@ -24,6 +11,33 @@ function Contact() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
+
+  const contactInfo = [
+    { 
+      title: 'EMERGENCY', 
+      details: '0141 201 1100', 
+      icon: <Phone className="text-yellow-300 mx-auto" size={24} />, 
+      action: 'tel' 
+    },
+    { 
+      title: 'LOCATION', 
+      details: '1345 Govan Road, G51 4TF Glasgow UK', 
+      icon: <MapPin className="text-yellow-300 mx-auto" size={24} />, 
+      action: 'map' 
+    },
+    { 
+      title: 'EMAIL', 
+      details: 'info.qeht@nhs.net', 
+      icon: <Mail className="text-yellow-300 mx-auto" size={24} />, 
+      action: 'mail' 
+    },
+    { 
+      title: 'WORKING HOURS', 
+      details: 'Mon-Sat 09:00-20:00, Sunday Emergency only', 
+      icon: <Clock className="text-yellow-300 mx-auto" size={24} />, 
+      action: null 
+    }
+  ];
 
   const handleChange = (e) => {
     setFormData({ 
@@ -38,10 +52,7 @@ function Contact() {
     setSubmitStatus(null);
 
     try {
-      // Simulate form submission
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Reset form and show success
       setFormData({ name: '', email: '', message: '' });
       setSubmitStatus('success');
     } catch (error) {
@@ -53,12 +64,12 @@ function Contact() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section with Animation */}
+      {/* Hero Section */}
       <motion.section 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="relative bg-cover bg-center h-72" 
+        className="relative bg-cover bg-center h-72 md:h-96" 
         style={{ backgroundImage: 'url(./images/doctor_background.jpg)' }}
       >
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-blue-600 opacity-60"></div>
@@ -67,29 +78,31 @@ function Contact() {
             initial={{ y: -20 }}
             animate={{ y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-center"
+            className="text-center px-4"
           >
-            <motion.button 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-white text-blue-600 px-6 py-3 m-2 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md"
-            >
-              <a href="/appointment">Book an Appointment</a>
-            </motion.button>
-            <motion.button 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-white text-blue-600 px-6 py-3 m-2 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md"
-            >
-              <a href="/Mri">Book an MRI Scan</a>
-            </motion.button>
-            <motion.button 
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-white text-blue-600 px-6 py-3 m-2 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md"
-            >
-              <a href="/Xray">Book an X-Ray</a>
-            </motion.button>
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-2">
+              <motion.button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
+              >
+                <a href="/appointment">Book an Appointment</a>
+              </motion.button>
+              <motion.button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
+              >
+                <a href="/Mri">Book an MRI Scan</a>
+              </motion.button>
+              <motion.button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
+              >
+                <a href="/Xray">Book an X-Ray</a>
+              </motion.button>
+            </div>
           </motion.div>
         </div>
       </motion.section>
@@ -108,7 +121,6 @@ function Contact() {
           Contact Us
         </motion.h1>
 
-        {/* Loading Overlay */}
         {isSubmitting && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -128,14 +140,13 @@ function Contact() {
           onSubmit={handleSubmit}
           className="max-w-md mx-auto p-6 bg-white shadow-lg rounded-xl"
         >
-          {/* Name Input */}
           <div className="mb-5">
             <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-700">
               Name
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FaUser className="text-gray-400" />
+                <User className="text-gray-400" size={18} />
               </div>
               <input
                 type="text"
@@ -150,14 +161,13 @@ function Contact() {
             </div>
           </div>
 
-          {/* Email Input */}
           <div className="mb-5">
             <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-700">
               Email
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FaEnvelope className="text-gray-400" />
+                <Mail className="text-gray-400" size={18} />
               </div>
               <input
                 type="email"
@@ -172,7 +182,6 @@ function Contact() {
             </div>
           </div>
 
-          {/* Message Input */}
           <div className="mb-5">
             <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-700">
               Message
@@ -189,7 +198,6 @@ function Contact() {
             ></textarea>
           </div>
 
-          {/* Submit Status */}
           {submitStatus === 'success' && (
             <motion.div 
               initial={{ opacity: 0, y: -10 }}
@@ -210,7 +218,6 @@ function Contact() {
             </motion.div>
           )}
 
-          {/* Submit Button */}
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -224,79 +231,52 @@ function Contact() {
       </motion.section>
 
       {/* Contact Information Section */}
-      <motion.section 
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        className="bg-white p-8"
-      >
-        <motion.h2 
-          whileHover={{ scale: 1.02 }}
-          className="text-2xl font-bold text-center text-blue-800 mb-6"
-        >
-          Contact 
-        </motion.h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {contactInfo.map((info, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ y: -5 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => {
-                if (info.action === 'tel') window.location.href = `tel:${info.details.replace(/\s/g, '')}`;
-                if (info.action === 'mail') window.location.href = `mailto:${info.details}`;
-                if (info.action === 'map') window.open(`https://maps.google.com?q=${encodeURIComponent(info.details)}`, '_blank');
-              }}
-              className={`bg-blue-400 text-white p-4 rounded-lg text-center cursor-pointer ${info.action ? 'hover:bg-blue-500' : ''}`}
-            >
-              <div className="text-2xl mb-2 flex justify-center">
-                <info.icon />
-              </div>
-              <h3 className="font-bold">{info.title}</h3>
-              <p>{info.details}</p>
-            </motion.div>
-          ))}
+      <section className="bg-blue-900 text-white py-12">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-8">Contact Information</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {contactInfo.map((info, index) => (
+              <motion.div
+                key={index}
+                whileHover={{ y: -5 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  if (info.action === 'tel') window.location.href = `tel:${info.details.replace(/\s/g, '')}`;
+                  if (info.action === 'mail') window.location.href = `mailto:${info.details}`;
+                  if (info.action === 'map') window.open(`https://maps.google.com?q=${encodeURIComponent(info.details)}`, '_blank');
+                }}
+                className={`bg-blue-800 rounded-xl p-6 text-center cursor-pointer ${info.action ? 'hover:bg-blue-700' : ''}`}
+              >
+                <div className="mb-3">
+                  {info.icon}
+                </div>
+                <h3 className="font-bold text-xl mb-2">{info.title}</h3>
+                <p>{info.details}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Footer */}
-      <motion.footer 
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        className="bg-blue-500 text-white p-6 text-center"
-      >
-        <p>&copy; 2025 ASIM MIAN</p>
-        <div className="flex justify-center gap-4 mt-4">
-          <motion.a
-            whileHover={{ y: -3 }}
-            href="https://linkedin.com" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="bg-white text-blue-500 p-2 rounded-full hover:bg-blue-100 transition"
-          >
-            LinkedIn
-          </motion.a>
-          <motion.a
-            whileHover={{ y: -3 }}
-            href="https://facebook.com" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="bg-white text-blue-500 p-2 rounded-full hover:bg-blue-100 transition"
-          >
-            Facebook
-          </motion.a>
-          <motion.a
-            whileHover={{ y: -3 }}
-            href="https://instagram.com" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="bg-white text-blue-500 p-2 rounded-full hover:bg-blue-100 transition"
-          >
-            Instagram
-          </motion.a>
+      <footer className="bg-blue-950 text-white py-8">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="mb-4 md:mb-0">
+              <h3 className="text-xl font-bold">Children's Hospital Portal</h3>
+              <p className="text-blue-300">Making hospital visits easier for kids</p>
+            </div>
+            <div className="flex space-x-4">
+              <a href="#" className="hover:text-yellow-300 transition">Privacy Policy</a>
+              <a href="#" className="hover:text-yellow-300 transition">Terms of Service</a>
+              <a href="#" className="hover:text-yellow-300 transition">Accessibility</a>
+            </div>
+          </div>
+          <div className="mt-6 pt-6 border-t border-blue-800 text-center text-blue-300">
+            <p>&copy; {new Date().getFullYear()} ASIM MIAN. All rights reserved.</p>
+          </div>
         </div>
-      </motion.footer>
+      </footer>
     </div>
   );
 }

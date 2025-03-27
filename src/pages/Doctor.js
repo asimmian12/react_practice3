@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Search, Phone, MapPin, Mail, Clock, Calendar, Star, ChevronDown, ChevronUp, X } from 'lucide-react';
 import Confetti from 'react-confetti';
+import { motion } from 'framer-motion';
 
 const Doctor = () => {
   // State for interactive elements
@@ -85,10 +86,30 @@ const Doctor = () => {
 
   // Contact information
   const contactInfo = [
-    { title: 'EMERGENCY', details: '0141 201 1100', icon: <Phone className="text-yellow-300" /> },
-    { title: 'LOCATION', details: '1345 Govan Road, G51 4TF Glasgow UK', icon: <MapPin className="text-yellow-300" /> },
-    { title: 'EMAIL', details: 'info.qeht@nhs.net', icon: <Mail className="text-yellow-300" /> },
-    { title: 'WORKING HOURS', details: 'Mon-Sat 09:00-20:00, Sunday Emergency only', icon: <Clock className="text-yellow-300" /> },
+    { 
+      title: 'EMERGENCY', 
+      details: '0141 201 1100', 
+      icon: <Phone className="text-yellow-300 mx-auto" size={24} />, 
+      action: 'tel' 
+    },
+    { 
+      title: 'LOCATION', 
+      details: '1345 Govan Road, G51 4TF Glasgow UK', 
+      icon: <MapPin className="text-yellow-300 mx-auto" size={24} />, 
+      action: 'map' 
+    },
+    { 
+      title: 'EMAIL', 
+      details: 'info.qeht@nhs.net', 
+      icon: <Mail className="text-yellow-300 mx-auto" size={24} />, 
+      action: 'mail' 
+    },
+    { 
+      title: 'WORKING HOURS', 
+      details: 'Mon-Sat 09:00-20:00, Sunday Emergency only', 
+      icon: <Clock className="text-yellow-300 mx-auto" size={24} />, 
+      action: null 
+    }
   ];
 
   // All specialties for filtering
@@ -131,31 +152,79 @@ const Doctor = () => {
   };
 
   return (
-    <div className="min-h-screen bg-blue-50">
-      {confetti && <Confetti recycle={false} numberOfPieces={200} />}
+    <div className="min-h-screen bg-white">
+      {/* Hero Section - Consistent with About Page */}
+      <motion.section 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="relative bg-cover bg-center h-72 md:h-96" 
+        style={{ backgroundImage: 'url(./images/doctor_background.jpg)' }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-blue-600 opacity-60"></div>
+        <div className="relative z-10 flex justify-center items-center h-full">
+          <motion.div 
+            initial={{ y: -20 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center px-4"
+          >
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4"></h1>
+            <p className="text-xl text-white mb-8 max-w-2xl mx-auto">
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-2">
+              <motion.button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
+              >
+                <a href="/appointment">Book an Appointment</a>
+              </motion.button>
+              <motion.button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
+              >
+                <a href="/Mri">Book an MRI Scan</a>
+              </motion.button>
+              <motion.button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
+              >
+                <a href="/Xray">Book an X-Ray</a>
+              </motion.button>
+            </div>
+          </motion.div>
+        </div>
+      </motion.section>
 
-      {/* Hero Section with Interactive Buttons */}
-      <section className="relative bg-cover bg-center h-96 flex items-center justify-center" 
-               style={{ backgroundImage: 'url(./images/doctor_background.jpg)' }}>
-        <div className="absolute inset-0 bg-blue-900 bg-opacity-60"></div>
-        <div className="relative z-10 text-center px-4">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">Meet Our Pediatric Specialists</h1>
-          <p className="text-xl text-white mb-8 max-w-2xl mx-auto">
-            Compassionate care designed specifically for children and young adults
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <button 
-              onClick={() => document.getElementById('doctors-section').scrollIntoView({ behavior: 'smooth' })}
-              className="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
-            >
-              Find Your Doctor
-            </button>
-            <button 
-              className="bg-white hover:bg-blue-100 text-blue-900 font-bold px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
-            >
-              Emergency Contact
-            </button>
-          </div>
+      {/* Banner Section - Stats from About Page */}
+      <section className="py-12 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+        <div className="max-w-6xl mx-auto px-4">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center"
+          >
+            {[
+              { number: '50+', label: 'Specialized Doctors' },
+              { number: '10K+', label: 'Patients Yearly' },
+              { number: '95%', label: 'Patient Satisfaction' },
+              { number: '24/7', label: 'Emergency Care' }
+            ].map((stat, index) => (
+              <motion.div 
+                key={index}
+                whileHover={{ scale: 1.05 }}
+                className="p-6 bg-white bg-opacity-10 rounded-xl backdrop-blur-sm"
+              >
+                <div className="text-4xl font-bold mb-2">{stat.number}</div>
+                <div className="text-lg">{stat.label}</div>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
@@ -234,8 +303,12 @@ const Doctor = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredDoctors.length > 0 ? (
             filteredDoctors.map((doctor) => (
-              <div 
+              <motion.div 
                 key={doctor.id} 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
                 className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
               >
                 {/* Doctor Image with Favorite Button */}
@@ -285,14 +358,16 @@ const Doctor = () => {
                     ))}
                   </div>
 
-                  <button
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={() => handleBookAppointment(doctor)}
-                    className="mt-6 w-full bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold py-2 px-4 rounded-lg transition"
+                    className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition"
                   >
                     Book Appointment
-                  </button>
+                  </motion.button>
                 </div>
-              </div>
+              </motion.div>
             ))
           ) : (
             <div className="col-span-full text-center py-12">
@@ -336,7 +411,11 @@ const Doctor = () => {
       {/* Booking Modal */}
       {showModal && selectedDoctor && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white rounded-xl shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto"
+          >
             <div className="p-6">
               <div className="flex justify-between items-start">
                 <div>
@@ -356,13 +435,15 @@ const Doctor = () => {
                 <h4 className="font-bold text-gray-800 mb-3">Available Time Slots</h4>
                 <div className="grid grid-cols-2 gap-3">
                   {selectedDoctor.available.map((slot, index) => (
-                    <button
+                    <motion.button
                       key={index}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                       onClick={() => confirmBooking(slot)}
                       className="border border-blue-300 hover:bg-blue-50 text-blue-900 py-2 px-4 rounded-lg transition"
                     >
                       {slot}
-                    </button>
+                    </motion.button>
                   ))}
                 </div>
               </div>
@@ -388,40 +469,59 @@ const Doctor = () => {
                 </div>
               </div>
 
-              <button
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition"
               >
                 Confirm Booking
-              </button>
+              </motion.button>
             </div>
-          </div>
+          </motion.div>
         </div>
       )}
 
-      {/* Contact Information Section */}
+      {/* Confetti effect */}
+      {confetti && <Confetti recycle={false} numberOfPieces={500} />}
+
+      {/* Contact Information Section - Consistent with About Page */}
       <section className="bg-blue-900 text-white py-12">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">Contact Information</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {contactInfo.map((info, index) => (
-              <div key={index} className="bg-blue-800 rounded-xl p-6 text-center hover:bg-blue-700 transition">
-                <div className="flex justify-center mb-3">
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+                whileHover={{ y: -5 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  if (info.action === 'tel') window.location.href = `tel:${info.details.replace(/\s/g, '')}`;
+                  if (info.action === 'mail') window.location.href = `mailto:${info.details}`;
+                  if (info.action === 'map') window.open(`https://maps.google.com?q=${encodeURIComponent(info.details)}`, '_blank');
+                }}
+                className={`bg-blue-800 rounded-xl p-6 text-center cursor-pointer ${info.action ? 'hover:bg-blue-700' : ''}`}
+              >
+                <div className="mb-3">
                   {info.icon}
                 </div>
                 <h3 className="font-bold text-xl mb-2">{info.title}</h3>
                 <p>{info.details}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Footer */}
+      {/* Footer - Consistent with About Page */}
       <footer className="bg-blue-950 text-white py-8">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-4 md:mb-0">
-              <h3 className="text-xl font-bold">Children's Hospital Portal</h3>
+              <h3 className="text-xl font-bold">Clyde Children's Hospital</h3>
               <p className="text-blue-300">Making hospital visits easier for kids</p>
             </div>
             <div className="flex space-x-4">

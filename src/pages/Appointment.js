@@ -20,9 +20,12 @@ const Appointment = () => {
     reason: '',
     notes: ''
   });
+  const [doctorDetails, setDoctorDetails] = useState({});
+  const [departmentDetails, setDepartmentDetails] = useState({});
+  const [doctorAvailability, setDoctorAvailability] = useState({});
   const navigate = useNavigate();
 
-  // Contact information - consistent with Doctors page
+  // Contact information
   const contactInfo = [
     { 
       title: 'EMERGENCY', 
@@ -50,23 +53,42 @@ const Appointment = () => {
     }
   ];
 
-  // Fetch user data and initial appointments
+  // Fetch user data and initial data
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Get user from localStorage
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
           const user = JSON.parse(storedUser);
           setUserData(user);
 
-          // Fetch departments from MySQL
+          // Fetch departments from database
           const deptResponse = await axios.get('/api/departments');
           setDepartments(deptResponse.data);
 
-          // Fetch user's appointments
-          const appointmentsResponse = await axios.get(`/api/appointments?userId=${user.id}`);
+          // Fetch user's appointments with doctor and department data
+          const appointmentsResponse = await axios.get(`/api/appointments/user/${user.id}`, {
+            params: {
+              include: 'doctor,department'
+            }
+          });
           setAppointments(appointmentsResponse.data);
+
+          // Process doctor and department details
+          const doctorsMap = {};
+          const deptsMap = {};
+          
+          appointmentsResponse.data.forEach(appt => {
+            if (appt.doctor) {
+              doctorsMap[appt.doctor.id] = appt.doctor;
+            }
+            if (appt.department) {
+              deptsMap[appt.department.id] = appt.department;
+            }
+          });
+
+          setDoctorDetails(doctorsMap);
+          setDepartmentDetails(deptsMap);
 
           setIsLoading(false);
         } else {
@@ -83,48 +105,116 @@ const Appointment = () => {
 
   // Fetch doctors when department changes
   useEffect(() => {
-    if (selectedDepartment) {
-      const fetchDoctors = async () => {
+    const fetchDoctors = async () => {
+      if (selectedDepartment) {
         try {
-          const response = await axios.get(`/api/doctors?departmentId=${selectedDepartment}`);
+          const response = await axios.get('/api/doctors', {
+            params: {
+              departmentId: selectedDepartment,
+              include: 'availability'
+            }
+          });
           setDoctors(response.data);
+          
+          // Map availability by doctor ID
+          const availabilityMap = {};
+          response.data.forEach(doctor => {
+            if (doctor.availability && doctor.availability.length > 0) {
+              availabilityMap[doctor.id] = doctor.availability;
+            }
+          });
+          setDoctorAvailability(prev => ({ ...prev, ...availabilityMap }));
         } catch (error) {
           console.error('Error fetching doctors:', error);
         }
-      };
-      fetchDoctors();
-    }
+      } else {
+        setDoctors([]);
+        setSelectedDoctor('');
+      }
+    };
+
+    fetchDoctors();
   }, [selectedDepartment]);
 
   // Fetch available slots when doctor or date changes
   useEffect(() => {
-    if (selectedDoctor && selectedDate) {
-      const fetchSlots = async () => {
+    const fetchSlots = async () => {
+      if (selectedDoctor && selectedDate) {
         try {
-          const response = await axios.get(
-            `/api/appointments/slots?doctorId=${selectedDoctor}&date=${selectedDate}`
+          // First check if doctor is available on this day
+          const dayOfWeek = new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'long' });
+          const availability = doctorAvailability[selectedDoctor]?.find(a => a.day_of_week === dayOfWeek);
+          
+          if (!availability) {
+            setAvailableSlots([]);
+            return;
+          }
+
+          // Get existing appointments for this doctor on this date
+          const response = await axios.get('/api/appointments/slots', {
+            params: {
+              doctorId: selectedDoctor,
+              date: selectedDate
+            }
+          });
+          
+          // Generate available slots based on doctor's availability
+          const start = new Date(`${selectedDate}T${availability.start_time}`);
+          const end = new Date(`${selectedDate}T${availability.end_time}`);
+          const slotDuration = availability.slot_duration || 30; // minutes
+          
+          const allPossibleSlots = [];
+          let current = new Date(start);
+          
+          while (current < end) {
+            const timeStr = current.toLocaleTimeString('en-US', { 
+              hour: '2-digit', 
+              minute: '2-digit',
+              hour12: true 
+            });
+            allPossibleSlots.push(timeStr);
+            current = new Date(current.getTime() + slotDuration * 60000);
+          }
+          
+          // Filter out booked slots
+          const bookedSlots = response.data.map(slot => 
+            new Date(`2000-01-01T${slot}`).toLocaleTimeString('en-US', { 
+              hour: '2-digit', 
+              minute: '2-digit',
+              hour12: true 
+            })
           );
-          setAvailableSlots(response.data);
+          
+          const available = allPossibleSlots.filter(slot => !bookedSlots.includes(slot));
+          setAvailableSlots(available);
         } catch (error) {
           console.error('Error fetching slots:', error);
         }
-      };
-      fetchSlots();
-    }
-  }, [selectedDoctor, selectedDate]);
+      } else {
+        setAvailableSlots([]);
+      }
+    };
+
+    fetchSlots();
+  }, [selectedDoctor, selectedDate, doctorAvailability]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleDateChange = (e) => {
+    setSelectedDate(e.target.value);
+    setSelectedSlot(null); // Reset selected slot when date changes
+  };
+
   const handleBookAppointment = async (e) => {
     e.preventDefault();
     try {
       const newAppointment = {
-        userId: userData.id,
-        doctorId: selectedDoctor,
-        departmentId: selectedDepartment,
+        user_id: userData.id,
+        doctor_id: selectedDoctor,
+        department_id: selectedDepartment,
         date: selectedDate,
         time: selectedSlot,
         reason: formData.reason,
@@ -134,8 +224,32 @@ const Appointment = () => {
 
       const response = await axios.post('/api/appointments', newAppointment);
       
+      // Fetch the full appointment details with joins
+      const fullAppointment = await axios.get(`/api/appointments/${response.data.id}`, {
+        params: {
+          include: 'doctor,department'
+        }
+      });
+      
       // Update local state
-      setAppointments([...appointments, response.data]);
+      setAppointments([...appointments, fullAppointment.data]);
+      
+      // Update doctor details if new
+      if (fullAppointment.data.doctor && !doctorDetails[fullAppointment.data.doctor.id]) {
+        setDoctorDetails(prev => ({
+          ...prev,
+          [fullAppointment.data.doctor.id]: fullAppointment.data.doctor
+        }));
+      }
+      
+      // Update department details if new
+      if (fullAppointment.data.department && !departmentDetails[fullAppointment.data.department.id]) {
+        setDepartmentDetails(prev => ({
+          ...prev,
+          [fullAppointment.data.department.id]: fullAppointment.data.department
+        }));
+      }
+      
       setShowBookingForm(false);
       setSelectedSlot(null);
       setFormData({ reason: '', notes: '' });
@@ -149,14 +263,34 @@ const Appointment = () => {
 
   const handleCancelAppointment = async (appointmentId) => {
     try {
-      await axios.delete(`/api/appointments/${appointmentId}`);
+      await axios.patch(`/api/appointments/${appointmentId}`, { status: 'cancelled' });
       
-      // Update local state
-      setAppointments(appointments.filter(appt => appt.id !== appointmentId));
+      setAppointments(appointments.map(appt => 
+        appt.id === appointmentId ? { ...appt, status: 'cancelled' } : appt
+      ));
       alert('Appointment cancelled successfully!');
     } catch (error) {
       console.error('Error cancelling appointment:', error);
       alert('Failed to cancel appointment. Please try again.');
+    }
+  };
+
+  const handleRescheduleAppointment = async (appointmentId) => {
+    try {
+      const appointment = appointments.find(a => a.id === appointmentId);
+      if (!appointment) return;
+      
+      setSelectedDepartment(appointment.department_id);
+      setSelectedDoctor(appointment.doctor_id);
+      setSelectedDate(appointment.date);
+      setFormData({
+        reason: appointment.reason || '',
+        notes: appointment.notes || ''
+      });
+      
+      setShowBookingForm(true);
+    } catch (error) {
+      console.error('Error preparing reschedule:', error);
     }
   };
 
@@ -173,7 +307,7 @@ const Appointment = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section - Consistent with Doctors Page */}
+      {/* Hero Section */}
       <motion.section 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -221,7 +355,7 @@ const Appointment = () => {
         </div>
       </motion.section>
 
-      {/* Banner Section - Stats from Doctors Page */}
+      {/* Banner Section */}
       <section className="py-12 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
         <div className="max-w-6xl mx-auto px-4">
           <motion.div 
@@ -232,10 +366,10 @@ const Appointment = () => {
             className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center"
           >
             {[
-              { number: '50+', label: 'Specialized Doctors' },
-              { number: '10K+', label: 'Patients Yearly' },
+              { number: appointments.length, label: 'Your Appointments' },
               { number: '95%', label: 'Patient Satisfaction' },
-              { number: '24/7', label: 'Emergency Care' }
+              { number: '24/7', label: 'Emergency Care' },
+              { number: departments.length, label: 'Specialties Available' }
             ].map((stat, index) => (
               <motion.div 
                 key={index}
@@ -270,7 +404,7 @@ const Appointment = () => {
               <h2 className="text-2xl font-bold text-blue-800">{userData.firstName} {userData.surname}</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                 <div>
-                  <p className="text-gray-600">Last Active</p>
+                  <p className="text-gray-600">Member Since</p>
                   <p className="font-semibold">{new Date(userData.created_at).toLocaleDateString()}</p>
                 </div>
                 <div>
@@ -334,7 +468,7 @@ const Appointment = () => {
                         <option value="">Select Doctor</option>
                         {doctors.map(doctor => (
                           <option key={doctor.id} value={doctor.id}>
-                            {doctor.title} {doctor.firstName} {doctor.lastName} ({doctor.specialization})
+                            {doctor.title || 'Dr.'} {doctor.firstName} {doctor.lastName} ({doctor.specialization})
                           </option>
                         ))}
                       </select>
@@ -345,12 +479,21 @@ const Appointment = () => {
                       <input
                         type="date"
                         value={selectedDate}
-                        onChange={(e) => setSelectedDate(e.target.value)}
+                        onChange={handleDateChange}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         min={new Date().toISOString().split('T')[0]}
                         required
                         disabled={!selectedDoctor}
                       />
+                      {selectedDoctor && selectedDate && (
+                        <div className="mt-2 text-sm text-gray-600">
+                          {doctorAvailability[selectedDoctor]?.some(a => 
+                            a.day_of_week === new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'long' })
+                            ? 'Doctor is available this day'
+                            : 'Doctor is not available this day'
+                          )}
+                        </div>
+                      )}
                     </div>
 
                     <div>
@@ -367,7 +510,7 @@ const Appointment = () => {
                     </div>
                   </div>
 
-                  {availableSlots.length > 0 && (
+                  {availableSlots.length > 0 ? (
                     <div className="mb-6">
                       <label className="block text-gray-700 mb-2">Available Time Slots</label>
                       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
@@ -384,6 +527,16 @@ const Appointment = () => {
                           </motion.button>
                         ))}
                       </div>
+                    </div>
+                  ) : selectedDoctor && selectedDate && (
+                    <div className="mb-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                      <p className="text-yellow-700">
+                        {availableSlots.length === 0 && doctorAvailability[selectedDoctor]?.some(a => 
+                          a.day_of_week === new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'long' })
+                          ? 'No available slots left for this day'
+                          : 'Doctor is not available on this day'
+                       )}
+                      </p>
                     </div>
                   )}
 
@@ -451,51 +604,92 @@ const Appointment = () => {
             </div>
           ) : (
             <div className="divide-y divide-gray-200">
-              {appointments.map(appointment => (
-                <div key={appointment.id} className="p-6 hover:bg-blue-50 transition">
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div>
-                      <h3 className="font-bold text-lg text-blue-800">
-                        {appointment.doctorName} - {appointment.departmentName}
-                      </h3>
-                      <p className="text-gray-600">
-                        {new Date(appointment.date).toLocaleDateString()} at {appointment.time}
-                      </p>
-                      {appointment.reason && (
-                        <p className="text-gray-700 mt-1">
-                          <span className="font-medium">Reason:</span> {appointment.reason}
+              {appointments.map(appointment => {
+                const doctor = appointment.doctor || doctorDetails[appointment.doctor_id];
+                const department = appointment.department || departmentDetails[appointment.department_id];
+                const availability = doctor ? doctorAvailability[doctor.id] : null;
+                
+                return (
+                  <div key={appointment.id} className="p-6 hover:bg-blue-50 transition">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                      <div className="flex-1">
+                        <div className="flex items-start gap-4">
+                          {doctor?.image && (
+                            <img 
+                              src={doctor.image} 
+                              alt={`${doctor.title || 'Dr.'} ${doctor.lastName}`}
+                              className="w-16 h-16 rounded-full object-cover border-2 border-blue-200"
+                            />
+                          )}
+                          <div>
+                            <h3 className="font-bold text-lg text-blue-800">
+                              {doctor ? `${doctor.title || 'Dr.'} ${doctor.firstName} ${doctor.lastName}` : 'Doctor'} - {department?.name || 'Department'}
+                            </h3>
+                            {doctor?.specialization && (
+                              <p className="text-gray-600 text-sm">{doctor.specialization}</p>
+                            )}
+                            <p className="text-gray-600 mt-1">
+                              {new Date(appointment.date).toLocaleDateString('en-GB', { 
+                                weekday: 'long', 
+                                year: 'numeric', 
+                                month: 'long', 
+                                day: 'numeric' 
+                              })} at {appointment.time}
+                            </p>
+                            {appointment.reason && (
+                              <p className="text-gray-700 mt-1">
+                                <span className="font-medium">Reason:</span> {appointment.reason}
+                              </p>
+                            )}
+                            <p className={`mt-2 text-sm font-medium ${
+                              appointment.status === 'booked' ? 'text-green-600' : 
+                              appointment.status === 'cancelled' ? 'text-red-600' : 'text-yellow-600'
+                            }`}>
+                              Status: {appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
+                            </p>
+                            {availability && (
+                              <div className="mt-2">
+                                <p className="text-xs text-gray-500">
+                                  <span className="font-medium">Typical Availability:</span> {availability.map(a => 
+                                    `${a.day_of_week} ${a.start_time}-${a.end_time}`
+                                  ).join(', ')}
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => handleRescheduleAppointment(appointment.id)}
+                          className="px-4 py-1 border border-blue-600 text-blue-600 rounded hover:bg-blue-50 transition"
+                          disabled={appointment.status === 'cancelled'}
+                        >
+                          Reschedule
+                        </motion.button>
+                        <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => handleCancelAppointment(appointment.id)}
+                          className="px-4 py-1 border border-red-600 text-red-600 rounded hover:bg-red-50 transition"
+                          disabled={appointment.status === 'cancelled'}
+                        >
+                          Cancel
+                        </motion.button>
+                      </div>
+                    </div>
+                    {appointment.notes && (
+                      <div className="mt-4 bg-blue-50 p-3 rounded-lg">
+                        <p className="text-sm text-blue-800">
+                          <span className="font-medium">Notes:</span> {appointment.notes}
                         </p>
-                      )}
-                      <p className={`mt-2 text-sm font-medium ${
-                        appointment.status === 'booked' ? 'text-green-600' : 
-                        appointment.status === 'cancelled' ? 'text-red-600' : 'text-yellow-600'
-                      }`}>
-                        Status: {appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
-                      </p>
-                    </div>
-                    <div className="flex gap-2">
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => alert('Reschedule functionality coming soon!')}
-                        className="px-4 py-1 border border-blue-600 text-blue-600 rounded hover:bg-blue-50 transition"
-                        disabled={appointment.status === 'cancelled'}
-                      >
-                        Reschedule
-                      </motion.button>
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => handleCancelAppointment(appointment.id)}
-                        className="px-4 py-1 border border-red-600 text-red-600 rounded hover:bg-red-50 transition"
-                        disabled={appointment.status === 'cancelled'}
-                      >
-                        Cancel
-                      </motion.button>
-                    </div>
+                      </div>
+                    )}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </motion.div>
@@ -513,9 +707,9 @@ const Appointment = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <h3 className="text-xl font-semibold text-blue-700 mb-2">{userData.department_name}</h3>
-                <p className="text-gray-700">{userData.details}</p>
-                <p className="text-gray-700 mt-2">
-                  <span className="font-medium">Your doctor:</span> {userData.doctor}
+                <p className="text-gray-700">
+                  {departments.find(d => d.id === userData.department_id)?.description || 
+                   'Specialized care for your needs'}
                 </p>
               </div>
               <div>
@@ -536,7 +730,7 @@ const Appointment = () => {
         )}
       </div>
 
-      {/* Contact Information Section - Consistent with Doctors Page */}
+      {/* Contact Information Section */}
       <section className="bg-blue-900 text-white py-12">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">Contact Information</h2>
@@ -568,7 +762,7 @@ const Appointment = () => {
         </div>
       </section>
 
-      {/* Footer - Consistent with Doctors Page */}
+      {/* Footer */}
       <footer className="bg-blue-950 text-white py-8">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">

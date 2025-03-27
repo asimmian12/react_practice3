@@ -87,13 +87,11 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
           <ul className="space-y-4">
             <li><Link to="/dashboard" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">Dashboard</Link></li>
             <li><Link to="/account" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">Account</Link></li>
-            <li><Link to="/About" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">About</Link></li>
             <li><Link to="/games" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">Games</Link></li>
-            <li><Link to="/Map" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">Map</Link></li>
             <li><Link to="/Appointment" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">Appointment</Link></li>
             <li><Link to="/Doctor" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">Doctor</Link></li>
-            <li><Link to="/Services" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">Services</Link></li>
-            <li><Link to="/Contact" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">Contact</Link></li>
+            <li><Link to="/Xray" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">X-Ray</Link></li>
+            <li><Link to="/Mri" className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md block">MRI</Link></li>
 
   
             <li><button onClick={handleLogout} className="hover:bg-[#36336b] px-4 py-3 text-lg rounded-md w-full text-left">Logout</button></li>

@@ -7,6 +7,7 @@ import { Phone, MapPin, Mail, Clock, X } from 'lucide-react';
 const Appointment = () => {
   const [userData, setUserData] = useState(null);
   const [departments, setDepartments] = useState([]);
+  const [jsonDepartments, setJsonDepartments] = useState([]);
   const [doctors, setDoctors] = useState([]);
   const [availableSlots, setAvailableSlots] = useState([]);
   const [selectedDate, setSelectedDate] = useState('');
@@ -23,7 +24,13 @@ const Appointment = () => {
   const [doctorDetails, setDoctorDetails] = useState({});
   const [departmentDetails, setDepartmentDetails] = useState({});
   const [doctorAvailability, setDoctorAvailability] = useState({});
+  const [error, setError] = useState(null);
+  const [dataLoaded, setDataLoaded] = useState(false);
   const navigate = useNavigate();
+
+  // Configure axios base URL
+  axios.defaults.baseURL = 'http://localhost:5000';
+  axios.defaults.withCredentials = true;
 
   // Contact information
   const contactInfo = [
@@ -53,83 +60,227 @@ const Appointment = () => {
     }
   ];
 
-  // Fetch user data and initial data
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-          const user = JSON.parse(storedUser);
-          setUserData(user);
+  // Enhanced department data combining SQL and JSON
+  const getEnhancedDepartment = (deptId) => {
+    const sqlDept = departments.find(d => d.id == deptId);
+    if (!sqlDept) return null;
+    
+    const jsonDept = jsonDepartments.find(d => 
+      d.name.toLowerCase() === sqlDept.name.toLowerCase()
+    );
+    
+    return { ...sqlDept, ...jsonDept };
+  };
 
-          // Fetch departments from database
-          const deptResponse = await axios.get('/api/departments');
-          setDepartments(deptResponse.data);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
-          // Fetch user's appointments with doctor and department data
-          const appointmentsResponse = await axios.get(`/api/appointments/user/${user.id}`, {
-            params: {
-              include: 'doctor,department'
-            }
-          });
-          setAppointments(appointmentsResponse.data);
+  const handleDateChange = (e) => {
+    setSelectedDate(e.target.value);
+    setSelectedSlot(null);
+  };
 
-          // Process doctor and department details
-          const doctorsMap = {};
-          const deptsMap = {};
-          
-          appointmentsResponse.data.forEach(appt => {
-            if (appt.doctor) {
-              doctorsMap[appt.doctor.id] = appt.doctor;
-            }
-            if (appt.department) {
-              deptsMap[appt.department.id] = appt.department;
-            }
-          });
+  const isDoctorAvailable = (doctorId, date) => {
+    if (!doctorId || !date) return false;
+    const dayOfWeek = new Date(date).toLocaleDateString('en-US', { weekday: 'long' });
+    return doctorAvailability[doctorId]?.some(a => a.day_of_week === dayOfWeek);
+  };
 
-          setDoctorDetails(doctorsMap);
-          setDepartmentDetails(deptsMap);
+  const handleBookAppointment = async (e) => {
+    e.preventDefault();
+    
+    if (!selectedDepartment || !selectedDoctor || !selectedDate || !selectedSlot || !formData.reason) {
+      setError('Please fill all required fields');
+      return;
+    }
 
-          setIsLoading(false);
-        } else {
-          navigate('/login');
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setIsLoading(false);
+    try {
+      // Convert time to 24-hour format for storage
+      const time24hr = new Date(`2000-01-01T${selectedSlot}`).toLocaleTimeString('en-US', {
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit'
+      }).replace(/^24:/, '00:'); // Handle midnight case
+
+      const newAppointment = {
+        user_id: userData.id,
+        doctor_id: parseInt(selectedDoctor),
+        department_id: parseInt(selectedDepartment),
+        date: selectedDate,
+        time: time24hr,
+        reason: formData.reason,
+        notes: formData.notes || null,
+        status: 'booked'
+      };
+
+      await axios.post('/api/appointments', newAppointment);
+      
+      // Refresh appointments list
+      const updatedResponse = await axios.get(`/api/appointments?user_id=${userData.id}`);
+      setAppointments(updatedResponse.data);
+      
+      // Reset form
+      setShowBookingForm(false);
+      setSelectedDepartment('');
+      setSelectedDoctor('');
+      setSelectedDate('');
+      setSelectedSlot(null);
+      setFormData({ reason: '', notes: '' });
+      setError(null);
+    } catch (error) {
+      console.error('Error booking appointment:', error);
+      setError(error.response?.data?.message || 'Failed to book appointment. Please try again.');
+    }
+  };
+
+  const handleCancelAppointment = async (appointmentId) => {
+    if (!window.confirm('Are you sure you want to cancel this appointment?')) {
+      return;
+    }
+
+    try {
+      await axios.patch(`/api/appointments/${appointmentId}`, { status: 'cancelled' });
+      
+      setAppointments(prev => prev.map(appt => 
+        appt.id === appointmentId ? { ...appt, status: 'cancelled' } : appt
+      ));
+      setError(null);
+    } catch (error) {
+      console.error('Error cancelling appointment:', error);
+      setError('Failed to cancel appointment. Please try again.');
+    }
+  };
+
+  const handleRescheduleAppointment = async (appointmentId) => {
+    try {
+      const appointment = appointments.find(a => a.id === appointmentId);
+      if (!appointment) {
+        setError('Appointment not found');
+        return;
       }
-    };
+      
+      setSelectedDepartment(appointment.department_id);
+      setSelectedDoctor(appointment.doctor_id);
+      setSelectedDate(appointment.date);
+      setFormData({
+        reason: appointment.reason || '',
+        notes: appointment.notes || ''
+      });
+      setShowBookingForm(true);
+      setError(null);
+    } catch (error) {
+      console.error('Error preparing reschedule:', error);
+      setError('Failed to prepare reschedule. Please try again.');
+    }
+  };
 
-    fetchData();
-  }, [navigate]);
+  // In your Appointment component, modify the data loading useEffect:
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const storedUser = localStorage.getItem('user');
+      if (!storedUser) {
+        navigate('/login');
+        return;
+      }
+
+      const user = JSON.parse(storedUser);
+      setUserData(user);
+
+      // Fetch data sequentially with error handling for each
+      try {
+        const deptResponse = await axios.get('/api/departments');
+        console.log('Departments loaded:', deptResponse.data);
+        setDepartments(deptResponse.data);
+      } catch (deptError) {
+        console.error('Error loading departments:', deptError);
+        setError('Failed to load departments. Please try again.');
+      }
+
+      try {
+        const jsonDeptResponse = await axios.get('/departments');
+        console.log('JSON departments loaded:', jsonDeptResponse.data);
+        setJsonDepartments(jsonDeptResponse.data);
+      } catch (jsonError) {
+        console.error('Error loading JSON departments:', jsonError);
+        // Don't set error as this is secondary data
+      }
+
+      try {
+        const doctorsResponse = await axios.get('/api/doctors');
+        console.log('Doctors loaded:', doctorsResponse.data);
+        setDoctors(doctorsResponse.data);
+        
+        // Create doctors map
+        const doctorsMap = {};
+        doctorsResponse.data.forEach(doctor => {
+          doctorsMap[doctor.id] = doctor;
+        });
+        setDoctorDetails(doctorsMap);
+      } catch (doctorsError) {
+        console.error('Error loading doctors:', doctorsError);
+        setError('Failed to load doctors. Please try again.');
+      }
+
+      try {
+        const appointmentsResponse = await axios.get(`/api/appointments?user_id=${user.id}`);
+        setAppointments(appointmentsResponse.data);
+      } catch (appointmentsError) {
+        console.error('Error loading appointments:', appointmentsError);
+        setError('Failed to load appointments. Please try again.');
+      }
+
+      setDataLoaded(true);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error in fetchData:', error);
+      setError('Failed to load data. Please try again later.');
+      setIsLoading(false);
+    }
+  };
+
+  fetchData();
+}, [navigate]);
 
   // Fetch doctors when department changes
   useEffect(() => {
     const fetchDoctors = async () => {
-      if (selectedDepartment) {
+      if (!selectedDepartment) {
+        // If no department selected, show all doctors
         try {
-          const response = await axios.get('/api/doctors', {
-            params: {
-              departmentId: selectedDepartment,
-              include: 'availability'
-            }
-          });
+          const response = await axios.get('/api/doctors');
           setDoctors(response.data);
-          
-          // Map availability by doctor ID
-          const availabilityMap = {};
-          response.data.forEach(doctor => {
-            if (doctor.availability && doctor.availability.length > 0) {
-              availabilityMap[doctor.id] = doctor.availability;
-            }
-          });
-          setDoctorAvailability(prev => ({ ...prev, ...availabilityMap }));
         } catch (error) {
-          console.error('Error fetching doctors:', error);
+          console.error('Error fetching all doctors:', error);
         }
-      } else {
-        setDoctors([]);
-        setSelectedDoctor('');
+        return;
+      }
+
+      try {
+        const response = await axios.get('/api/doctors', {
+          params: { department_id: selectedDepartment }
+        });
+        
+        setDoctors(response.data);
+        
+        // Fetch availability for each doctor
+        const availabilityMap = {};
+        for (const doctor of response.data) {
+          try {
+            const availabilityResponse = await axios.get(`/api/doctor-availability?doctor_id=${doctor.id}`);
+            availabilityMap[doctor.id] = availabilityResponse.data;
+          } catch (error) {
+            console.error(`Error fetching availability for doctor ${doctor.id}:`, error);
+            availabilityMap[doctor.id] = [];
+          }
+        }
+        setDoctorAvailability(availabilityMap);
+      } catch (error) {
+        console.error('Error fetching doctors:', error);
+        setError('Failed to load doctors. Please try again.');
       }
     };
 
@@ -139,160 +290,65 @@ const Appointment = () => {
   // Fetch available slots when doctor or date changes
   useEffect(() => {
     const fetchSlots = async () => {
-      if (selectedDoctor && selectedDate) {
-        try {
-          // First check if doctor is available on this day
-          const dayOfWeek = new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'long' });
-          const availability = doctorAvailability[selectedDoctor]?.find(a => a.day_of_week === dayOfWeek);
-          
-          if (!availability) {
-            setAvailableSlots([]);
-            return;
-          }
-
-          // Get existing appointments for this doctor on this date
-          const response = await axios.get('/api/appointments/slots', {
-            params: {
-              doctorId: selectedDoctor,
-              date: selectedDate
-            }
-          });
-          
-          // Generate available slots based on doctor's availability
-          const start = new Date(`${selectedDate}T${availability.start_time}`);
-          const end = new Date(`${selectedDate}T${availability.end_time}`);
-          const slotDuration = availability.slot_duration || 30; // minutes
-          
-          const allPossibleSlots = [];
-          let current = new Date(start);
-          
-          while (current < end) {
-            const timeStr = current.toLocaleTimeString('en-US', { 
-              hour: '2-digit', 
-              minute: '2-digit',
-              hour12: true 
-            });
-            allPossibleSlots.push(timeStr);
-            current = new Date(current.getTime() + slotDuration * 60000);
-          }
-          
-          // Filter out booked slots
-          const bookedSlots = response.data.map(slot => 
-            new Date(`2000-01-01T${slot}`).toLocaleTimeString('en-US', { 
-              hour: '2-digit', 
-              minute: '2-digit',
-              hour12: true 
-            })
-          );
-          
-          const available = allPossibleSlots.filter(slot => !bookedSlots.includes(slot));
-          setAvailableSlots(available);
-        } catch (error) {
-          console.error('Error fetching slots:', error);
-        }
-      } else {
+      if (!selectedDoctor || !selectedDate) {
         setAvailableSlots([]);
+        return;
+      }
+
+      try {
+        const dayOfWeek = new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'long' });
+        const availability = doctorAvailability[selectedDoctor]?.find(a => a.day_of_week === dayOfWeek);
+        
+        if (!availability) {
+          setAvailableSlots([]);
+          return;
+        }
+
+        // Get booked slots for this doctor on this date
+        const bookedSlotsResponse = await axios.get('/api/appointments', {
+          params: {
+            doctor_id: selectedDoctor,
+            date: selectedDate
+          }
+        });
+        
+        // Generate all possible slots
+        const start = new Date(`${selectedDate}T${availability.start_time}`);
+        const end = new Date(`${selectedDate}T${availability.end_time}`);
+        const slotDuration = availability.slot_duration || 30; // minutes
+        
+        const allSlots = [];
+        let current = new Date(start);
+        
+        while (current < end) {
+          const timeStr = current.toLocaleTimeString('en-US', { 
+            hour: '2-digit', 
+            minute: '2-digit',
+            hour12: true 
+          });
+          allSlots.push(timeStr);
+          current = new Date(current.getTime() + slotDuration * 60000);
+        }
+        
+        // Filter out booked slots
+        const bookedSlots = bookedSlotsResponse.data.map(appt => 
+          new Date(`2000-01-01T${appt.time}`).toLocaleTimeString('en-US', { 
+            hour: '2-digit', 
+            minute: '2-digit',
+            hour12: true 
+          })
+        );
+        
+        const available = allSlots.filter(slot => !bookedSlots.includes(slot));
+        setAvailableSlots(available);
+      } catch (error) {
+        console.error('Error fetching slots:', error);
+        setError('Failed to load available slots. Please try again.');
       }
     };
 
     fetchSlots();
   }, [selectedDoctor, selectedDate, doctorAvailability]);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleDateChange = (e) => {
-    setSelectedDate(e.target.value);
-    setSelectedSlot(null); // Reset selected slot when date changes
-  };
-
-  const handleBookAppointment = async (e) => {
-    e.preventDefault();
-    try {
-      const newAppointment = {
-        user_id: userData.id,
-        doctor_id: selectedDoctor,
-        department_id: selectedDepartment,
-        date: selectedDate,
-        time: selectedSlot,
-        reason: formData.reason,
-        notes: formData.notes,
-        status: 'booked'
-      };
-
-      const response = await axios.post('/api/appointments', newAppointment);
-      
-      // Fetch the full appointment details with joins
-      const fullAppointment = await axios.get(`/api/appointments/${response.data.id}`, {
-        params: {
-          include: 'doctor,department'
-        }
-      });
-      
-      // Update local state
-      setAppointments([...appointments, fullAppointment.data]);
-      
-      // Update doctor details if new
-      if (fullAppointment.data.doctor && !doctorDetails[fullAppointment.data.doctor.id]) {
-        setDoctorDetails(prev => ({
-          ...prev,
-          [fullAppointment.data.doctor.id]: fullAppointment.data.doctor
-        }));
-      }
-      
-      // Update department details if new
-      if (fullAppointment.data.department && !departmentDetails[fullAppointment.data.department.id]) {
-        setDepartmentDetails(prev => ({
-          ...prev,
-          [fullAppointment.data.department.id]: fullAppointment.data.department
-        }));
-      }
-      
-      setShowBookingForm(false);
-      setSelectedSlot(null);
-      setFormData({ reason: '', notes: '' });
-
-      alert('Appointment booked successfully!');
-    } catch (error) {
-      console.error('Error booking appointment:', error);
-      alert('Failed to book appointment. Please try again.');
-    }
-  };
-
-  const handleCancelAppointment = async (appointmentId) => {
-    try {
-      await axios.patch(`/api/appointments/${appointmentId}`, { status: 'cancelled' });
-      
-      setAppointments(appointments.map(appt => 
-        appt.id === appointmentId ? { ...appt, status: 'cancelled' } : appt
-      ));
-      alert('Appointment cancelled successfully!');
-    } catch (error) {
-      console.error('Error cancelling appointment:', error);
-      alert('Failed to cancel appointment. Please try again.');
-    }
-  };
-
-  const handleRescheduleAppointment = async (appointmentId) => {
-    try {
-      const appointment = appointments.find(a => a.id === appointmentId);
-      if (!appointment) return;
-      
-      setSelectedDepartment(appointment.department_id);
-      setSelectedDoctor(appointment.doctor_id);
-      setSelectedDate(appointment.date);
-      setFormData({
-        reason: appointment.reason || '',
-        notes: appointment.notes || ''
-      });
-      
-      setShowBookingForm(true);
-    } catch (error) {
-      console.error('Error preparing reschedule:', error);
-    }
-  };
 
   if (!userData || isLoading) {
     return (
@@ -304,7 +360,7 @@ const Appointment = () => {
       </div>
     );
   }
-
+  
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -386,6 +442,17 @@ const Appointment = () => {
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
+        {/* Error Message */}
+        {error && (
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded"
+          >
+            <p>{error}</p>
+          </motion.div>
+        )}
+
         {/* User Info Card */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -396,7 +463,7 @@ const Appointment = () => {
         >
           <div className="flex flex-col md:flex-row items-center gap-6">
             <img 
-              src={userData.profileImage || './images/account2.png'} 
+              src={'./images/account2.png'} 
               alt="Profile" 
               className="w-24 h-24 rounded-full object-cover border-4 border-blue-200"
             />
@@ -413,7 +480,7 @@ const Appointment = () => {
                 </div>
                 <div>
                   <p className="text-gray-600">Primary Department</p>
-                  <p className="font-semibold">{userData.department_name}</p>
+                  <p className="font-semibold">{userData.department_name || 'None'}</p>
                 </div>
               </div>
             </div>
@@ -432,7 +499,10 @@ const Appointment = () => {
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-2xl font-bold text-blue-800">Book New Appointment</h2>
                   <button 
-                    onClick={() => setShowBookingForm(false)}
+                    onClick={() => {
+                      setShowBookingForm(false);
+                      setError(null);
+                    }}
                     className="text-gray-500 hover:text-gray-700"
                   >
                     <X size={24} />
@@ -442,31 +512,41 @@ const Appointment = () => {
                 <form onSubmit={handleBookAppointment}>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
-                      <label className="block text-gray-700 mb-2">Department</label>
+                      <label className="block text-gray-700 mb-2">Department *</label>
                       <select
-                        value={selectedDepartment}
-                        onChange={(e) => setSelectedDepartment(e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        required
-                      >
-                        <option value="">Select Department</option>
+                      value={selectedDepartment}
+                      onChange={(e) => {
+                        setSelectedDepartment(e.target.value);
+                        setSelectedDoctor('');
+                        setSelectedDate('');
+                        setSelectedSlot(null);
+                      }}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      required>
+                        <option value="">{departments.length > 0 ? 'Select Department' : 'Loading departments...'}</option>
                         {departments.map(dept => (
-                          <option key={dept.id} value={dept.id}>{dept.name}</option>
-                        ))}
-                      </select>
+                          <option key={dept.id} value={dept.id}>
+                            {dept.name}
+                            </option>
+                          ))}
+                          </select>
                     </div>
 
                     <div>
-                      <label className="block text-gray-700 mb-2">Doctor</label>
+                      <label className="block text-gray-700 mb-2">Doctor *</label>
                       <select
                         value={selectedDoctor}
-                        onChange={(e) => setSelectedDoctor(e.target.value)}
+                        onChange={(e) => {
+                          setSelectedDoctor(e.target.value);
+                          setSelectedDate('');
+                          setSelectedSlot(null);
+                        }}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         required
-                        disabled={!selectedDepartment}
+                        disabled={!dataLoaded}
                       >
-                        <option value="">Select Doctor</option>
-                        {doctors.map(doctor => (
+                        <option value="">{dataLoaded ? 'Select Doctor' : 'Loading...'}</option>
+                        {doctors?.map(doctor => (
                           <option key={doctor.id} value={doctor.id}>
                             {doctor.title || 'Dr.'} {doctor.firstName} {doctor.lastName} ({doctor.specialization})
                           </option>
@@ -475,7 +555,7 @@ const Appointment = () => {
                     </div>
 
                     <div>
-                      <label className="block text-gray-700 mb-2">Date</label>
+                      <label className="block text-gray-700 mb-2">Date *</label>
                       <input
                         type="date"
                         value={selectedDate}
@@ -487,17 +567,15 @@ const Appointment = () => {
                       />
                       {selectedDoctor && selectedDate && (
                         <div className="mt-2 text-sm text-gray-600">
-                          {doctorAvailability[selectedDoctor]?.some(a => 
-                            a.day_of_week === new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'long' })
-                            ? 'Doctor is available this day'
-                            : 'Doctor is not available this day'
-                          )}
+                          {isDoctorAvailable(selectedDoctor, selectedDate) 
+                            ? 'Doctor is available this day' 
+                            : 'Doctor is not available this day'}
                         </div>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-gray-700 mb-2">Reason</label>
+                      <label className="block text-gray-700 mb-2">Reason *</label>
                       <input
                         type="text"
                         name="reason"
@@ -512,7 +590,7 @@ const Appointment = () => {
 
                   {availableSlots.length > 0 ? (
                     <div className="mb-6">
-                      <label className="block text-gray-700 mb-2">Available Time Slots</label>
+                      <label className="block text-gray-700 mb-2">Available Time Slots *</label>
                       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                         {availableSlots.map(slot => (
                           <motion.button
@@ -531,11 +609,9 @@ const Appointment = () => {
                   ) : selectedDoctor && selectedDate && (
                     <div className="mb-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
                       <p className="text-yellow-700">
-                        {availableSlots.length === 0 && doctorAvailability[selectedDoctor]?.some(a => 
-                          a.day_of_week === new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'long' })
-                          ? 'No available slots left for this day'
-                          : 'Doctor is not available on this day'
-                       )}
+                        {isDoctorAvailable(selectedDoctor, selectedDate) 
+                          ? 'No available slots left for this day' 
+                          : 'Doctor is not available on this day'}
                       </p>
                     </div>
                   )}
@@ -557,7 +633,10 @@ const Appointment = () => {
                       type="button"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      onClick={() => setShowBookingForm(false)}
+                      onClick={() => {
+                        setShowBookingForm(false);
+                        setError(null);
+                      }}
                       className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition"
                     >
                       Cancel
@@ -605,28 +684,29 @@ const Appointment = () => {
           ) : (
             <div className="divide-y divide-gray-200">
               {appointments.map(appointment => {
-                const doctor = appointment.doctor || doctorDetails[appointment.doctor_id];
-                const department = appointment.department || departmentDetails[appointment.department_id];
-                const availability = doctor ? doctorAvailability[doctor.id] : null;
+                const doctor = doctorDetails[appointment.doctor_id] || {};
+                const department = getEnhancedDepartment(appointment.department_id) || {};
+                const availability = doctorAvailability[appointment.doctor_id] || [];
                 
                 return (
                   <div key={appointment.id} className="p-6 hover:bg-blue-50 transition">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                       <div className="flex-1">
                         <div className="flex items-start gap-4">
-                          {doctor?.image && (
-                            <img 
-                              src={doctor.image} 
-                              alt={`${doctor.title || 'Dr.'} ${doctor.lastName}`}
-                              className="w-16 h-16 rounded-full object-cover border-2 border-blue-200"
-                            />
-                          )}
+                          <img 
+                            src={doctor.image || '/images/account2.png'} 
+                            alt={`${doctor.title || 'Dr.'} ${doctor.lastName || ''}`}
+                            className="w-16 h-16 rounded-full object-cover border-2 border-blue-200"
+                          />
                           <div>
                             <h3 className="font-bold text-lg text-blue-800">
-                              {doctor ? `${doctor.title || 'Dr.'} ${doctor.firstName} ${doctor.lastName}` : 'Doctor'} - {department?.name || 'Department'}
+                              {doctor.firstName ? `${doctor.title || 'Dr.'} ${doctor.firstName} ${doctor.lastName}` : 'Doctor'} - {department.name || 'Department'}
                             </h3>
-                            {doctor?.specialization && (
+                            {doctor.specialization && (
                               <p className="text-gray-600 text-sm">{doctor.specialization}</p>
+                            )}
+                            {doctor.bio && (
+                              <p className="text-gray-600 text-xs mt-1">{doctor.bio}</p>
                             )}
                             <p className="text-gray-600 mt-1">
                               {new Date(appointment.date).toLocaleDateString('en-GB', { 
@@ -642,12 +722,14 @@ const Appointment = () => {
                               </p>
                             )}
                             <p className={`mt-2 text-sm font-medium ${
-                              appointment.status === 'booked' ? 'text-green-600' : 
-                              appointment.status === 'cancelled' ? 'text-red-600' : 'text-yellow-600'
+                              appointment.status === 'booked' ? 'text-blue-600' : 
+                              appointment.status === 'completed' ? 'text-green-600' :
+                              appointment.status === 'cancelled' ? 'text-red-600' : 
+                              'text-yellow-600'
                             }`}>
                               Status: {appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
                             </p>
-                            {availability && (
+                            {availability.length > 0 && (
                               <div className="mt-2">
                                 <p className="text-xs text-gray-500">
                                   <span className="font-medium">Typical Availability:</span> {availability.map(a => 
@@ -665,7 +747,7 @@ const Appointment = () => {
                           whileTap={{ scale: 0.95 }}
                           onClick={() => handleRescheduleAppointment(appointment.id)}
                           className="px-4 py-1 border border-blue-600 text-blue-600 rounded hover:bg-blue-50 transition"
-                          disabled={appointment.status === 'cancelled'}
+                          disabled={appointment.status === 'cancelled' || appointment.status === 'completed'}
                         >
                           Reschedule
                         </motion.button>
@@ -674,7 +756,7 @@ const Appointment = () => {
                           whileTap={{ scale: 0.95 }}
                           onClick={() => handleCancelAppointment(appointment.id)}
                           className="px-4 py-1 border border-red-600 text-red-600 rounded hover:bg-red-50 transition"
-                          disabled={appointment.status === 'cancelled'}
+                          disabled={appointment.status === 'cancelled' || appointment.status === 'completed'}
                         >
                           Cancel
                         </motion.button>
@@ -685,6 +767,12 @@ const Appointment = () => {
                         <p className="text-sm text-blue-800">
                           <span className="font-medium">Notes:</span> {appointment.notes}
                         </p>
+                      </div>
+                    )}
+                    {department.details && (
+                      <div className="mt-4 bg-gray-50 p-3 rounded-lg">
+                        <h4 className="font-medium text-gray-800 mb-1">About {department.name}:</h4>
+                        <p className="text-sm text-gray-700">{department.details}</p>
                       </div>
                     )}
                   </div>
@@ -707,10 +795,23 @@ const Appointment = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <h3 className="text-xl font-semibold text-blue-700 mb-2">{userData.department_name}</h3>
-                <p className="text-gray-700">
-                  {departments.find(d => d.id === userData.department_id)?.description || 
-                   'Specialized care for your needs'}
-                </p>
+                {departmentDetails[userData.department_id]?.details ? (
+                  <p className="text-gray-700">{departmentDetails[userData.department_id].details}</p>
+                ) : (
+                  <p className="text-gray-700">Specialized care for your needs</p>
+                )}
+                {departmentDetails[userData.department_id]?.doctor && (
+                  <div className="mt-4">
+                    <h4 className="font-medium text-blue-700 mb-1">Primary Doctor:</h4>
+                    <p>{departmentDetails[userData.department_id].doctor}</p>
+                  </div>
+                )}
+                {departmentDetails[userData.department_id]?.nurse && (
+                  <div className="mt-2">
+                    <h4 className="font-medium text-blue-700 mb-1">Primary Nurse:</h4>
+                    <p>{departmentDetails[userData.department_id].nurse}</p>
+                  </div>
+                )}
               </div>
               <div>
                 <h3 className="text-xl font-semibold text-blue-700 mb-2">Department Hours</h3>
@@ -724,6 +825,21 @@ const Appointment = () => {
                     </div>
                   ))}
                 </div>
+                {departmentDetails[userData.department_id]?.dept_img && (
+                  <div className="mt-4">
+                    <h4 className="font-medium text-blue-700 mb-2">Department Images</h4>
+                    <div className="flex gap-2">
+                      {departmentDetails[userData.department_id].dept_img.map((img, index) => (
+                        <img 
+                          key={index} 
+                          src={img} 
+                          alt={`Department ${index + 1}`} 
+                          className="w-16 h-16 object-cover rounded"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </motion.div>
@@ -783,6 +899,6 @@ const Appointment = () => {
       </footer>
     </div>
   );
-};
+}
 
 export default Appointment;

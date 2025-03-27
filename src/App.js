@@ -14,6 +14,8 @@ import Dashboard from './pages/Dashboard';
 import Account from './pages/Account';
 import Games from './pages/Games';
 import Appointment from './pages/Appointment';
+import X_Ray from './pages/Xray';
+import MRI from './pages/Mri';
 
 
 
@@ -52,12 +54,14 @@ function App() {
             <Route path="/register" element={isLoggedIn ? <Navigate to="/dashboard" /> : <Register />} />
             {/* Protected routes */}
             <Route path="/dashboard" element={isLoggedIn ? <Dashboard /> : <Navigate to="/login" />} />
-            <Route path="/account" element={isLoggedIn ? <Account /> : <Navigate to="/login" />} />
-            <Route path="/games" element={isLoggedIn ? <Games /> : <Navigate to="/login" />} />
+            <Route path="/account" element={isLoggedIn ? <Account /> : <Navigate to="/account" />} />
+            <Route path="/games" element={isLoggedIn ? <Games /> : <Navigate to="/Games" />} />
+            <Route path="/Xray" element={isLoggedIn ? <X_Ray /> : <Navigate to="/Xray" />} />
+            <Route path="/Mri" element={isLoggedIn ? <MRI /> : <Navigate to="/Mri" />} />
             <Route path="/Map" element={<Map />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/appointment" element={<Appointment />} />
-            <Route path="/Doctor" element={<Doctor />} />
+            <Route path="/appointment" element={isLoggedIn ? <Appointment /> : <Navigate to="/appointment" />} />
+            <Route path="/Doctor" element={isLoggedIn ? <Doctor /> : <Navigate to="/Doctor" />} />
             <Route path="/About" element={<About />} />
             <Route path="/Services" element={<Services />} />
        

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 27, 2025 at 01:18 AM
+-- Generation Time: Mar 27, 2025 at 09:02 PM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.16
 
@@ -40,6 +40,18 @@ CREATE TABLE `appointments` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `appointments`
+--
+
+INSERT INTO `appointments` (`id`, `user_id`, `doctor_id`, `department_id`, `date`, `time`, `reason`, `notes`, `status`, `created_at`, `updated_at`) VALUES
+(1, 7, 1, 1, '2025-04-01', '09:00', 'Routine checkup', NULL, 'booked', '2025-03-27 13:11:26', '2025-03-27 13:11:26'),
+(2, 17, 2, 2, '2025-04-03', '10:30', 'Neurological evaluation', NULL, 'booked', '2025-03-27 13:11:26', '2025-03-27 13:11:26'),
+(3, 18, 3, 3, '2025-04-05', '11:00', 'Pediatric consultation', NULL, 'booked', '2025-03-27 13:11:26', '2025-03-27 13:11:26'),
+(4, 7, 1, 1, '2025-04-01', '09:00', 'Routine checkup', NULL, 'booked', '2025-03-27 13:12:00', '2025-03-27 13:12:00'),
+(5, 17, 2, 2, '2025-04-03', '10:30', 'Neurological evaluation', NULL, 'booked', '2025-03-27 13:12:00', '2025-03-27 13:12:00'),
+(6, 18, 3, 3, '2025-04-05', '11:00', 'Pediatric consultation', NULL, 'booked', '2025-03-27 13:12:00', '2025-03-27 13:12:00');
 
 -- --------------------------------------------------------
 
@@ -79,6 +91,16 @@ CREATE TABLE `doctors` (
   `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `doctors`
+--
+
+INSERT INTO `doctors` (`id`, `firstName`, `lastName`, `title`, `specialization`, `department_id`, `bio`, `image`) VALUES
+(1, 'Samantha ', 'Jackson', 'Dr.', 'Cardiology ', 1, 'Expert in Pediatric cardiologist specializing in congenital heart conditions.', 'doctor6.jpeg'),
+(2, 'John', 'GoldBerg', 'Dr.', 'Neurology', 2, 'Expert neurologist specializing in neurological disorders.', 'doctor1.jpeg'),
+(3, 'David', 'Stewart', 'Dr.', 'Pediatrics', 3, 'Pediatrician specializing in child development and care.', 'doctor3.jpeg'),
+(4, 'Miley', 'Smith', 'Dr.', 'Orthopaedics', 4, 'Orthopedic surgeon with expertise in joint replacements and injuries.', 'doctor4.jpeg');
+
 -- --------------------------------------------------------
 
 --
@@ -93,6 +115,20 @@ CREATE TABLE `doctor_availability` (
   `end_time` time NOT NULL,
   `slot_duration` int DEFAULT '30' COMMENT 'Duration in minutes'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `doctor_availability`
+--
+
+INSERT INTO `doctor_availability` (`id`, `doctor_id`, `day_of_week`, `start_time`, `end_time`, `slot_duration`) VALUES
+(1, 1, 'Monday', '08:00:00', '12:00:00', 30),
+(2, 1, 'Wednesday', '09:00:00', '13:00:00', 30),
+(3, 2, 'Tuesday', '10:00:00', '14:00:00', 30),
+(4, 2, 'Thursday', '11:00:00', '15:00:00', 30),
+(5, 3, 'Friday', '08:30:00', '12:30:00', 30),
+(6, 3, 'Saturday', '09:00:00', '13:00:00', 30),
+(7, 4, 'Monday', '14:00:00', '18:00:00', 30),
+(8, 4, 'Thursday', '15:00:00', '19:00:00', 30);
 
 -- --------------------------------------------------------
 
@@ -173,7 +209,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -185,13 +221,13 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT for table `doctors`
 --
 ALTER TABLE `doctors`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `doctor_availability`
 --
 ALTER TABLE `doctor_availability`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `users`

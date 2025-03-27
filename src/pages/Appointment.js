@@ -176,8 +176,6 @@ const Appointment = () => {
     }
   };
 
-  // In your Appointment component, modify the data loading useEffect:
-
 useEffect(() => {
   const fetchData = async () => {
     try {

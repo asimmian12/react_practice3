@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 27, 2025 at 11:42 PM
+-- Generation Time: Mar 28, 2025 at 01:47 AM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.16
 
@@ -158,6 +158,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `firstName`, `surname`, `dob`, `hospital_number`, `email`, `department_id`, `department_name`, `telephone_number`, `password`, `created_at`, `two_factor_secret`, `two_factor_enabled`, `backup_codes`) VALUES
+(2, 'Nuzhat', 'Mian', '2000-01-01', '123', 'nfmian@gmail.com', 1, 'Cardiology', '0123456789', '$2b$10$5QVGzx3rMq19Cht4h72p5uPSc41d0MNbQcY96VxM1l6NCE.zm3W9C', '2025-03-28 01:41:00', NULL, 0, NULL),
 (7, 'Asim', 'Mian', '2002-12-31', '1', '20273835@myclyde.ac.uk', 1, 'Cardiology', '0141 383 6089', '$2b$10$5QVGzx3rMq19Cht4h72p5uPSc41d0MNbQcY96VxM1l6NCE.zm3W9C', '2025-02-10 14:42:18', NULL, 0, NULL),
 (17, 'Iain', 'Shaw', '1222-04-04', '124', 'ishaw@gmail.com', 2, 'Neurology', '01414532321', '$2b$10$VwrUNBmeykOK.cWmEj3zbupzdQgmX4qFMmLwfyvfJfYPqNlO5SSba', '2025-02-17 14:35:04', NULL, 0, NULL),
 (18, 'David', 'Stewart', '1965-12-18', '125', 'dstewart@gmail.com', 1, 'Cardiology', '01415834532', '$2b$10$WDnB4gFaU4f2SluHa2fq3OO8kR6tp/awbDbvr25BGJ57KiTfpja2m', '2025-03-26 02:17:48', NULL, 0, NULL);
@@ -209,7 +210,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `departments`

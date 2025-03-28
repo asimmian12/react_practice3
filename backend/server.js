@@ -18,8 +18,9 @@ const app = express();
 // Middleware
 app.use(cors({ 
   origin: 'http://localhost:3000',
-  methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
 
 app.use(bodyParser.json());
@@ -228,17 +229,83 @@ app.get('/api/debug/json', (req, res) => {
   });
 });
 
+// Replace the existing appointments POST endpoint with this:
 app.post('/api/appointments', async (req, res) => {
   try {
     const { user_id, doctor_id, department_id, date, time, reason, notes, status } = req.body;
+    
+    console.log('Received appointment booking request:', {
+      user_id, doctor_id, department_id, date, time, reason, notes, status
+    });
+
+    // Basic validation
+    if (!user_id || !doctor_id || !department_id || !date || !time || !reason) {
+      return res.status(400).json({ 
+        message: 'Missing required fields',
+        required: ['user_id', 'doctor_id', 'department_id', 'date', 'time', 'reason']
+      });
+    }
+
+    // Verify references exist
+    try {
+      const [user] = await pool.query('SELECT id FROM users WHERE id = ?', [user_id]);
+      const [doctor] = await pool.query('SELECT id FROM doctors WHERE id = ?', [doctor_id]);
+      const [department] = await pool.query('SELECT id FROM departments WHERE id = ?', [department_id]);
+      
+      if (user.length === 0) throw new Error(`User with ID ${user_id} not found`);
+      if (doctor.length === 0) throw new Error(`Doctor with ID ${doctor_id} not found`);
+      if (department.length === 0) throw new Error(`Department with ID ${department_id} not found`);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+
+    // Insert the appointment
     const [result] = await pool.query(
-      'INSERT INTO appointments (user_id, doctor_id, department_id, date, time, reason, notes, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-      [user_id, doctor_id, department_id, date, time, reason, notes, status || 'booked']
+      `INSERT INTO appointments 
+      (user_id, doctor_id, department_id, date, time, reason, notes, status) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [user_id, doctor_id, department_id, date, time, reason, notes || null, status || 'booked']
     );
-    res.json({ id: result.insertId });
+
+    console.log('Appointment booked successfully with ID:', result.insertId);
+    
+    res.json({ 
+      success: true,
+      id: result.insertId,
+      message: 'Appointment booked successfully'
+    });
+
   } catch (error) {
-    console.error('Error creating appointment:', error);
-    res.status(500).json({ message: 'Error creating appointment' });
+    console.error('Detailed appointment booking error:', {
+      message: error.message,
+      code: error.code,
+      sqlMessage: error.sqlMessage,
+      sql: error.sql
+    });
+    
+    res.status(500).json({ 
+      message: 'Error creating appointment',
+      error: {
+        code: error.code,
+        sqlMessage: error.sqlMessage,
+        details: 'Check server logs for more information'
+      }
+    });
+  }
+});
+
+app.get('/api/users/:id', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM users WHERE id = ?', [req.params.id]);
+    if (rows.length === 0) {
+      return res.status(404).json({ 
+        error: `User with ID ${req.params.id} not found`,
+      });
+    }
+    res.json(rows[0]);
+  } catch (error) {
+    console.error('User verification error:', error);
+    res.status(500).json({ message: 'Error verifying user' });
   }
 });
 

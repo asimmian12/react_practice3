@@ -146,20 +146,6 @@ const Map = () => {
                     >
                       <a href="/appointment">Book an Appointment</a>
                     </motion.button>
-                    <motion.button 
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="bg-white text-blue-600 px-6 py-3 m-2 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md"
-                    >
-                      <a href="/Mri">Book an MRI Scan</a>
-                    </motion.button>
-                    <motion.button 
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="bg-white text-blue-600 px-6 py-3 m-2 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md"
-                    >
-                      <a href="/Xray">Book an X-Ray</a>
-                    </motion.button>
                   </motion.div>
                 </div>
               </motion.section>

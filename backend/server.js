@@ -178,6 +178,7 @@ app.get('/api/doctor-availability', async (req, res) => {
 // Appointments endpoints
 app.get('/api/appointments', async (req, res) => {
   try {
+    console.log('Received request for appointments with query:', req.query);
     const { user_id, doctor_id, date } = req.query;
     let query = 'SELECT * FROM appointments';
     const params = [];
@@ -186,6 +187,7 @@ app.get('/api/appointments', async (req, res) => {
       query += ' WHERE user_id = ?';
       params.push(user_id);
     }
+    
     
     if (doctor_id) {
       query += params.length ? ' AND doctor_id = ?' : ' WHERE doctor_id = ?';
@@ -198,10 +200,14 @@ app.get('/api/appointments', async (req, res) => {
     }
     
     const [rows] = await pool.query(query, params);
+    console.log('Returning appointments:', rows); 
     res.json(rows);
   } catch (error) {
-    console.error('Error fetching appointments:', error);
-    res.status(500).json({ message: 'Error fetching appointments' });
+    console.error('Detailed error fetching appointments:', error);
+    res.status(500).json({ 
+      message: 'Error fetching appointments',
+      error: error.message 
+    });
   }
 });
 

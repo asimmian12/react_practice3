@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 28, 2025 at 10:05 AM
+-- Generation Time: Mar 28, 2025 at 08:45 PM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.16
 
@@ -46,13 +46,7 @@ CREATE TABLE `appointments` (
 --
 
 INSERT INTO `appointments` (`id`, `user_id`, `doctor_id`, `department_id`, `date`, `time`, `reason`, `notes`, `status`, `created_at`, `updated_at`) VALUES
-(1, 7, 1, 1, '2025-04-01', '09:00', 'Routine checkup', NULL, 'booked', '2025-03-27 13:11:26', '2025-03-27 13:11:26'),
-(2, 17, 2, 2, '2025-04-03', '10:30', 'Neurological evaluation', NULL, 'booked', '2025-03-27 13:11:26', '2025-03-27 13:11:26'),
-(3, 18, 3, 3, '2025-04-05', '11:00', 'Pediatric consultation', NULL, 'booked', '2025-03-27 13:11:26', '2025-03-27 13:11:26'),
-(4, 7, 1, 1, '2025-04-01', '09:00', 'Routine checkup', NULL, 'booked', '2025-03-27 13:12:00', '2025-03-27 13:12:00'),
-(5, 17, 2, 2, '2025-04-03', '10:30', 'Neurological evaluation', NULL, 'booked', '2025-03-27 13:12:00', '2025-03-27 13:12:00'),
-(6, 18, 3, 3, '2025-04-05', '11:00', 'Pediatric consultation', NULL, 'booked', '2025-03-27 13:12:00', '2025-03-27 13:12:00'),
-(18, 2, 3, 1, '2025-03-28', '15:00', 'Leg Pain', 'Eating Painkillers', 'booked', '2025-03-28 10:01:07', '2025-03-28 10:02:02');
+(18, 2, 1, 1, '2025-03-28', '15:00', 'Heart Pain', 'Eating Painkillers', 'booked', '2025-03-28 10:01:07', '2025-03-28 20:45:02');
 
 -- --------------------------------------------------------
 
@@ -62,7 +56,7 @@ INSERT INTO `appointments` (`id`, `user_id`, `doctor_id`, `department_id`, `date
 
 CREATE TABLE `departments` (
   `id` int NOT NULL,
-  `name` varchar(32) COLLATE utf8mb4_general_ci NOT NULL
+  `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -139,19 +133,19 @@ INSERT INTO `doctor_availability` (`id`, `doctor_id`, `day_of_week`, `start_time
 
 CREATE TABLE `users` (
   `id` int NOT NULL,
-  `firstName` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `surname` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `firstName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `surname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `dob` date DEFAULT NULL,
-  `hospital_number` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `hospital_number` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `department_id` int DEFAULT NULL,
-  `department_name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `telephone_number` varchar(15) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `department_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `telephone_number` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `two_factor_secret` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `two_factor_secret` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `two_factor_enabled` tinyint(1) DEFAULT '0',
-  `backup_codes` text COLLATE utf8mb4_general_ci
+  `backup_codes` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

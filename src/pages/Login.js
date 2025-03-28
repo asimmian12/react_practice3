@@ -11,7 +11,6 @@ function Login({ setIsLoggedIn }) {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [passwordStrength, setPasswordStrength] = useState(0);
   const [twoFactorToken, setTwoFactorToken] = useState('');
   const [twoFactorRequired, setTwoFactorRequired] = useState(false);
   const [show2FASetup, setShow2FASetup] = useState(false);
@@ -149,18 +148,6 @@ function Login({ setIsLoggedIn }) {
     if (/[A-Z]/.test(value)) strength++;
     if (/[0-9]/.test(value)) strength++;
     if (/[^A-Za-z0-9]/.test(value)) strength++;
-    setPasswordStrength(strength);
-  };
-
-  const getPasswordStrengthColor = () => {
-    switch(passwordStrength) {
-      case 1: return 'bg-red-500';
-      case 2: return 'bg-orange-500';
-      case 3: return 'bg-yellow-500';
-      case 4: return 'bg-blue-500';
-      case 5: return 'bg-green-500';
-      default: return 'bg-gray-200';
-    }
   };
 
   return (
@@ -188,20 +175,6 @@ function Login({ setIsLoggedIn }) {
                 className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
               >
                 <a href="/appointment">Book an Appointment</a>
-              </motion.button>
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
-              >
-                <a href="/Mri">Book an MRI Scan</a>
-              </motion.button>
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
-              >
-                <a href="/Xray">Book an X-Ray</a>
               </motion.button>
             </div>
           </motion.div>
@@ -424,21 +397,9 @@ function Login({ setIsLoggedIn }) {
                 >
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </button>
-              </div>
-              {password && (
-                <div className="mt-2">
-                  <div className="w-full bg-gray-200 rounded-full h-1.5">
-                    <div 
-                      className={`h-1.5 rounded-full ${getPasswordStrengthColor()}`} 
-                      style={{ width: `${passwordStrength * 20}%` }}
-                    ></div>
-                  </div>
-                  <p className="text-xs mt-1 text-gray-500">
-                    Password strength: {['Very Weak', 'Weak', 'Moderate', 'Strong', 'Very Strong'][passwordStrength - 1] || ''}
-                  </p>
                 </div>
-              )}
-            </div>
+              </div>
+
 
             {error && (
               <motion.div 

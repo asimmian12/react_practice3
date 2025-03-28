@@ -1,7 +1,8 @@
+import departmentData from './departments.json';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Phone, MapPin, Mail, Clock } from 'lucide-react';
+import { Phone, MapPin, Mail, Clock, AlertCircle } from 'lucide-react';
 
 const contactInfo = [
   { 
@@ -37,28 +38,72 @@ const Account = () => {
   const [activeTab, setActiveTab] = useState('profile');
   const [appointments, setAppointments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isHovering, setIsHovering] = useState(null);
+  const [departmentVideos, setDepartmentVideos] = useState([]);
+  const [loadingVideos, setLoadingVideos] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Simulate loading user data
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      const user = JSON.parse(storedUser);
-      setUserData(user);
-      setFormData(user);
-      
-      // Simulate fetching appointments
-      setTimeout(() => {
-        setAppointments([
-          { id: 1, date: '2025-04-15', time: '10:00 AM', doctor: 'Dr. Smith', type: 'General Checkup' },
-          { id: 2, date: '2025-04-20', time: '02:30 PM', doctor: 'Dr. Johnson', type: 'Follow-up' }
-        ]);
-        setIsLoading(false);
-      }, 1000);
-    } else {
-      navigate('/login');
-    }
+    const fetchData = async () => {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
+        setUserData(user);
+        setFormData(user);
+        
+        try {
+          // Fetch appointments from the database
+          const response = await fetch(`http://localhost:5000/api/appointments?userId=${user.id}`);
+          if (!response.ok) {
+            throw new Error('Failed to fetch appointments');
+          }
+          const appointmentsData = await response.json();
+          
+          // Filter out appointments with invalid dates and format dates
+          const validAppointments = appointmentsData
+            .filter(appt => !isNaN(new Date(appt.date).getTime()))
+            .map(appt => ({
+              ...appt,
+              date: new Date(appt.date).toISOString().split('T')[0] // Format date as YYYY-MM-DD
+            }));
+          
+          setAppointments(validAppointments);
+          
+          // Load department videos for the departments in appointments
+          setLoadingVideos(true);
+          const departmentIds = [...new Set(validAppointments.map(appt => appt.department_id))];
+          
+          const relevantDepartments = departmentData.filter(dept => 
+            departmentIds.includes(dept.id)
+          );
+          
+          const cleanedData = relevantDepartments.map(dept => ({
+            ...dept,
+            videos: dept.videos?.map(video => {
+              // Extract video ID from YouTube URL if it's a full URL
+              if (video.includes('youtube.com/watch?v=')) {
+                return video.split('v=')[1].split('&')[0];
+              }
+              // If it's already just an ID, return it
+              return video.includes('?') ? video.split('?')[0] : video;
+            })
+          }));
+          
+          setDepartmentVideos(cleanedData);
+          setLoadingVideos(false);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+          setError('Failed to load data. Please try again later.');
+          setLoadingVideos(false);
+        } finally {
+          setIsLoading(false);
+        }
+      } else {
+        navigate('/login');
+      }
+    };
+
+    fetchData();
   }, [navigate]);
 
   const handleInputChange = (e) => {
@@ -68,18 +113,44 @@ const Account = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Save updated data
     localStorage.setItem('user', JSON.stringify(formData));
     setUserData(formData);
     setIsEditing(false);
-    // Show success feedback
     alert('Profile updated successfully!');
   };
 
-  const cancelAppointment = (id) => {
-    setAppointments(appointments.filter(appt => appt.id !== id));
-    // Show feedback
-    alert('Appointment cancelled successfully!');
+  const cancelAppointment = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/appointments/${id}`, {
+        method: 'DELETE'
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to cancel appointment');
+      }
+      
+      const updatedAppointments = appointments.filter(appt => appt.id !== id);
+      setAppointments(updatedAppointments);
+      
+      const remainingDeptIds = [...new Set(updatedAppointments.map(appt => appt.department_id))];
+      const updatedVideos = departmentData.filter(dept => 
+        remainingDeptIds.includes(dept.id)
+      ).map(dept => ({
+        ...dept,
+        videos: dept.videos?.map(video => {
+          if (video.includes('youtube.com/watch?v=')) {
+            return video.split('v=')[1].split('&')[0];
+          }
+          return video.includes('?') ? video.split('?')[0] : video;
+        })
+      }));
+      
+      setDepartmentVideos(updatedVideos);
+      alert('Appointment cancelled successfully!');
+    } catch (error) {
+      console.error('Error cancelling appointment:', error);
+      setError('Failed to cancel appointment. Please try again.');
+    }
   };
 
   if (!userData) {
@@ -95,6 +166,7 @@ const Account = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Hero Section */}
       <motion.section 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -119,24 +191,26 @@ const Account = () => {
               >
                 <a href="/appointment">Book an Appointment</a>
               </motion.button>
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
-              >
-                <a href="/Mri">Book an MRI Scan</a>
-              </motion.button>
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
-              >
-                <a href="/Xray">Book an X-Ray</a>
-              </motion.button>
             </div>
           </motion.div>
         </div>
       </motion.section>
+
+      {/* Error Alert */}
+      {error && (
+        <div className="container mx-auto px-4 pt-6">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded flex items-start"
+          >
+            <AlertCircle className="mr-2 flex-shrink-0" />
+            <div>
+              <p className="font-bold">{error}</p>
+            </div>
+          </motion.div>
+        </div>
+      )}
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8 -mt-16 relative z-20">
@@ -149,6 +223,12 @@ const Account = () => {
               className={`px-6 py-4 font-medium ${activeTab === 'profile' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-500'}`}
             >
               Profile
+            </button>
+            <button
+              onClick={() => setActiveTab('appointments')}
+              className={`px-6 py-4 font-medium ${activeTab === 'appointments' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-500'}`}
+            >
+              Appointments
             </button>
             <button
               onClick={() => setActiveTab('medical')}
@@ -187,8 +267,8 @@ const Account = () => {
                             <label className="block text-gray-700 mb-1">First Name</label>
                             <input
                               type="text"
-                              name="first_name"
-                              value={formData.first_name || ''}
+                              name="firstName"
+                              value={formData.firstName || ''}
                               onChange={handleInputChange}
                               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                             />
@@ -197,8 +277,8 @@ const Account = () => {
                             <label className="block text-gray-700 mb-1">Last Name</label>
                             <input
                               type="text"
-                              name="last_name"
-                              value={formData.last_name || ''}
+                              name="surname"
+                              value={formData.surname || ''}
                               onChange={handleInputChange}
                               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                             />
@@ -276,7 +356,7 @@ const Account = () => {
                     
                     {/* Right Column - Profile Details */}
                     <div className="flex-grow">
-                      <h2 className="text-2xl font-bold text-blue-800 mb-6">{userData.first_name} {userData.last_name}</h2>
+                      <h2 className="text-2xl font-bold text-blue-800 mb-6">{userData.firstName} {userData.surname}</h2>
                       
                       <div className="space-y-4">
                         <div className="flex flex-col md:flex-row justify-between py-3 border-b border-gray-100">
@@ -332,11 +412,159 @@ const Account = () => {
                 </button>
               </div>
             )}
+
+            {activeTab === 'appointments' && (
+              <div>
+                <h2 className="text-2xl font-bold text-blue-800 mb-6">My Appointments</h2>
+                
+                {isLoading ? (
+                  <div className="text-center py-8">
+                    <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+                    <p className="mt-4 text-blue-800">Loading your appointments...</p>
+                  </div>
+                ) : appointments.length > 0 ? (
+                  <div className="space-y-4">
+                    {appointments.map(appointment => (
+                      <motion.div 
+                        key={appointment.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition"
+                      >
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <h3 className="font-bold text-lg">
+                              {appointment.department_id === 1 && 'Dr. Samantha Jackson'}
+                              {appointment.department_id === 2 && 'Dr. John Goldberg'}
+                              {appointment.department_id === 3 && 'Dr. David Stewart'}
+                              {appointment.department_id === 4 && 'Dr. Miley Smith'}
+                            </h3>
+                            <p className="text-gray-600">{appointment.reason}</p>
+                            <p className="text-blue-600 mt-1">
+                              {appointment.date} at {appointment.time}
+                            </p>
+                            <p className="text-gray-500 text-sm mt-1">
+                              {appointment.department_id === 1 && 'Cardiology Department'}
+                              {appointment.department_id === 2 && 'Neurology Department'}
+                              {appointment.department_id === 3 && 'Pediatrics Department'}
+                              {appointment.department_id === 4 && 'Orthopedics Department'}
+                            </p>
+                            {appointment.notes && (
+                              <p className="text-gray-500 text-sm mt-1">Notes: {appointment.notes}</p>
+                            )}
+                          </div>
+                          <button
+                            onClick={() => cancelAppointment(appointment.id)}
+                            className="text-red-600 hover:text-red-800 text-sm font-medium"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <p className="text-gray-600 mb-4">You don't have any upcoming appointments.</p>
+                    <button
+                      onClick={() => navigate('/appointment')}
+                      className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                    >
+                      Book an Appointment
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      {/* Contact Information Section - Consistent with Dashboard */}
+      {/* Department Videos Section */}
+      {appointments.length > 0 && (
+        <section className="py-12 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center text-blue-900 mb-8">
+              {departmentVideos.length > 0 
+                ? 'Educational Videos for Your Appointments' 
+                : 'No Videos Available for Your Appointments'}
+            </h2>
+            
+            {loadingVideos ? (
+              <div className="text-center py-8">
+                <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+                <p className="mt-4 text-blue-800">Loading educational videos...</p>
+              </div>
+            ) : error ? (
+              <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded mb-6">
+                <p>{error}</p>
+              </div>
+            ) : (
+              departmentVideos.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {departmentVideos.map((department) => (
+                    <motion.div 
+                      key={department.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5 }}
+                      className="bg-white rounded-xl shadow-lg overflow-hidden"
+                    >
+                      <div className="p-6">
+                        <h3 className="text-xl font-bold text-blue-900 mb-2">{department.name}</h3>
+                        <p className="text-gray-600 mb-4">{department.details}</p>
+                        
+                        <div className="flex items-center mb-3">
+                          <img 
+                            src={`./images/${department.doctor_img}`} 
+                            alt={department.doctor}
+                            className="w-10 h-10 rounded-full object-cover mr-2"
+                          />
+                          <span className="text-sm">{department.doctor}</span>
+                        </div>
+                        
+                        <div className="space-y-4">
+                          <h4 className="font-bold text-gray-800">Educational Videos</h4>
+                          {department.videos?.map((videoId, index) => (
+                            <div key={index} className="relative pb-[56.25%] h-0 rounded-lg overflow-hidden bg-gray-100">
+                              <iframe
+                                src={`https://www.youtube.com/embed/${videoId}`}
+                                title={`${department.name} Video ${index + 1}`}
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                                className="absolute top-0 left-0 w-full h-full"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <div className="bg-blue-50 rounded-lg p-6 max-w-md mx-auto">
+                    <h3 className="text-xl font-bold text-blue-800 mb-2">No Resources Found</h3>
+                    <p className="text-gray-600 mb-4">
+                      We couldn't find any department resources matching your appointments.
+                    </p>
+                    <button 
+                      onClick={() => navigate('/doctors')}
+                      className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                    >
+                      Browse Departments
+                    </button>
+                  </div>
+                </div>
+              )
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* Contact Information Section */}
       <section className="bg-blue-900 text-white py-12">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">Contact Information</h2>
@@ -364,7 +592,7 @@ const Account = () => {
         </div>
       </section>
 
-      {/* Footer - Consistent with Dashboard */}
+      {/* Footer */}
       <footer className="bg-blue-950 text-white py-8">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
@@ -384,7 +612,7 @@ const Account = () => {
         </div>
       </footer>
 
-      {/* Add some floating decorative elements */}
+      {/* Floating decorative elements */}
       <div className="fixed top-0 left-0 w-full h-full pointer-events-none overflow-hidden z-0">
         {[...Array(5)].map((_, i) => (
           <div 

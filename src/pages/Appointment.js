@@ -390,20 +390,6 @@ useEffect(() => {
               >
                 Book an Appointment
               </motion.button>
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
-              >
-                <a href="/Mri">Book an MRI Scan</a>
-              </motion.button>
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
-              >
-                <a href="/Xray">Book an X-Ray</a>
-              </motion.button>
             </div>
           </motion.div>
         </div>

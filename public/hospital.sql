@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 28, 2025 at 01:53 AM
+-- Generation Time: Mar 28, 2025 at 03:47 AM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.16
 
@@ -51,7 +51,8 @@ INSERT INTO `appointments` (`id`, `user_id`, `doctor_id`, `department_id`, `date
 (3, 18, 3, 3, '2025-04-05', '11:00', 'Pediatric consultation', NULL, 'booked', '2025-03-27 13:11:26', '2025-03-27 13:11:26'),
 (4, 7, 1, 1, '2025-04-01', '09:00', 'Routine checkup', NULL, 'booked', '2025-03-27 13:12:00', '2025-03-27 13:12:00'),
 (5, 17, 2, 2, '2025-04-03', '10:30', 'Neurological evaluation', NULL, 'booked', '2025-03-27 13:12:00', '2025-03-27 13:12:00'),
-(6, 18, 3, 3, '2025-04-05', '11:00', 'Pediatric consultation', NULL, 'booked', '2025-03-27 13:12:00', '2025-03-27 13:12:00');
+(6, 18, 3, 3, '2025-04-05', '11:00', 'Pediatric consultation', NULL, 'booked', '2025-03-27 13:12:00', '2025-03-27 13:12:00'),
+(9, 2, 1, 1, '2025-04-28', 'Invalid Date', 'Checking Legs', 'Got Autism, and Learning Disablities', 'booked', '2025-03-28 03:44:21', '2025-03-28 03:44:21');
 
 -- --------------------------------------------------------
 
@@ -210,7 +211,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `departments`

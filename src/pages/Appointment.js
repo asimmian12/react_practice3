@@ -761,14 +761,14 @@ useEffect(() => {
                       </div>
                     </div>
                     {appointment.notes && (
-                      <div className="mt-4 bg-blue-50 p-3 rounded-lg">
+                      <div className="mt-4 bg-white-50 p-3 rounded-lg">
                         <p className="text-sm text-blue-800">
                           <span className="font-medium">Notes:</span> {appointment.notes}
                         </p>
                       </div>
                     )}
                     {department.details && (
-                      <div className="mt-4 bg-gray-50 p-3 rounded-lg">
+                      <div className="mt-4 bg-white-50 p-3 rounded-lg">
                         <h4 className="font-medium text-gray-800 mb-1">About {department.name}:</h4>
                         <p className="text-sm text-gray-700">{department.details}</p>
                       </div>

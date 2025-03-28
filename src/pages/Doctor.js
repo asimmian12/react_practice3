@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Phone, MapPin, Mail, Clock, Calendar, Star, ChevronDown, ChevronUp, X } from 'lucide-react';
 import Confetti from 'react-confetti';
 import { motion } from 'framer-motion';
+
+// Import the JSON file directly (make sure the path is correct)
+import departmentData from './departments.json';
 
 const Doctor = () => {
   // State for interactive elements
@@ -13,6 +16,8 @@ const Doctor = () => {
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [confetti, setConfetti] = useState(false);
   const [favorites, setFavorites] = useState([]);
+  const [departmentVideos, setDepartmentVideos] = useState([]);
+  const [loadingVideos, setLoadingVideos] = useState(false); 
 
   // Doctor data with more details
   const doctors = [
@@ -150,6 +155,23 @@ const Doctor = () => {
         : [...prev, doctorId]
     );
   };
+
+  useEffect(() => {
+    try {
+      // Clean video IDs by removing URL parameters
+      const cleanedData = departmentData.map(dept => ({
+        ...dept,
+        videos: dept.videos?.map(video => 
+          video.includes('?') ? video.split('?')[0] : video
+        )
+      }));
+      
+      setDepartmentVideos(cleanedData);
+      console.log('Department videos loaded:', cleanedData);
+    } catch (error) {
+      console.error('Error processing department data:', error);
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">
@@ -480,6 +502,61 @@ const Doctor = () => {
           </motion.div>
         </div>
       )}
+   
+       
+      <section className="py-12 bg-white-50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center text-blue-900 mb-8">Department Videos</h2>
+          
+          {departmentVideos.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {departmentVideos
+                .filter(dept => dept.videos && dept.videos.length > 0)
+                .map((dept) => (
+                  <motion.div 
+                    key={dept.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                    className="bg-white rounded-xl shadow-lg overflow-hidden"
+                  >
+                    <div className="p-4">
+                      <h3 className="text-xl font-bold text-blue-900 mb-2">{dept.name}</h3>
+                      <p className="text-gray-600 mb-4">{dept.details}</p>
+                    </div>
+                    
+                    <div className="space-y-4 p-4">
+                      {dept.videos.map((videoId, index) => (
+                        <div key={index} className="relative pb-[56.25%] h-0 rounded-lg overflow-hidden">
+                          <iframe
+                            src={`https://www.youtube.com/embed/${videoId}`}
+                            title={`${dept.name} Video ${index + 1}`}
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            className="absolute top-0 left-0 w-full h-full"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                ))
+              }
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p>No videos available at this time.</p>
+              <button 
+                onClick={() => console.log('Department videos state:', departmentVideos)}
+                className="mt-2 text-blue-600 hover:text-blue-800 text-sm"
+              >
+                (Click to log video data to console)
+              </button>
+            </div>
+          )}
+        </div>
+      </section>
+
 
       {/* Confetti effect */}
       {confetti && <Confetti recycle={false} numberOfPieces={500} />}

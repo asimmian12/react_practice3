@@ -222,18 +222,9 @@ const Home = () => {
             className="text-center px-4"
           >
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4"></h1>
-            <p className="text-xl text-white mb-8 max-w-2xl mx-auto">
+            <p className="text-5xl font-bold text-center text-white-700 mb-8">
+              Home
             </p>
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-2">
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
-                onClick={() => openAppointmentModal()}
-              >
-                Book an Appointment
-              </motion.button>
-            </div>
           </motion.div>
         </div>
       </motion.section>

@@ -133,22 +133,11 @@ const Map = () => {
       >
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-blue-600 opacity-60"></div>
         <div className="relative z-10 flex justify-center items-center h-full">
-                  <motion.div 
-                    initial={{ y: -20 }}
-                    animate={{ y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="text-center"
-                  >
-                    <motion.button 
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="bg-white text-blue-600 px-6 py-3 m-2 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md"
-                    >
-                      <a href="/appointment">Book an Appointment</a>
-                    </motion.button>
-                  </motion.div>
-                </div>
-              </motion.section>
+          <p className="text-5xl font-bold text-center text-white-700 mb-8">
+             Map
+          </p>
+          </div>
+        </motion.section>
  
       {/* Interactive Map Section */}
       <motion.div

@@ -74,22 +74,9 @@ function Contact() {
       >
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-blue-600 opacity-60"></div>
         <div className="relative z-10 flex justify-center items-center h-full">
-          <motion.div 
-            initial={{ y: -20 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center px-4"
-          >
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-2">
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
-              >
-                <a href="/appointment">Book an Appointment</a>
-              </motion.button>
-            </div>
-          </motion.div>
+        <p className="text-5xl font-bold text-center text-white-700 mb-8">
+             Contact
+          </p>
         </div>
       </motion.section>
 

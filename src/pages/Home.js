@@ -1,38 +1,64 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaPhone, FaMapMarkerAlt, FaEnvelope, FaClock, FaLinkedin, FaFacebook, FaInstagram, FaHeart } from 'react-icons/fa';
-import { Phone, MapPin, Mail, Clock } from 'lucide-react';
+import { Phone, MapPin, Mail, Clock, X } from 'lucide-react';
+import Confetti from 'react-confetti';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  const navigate = useNavigate();
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [currentSpecialty, setCurrentSpecialty] = useState('');
   const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [confetti, setConfetti] = useState(false);
+  const [bookedAppointment, setBookedAppointment] = useState(null);
+  const [error, setError] = useState(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    age: '',
+    reason: '',
+    notes: ''
+  });
+
+  // Configure axios
+  axios.defaults.baseURL = 'http://localhost:5000';
+  axios.defaults.withCredentials = true;
 
   const doctors = [
     { 
+      id: 1,
       name: 'Doctor Goldberg', 
       specialty: 'NEUROLOGY', 
       image: './images/doctor1.jpeg',
       bio: 'Renowned neurologist with 15 years of experience in treating complex neurological disorders.',
       education: 'MD, Harvard Medical School',
-      awards: 'Top Neurologist 2023'
+      awards: 'Top Neurologist 2023',
+      available: ['09:00 AM', '10:00 AM', '02:00 PM', '03:00 PM'],
+      department_id: 1
     },
     { 
+      id: 2,
       name: 'Doctor Shaw', 
       specialty: 'PULMONOLOGY', 
       image: './images/doctor2.jpeg',
       bio: 'Pulmonary specialist dedicated to advanced respiratory care and patient wellness.',
       education: 'MD, Stanford University',
-      awards: 'Innovator in Pulmonary Care 2022'
+      awards: 'Innovator in Pulmonary Care 2022',
+      available: ['10:00 AM', '11:00 AM', '03:00 PM', '04:00 PM'],
+      department_id: 2
     },
     { 
+      id: 3,
       name: 'Doctor Stewart', 
       specialty: 'NEUROSURGERY', 
       image: './images/doctor3.jpeg',
       bio: 'Leading expert in brain health and innovative neurological treatments.',
       education: 'MD, PhD, Oxford University',
-      awards: 'Neurosurgery Excellence Award 2021'
+      awards: 'Neurosurgery Excellence Award 2021',
+      available: ['01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM'],
+      department_id: 1
     },
   ];
 
@@ -88,13 +114,15 @@ const Home = () => {
     document.body.style.overflow = 'auto';
   };
 
-  const openAppointmentModal = () => {
+  const openAppointmentModal = (doctor = null) => {
+    if (doctor) setSelectedDoctor(doctor);
     setIsAppointmentModalOpen(true);
     document.body.style.overflow = 'hidden';
   };
 
   const closeAppointmentModal = () => {
     setIsAppointmentModalOpen(false);
+    setSelectedDoctor(null);
     document.body.style.overflow = 'auto';
   };
 
@@ -118,9 +146,65 @@ const Home = () => {
     }
   };
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const confirmBooking = async (timeSlot) => {
+    try {
+      const storedUser = localStorage.getItem('user');
+      if (!storedUser) {
+        navigate('/login');
+        return;
+      }
+      
+      const user = JSON.parse(storedUser);
+      
+      // Convert time to 24-hour format for storage
+      const time24hr = new Date(`2000-01-01T${timeSlot}`).toLocaleTimeString('en-US', {
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit'
+      }).replace(/^24:/, '00:');
+
+      const newAppointment = {
+        user_id: user.id,
+        doctor_id: selectedDoctor.id,
+        department_id: selectedDoctor.department_id,
+        date: new Date().toLocaleDateString('en-CA'),
+        time: time24hr,
+        patient_name: formData.name,
+        patient_age: formData.age,
+        reason: formData.reason,
+        notes: formData.notes || null,
+        status: 'booked'
+      };
+
+      const response = await axios.post('/api/appointments', newAppointment);
+      
+      setBookedAppointment({
+        doctor: selectedDoctor.name,
+        specialty: selectedDoctor.specialty,
+        time: timeSlot,
+        date: new Date().toLocaleDateString()
+      });
+      
+      closeAppointmentModal();
+      setConfetti(true);
+      setTimeout(() => setConfetti(false), 3000);
+      
+      // Reset form
+      setFormData({ name: '', age: '', reason: '', notes: '' });
+      setError(null);
+    } catch (error) {
+      console.error('Error booking appointment:', error);
+      setError(error.response?.data?.message || 'Failed to book appointment. Please try again.');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Section */}
       <motion.section 
         initial={{ opacity: 0 }}
@@ -145,7 +229,7 @@ const Home = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="bg-white text-blue-600 px-4 py-2 sm:px-6 sm:py-3 m-1 rounded-lg hover:bg-blue-100 transition duration-300 shadow-md text-sm sm:text-base"
-                onClick={openAppointmentModal}
+                onClick={() => openAppointmentModal()}
               >
                 Book an Appointment
               </motion.button>
@@ -220,7 +304,7 @@ const Home = () => {
       </section>
 
       {/* Specialties Section */}
-      <section className="p-8 md:p-12 bg-blue-50">
+      <section className="p-8 md:p-12 bg-white-50">
         <motion.div 
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -366,7 +450,10 @@ const Home = () => {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={openAppointmentModal}
+                    onClick={() => {
+                      closeDoctorModal();
+                      openAppointmentModal(selectedDoctor);
+                    }}
                     className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300"
                   >
                     Book Appointment
@@ -393,69 +480,129 @@ const Home = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6"
+            className="bg-white rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto"
           >
-            <div className="relative">
-              <button 
-                onClick={closeAppointmentModal}
-                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl"
-              >
-                &times;
-              </button>
-              
-              <h2 className="text-2xl font-bold text-blue-800 mb-6">Book an Appointment</h2>
-              <form className="space-y-4">
+            <div className="p-6">
+              <div className="flex justify-between items-start">
                 <div>
-                  <label htmlFor="name" className="block text-gray-700 mb-2">Full Name</label>
-                  <input 
-                    type="text" 
-                    id="name" 
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Enter your name"
-                  />
+                  <h2 className="text-2xl font-bold text-blue-900">Book Appointment</h2>
+                  {selectedDoctor && (
+                    <>
+                      <h3 className="text-xl mt-1">{selectedDoctor.name}</h3>
+                      <p className="text-blue-600">{selectedDoctor.specialty}</p>
+                    </>
+                  )}
                 </div>
-                <div>
-                  <label htmlFor="email" className="block text-gray-700 mb-2">Email Address</label>
-                  <input 
-                    type="email" 
-                    id="email" 
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Enter your email"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="doctor" className="block text-gray-700 mb-2">Select Doctor</label>
-                  <select 
-                    id="doctor" 
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  >
-                    <option value="">Select Doctor</option>
-                    {doctors.map((doctor, index) => (
-                      <option key={index} value={doctor.name}>{doctor.name} - {doctor.specialty}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="date" className="block text-gray-700 mb-2">Appointment Date</label>
-                  <input 
-                    type="date" 
-                    id="date" 
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  type="submit"
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300"
+                <button 
+                  onClick={closeAppointmentModal}
+                  className="text-gray-500 hover:text-gray-700"
                 >
-                  Submit Appointment Request
-                </motion.button>
-              </form>
+                  <X size={24} />
+                </button>
+              </div>
+
+              {selectedDoctor && (
+                <div className="mt-6">
+                  <h4 className="font-bold text-gray-800 mb-3">Available Time Slots</h4>
+                  <div className="grid grid-cols-2 gap-3">
+                    {selectedDoctor.available.map((slot, index) => (
+                      <motion.button
+                        key={index}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => confirmBooking(slot)}
+                        className="border border-blue-300 hover:bg-blue-50 text-blue-900 py-2 px-4 rounded-lg transition"
+                      >
+                        {slot}
+                      </motion.button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="mt-8">
+                <h4 className="font-bold text-gray-800 mb-2">Patient Information</h4>
+                <div className="space-y-3">
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Patient Name *"
+                    className="w-full p-2 border border-gray-300 rounded-lg"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <input
+                    type="text"
+                    name="age"
+                    placeholder="Age *"
+                    className="w-full p-2 border border-gray-300 rounded-lg"
+                    value={formData.age}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <textarea
+                    name="reason"
+                    placeholder="Reason for visit *"
+                    className="w-full p-2 border border-gray-300 rounded-lg"
+                    rows="3"
+                    value={formData.reason}
+                    onChange={handleInputChange}
+                    required
+                  ></textarea>
+                  <textarea
+                    name="notes"
+                    placeholder="Additional notes (optional)"
+                    className="w-full p-2 border border-gray-300 rounded-lg"
+                    rows="2"
+                    value={formData.notes}
+                    onChange={handleInputChange}
+                  ></textarea>
+                </div>
+              </div>
+
+              {error && (
+                <div className="mt-4 text-red-600 text-sm">
+                  {error}
+                </div>
+              )}
+
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition disabled:opacity-50"
+                disabled={!formData.name || !formData.age || !formData.reason}
+              >
+                Confirm Booking
+              </motion.button>
             </div>
           </motion.div>
         </div>
       )}
+
+      {/* Booked Appointment Confirmation */}
+      {bookedAppointment && (
+        <div className="fixed bottom-4 right-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg shadow-lg max-w-sm z-50">
+          <div className="flex justify-between items-start">
+            <div>
+              <h3 className="font-bold">Appointment Booked!</h3>
+              <p className="mt-1">
+                <strong>{bookedAppointment.doctor}</strong> ({bookedAppointment.specialty})<br />
+                {bookedAppointment.time} on {bookedAppointment.date}
+              </p>
+            </div>
+            <button 
+              onClick={() => setBookedAppointment(null)}
+              className="text-green-700 hover:text-green-900"
+            >
+              <X size={20} />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Confetti effect */}
+      {confetti && <Confetti recycle={false} numberOfPieces={500} />}
 
       {/* Footer */}
       <footer className="bg-blue-950 text-white py-8">

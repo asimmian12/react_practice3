@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Search, Phone, MapPin, Mail, Clock, Calendar, Star, ChevronDown, ChevronUp, X } from 'lucide-react';
 import Confetti from 'react-confetti';
 import { motion } from 'framer-motion';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 // Import the JSON file directly (make sure the path is correct)
 import departmentData from './departments.json';
 
 const Doctor = () => {
+  const navigate = useNavigate();
   // State for interactive elements
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSpecialty, setSelectedSpecialty] = useState(null);
@@ -17,7 +20,18 @@ const Doctor = () => {
   const [confetti, setConfetti] = useState(false);
   const [favorites, setFavorites] = useState([]);
   const [departmentVideos, setDepartmentVideos] = useState([]);
-  const [loadingVideos, setLoadingVideos] = useState(false); 
+  const [loadingVideos, setLoadingVideos] = useState(false);
+  const [error, setError] = useState(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    age: '',
+    reason: '',
+    notes: ''
+  });
+
+  // Configure axios
+  axios.defaults.baseURL = 'http://localhost:5000';
+  axios.defaults.withCredentials = true;
 
   // Doctor data with more details
   const doctors = [
@@ -28,9 +42,10 @@ const Doctor = () => {
       image: './images/doctor1.jpeg',
       bio: 'Pediatric neurologist with 15 years experience specializing in childhood epilepsy.',
       rating: 4.8,
-      available: ['Mon 9:00-12:00', 'Wed 14:00-17:00'],
+      available: ['09:00 AM', '10:00 AM', '02:00 PM', '03:00 PM'],
       ageGroups: '2-18',
-      languages: ['English', 'Spanish']
+      languages: ['English', 'Spanish'],
+      department_id: 1
     },
     { 
       id: 2,
@@ -39,9 +54,10 @@ const Doctor = () => {
       image: './images/doctor2.jpeg',
       bio: 'Expert in childhood respiratory conditions including asthma and allergies.',
       rating: 4.6,
-      available: ['Tue 10:00-13:00', 'Thu 15:00-18:00'],
+      available: ['10:00 AM', '11:00 AM', '03:00 PM', '04:00 PM'],
       ageGroups: '5-18',
-      languages: ['English', 'French']
+      languages: ['English', 'French'],
+      department_id: 2
     },
     { 
       id: 3,
@@ -50,9 +66,10 @@ const Doctor = () => {
       image: './images/doctor3.jpeg',
       bio: 'Pediatric neurosurgeon specializing in minimally invasive procedures.',
       rating: 4.9,
-      available: ['Mon 13:00-16:00', 'Fri 9:00-12:00'],
+      available: ['01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM'],
       ageGroups: '10-18',
-      languages: ['English']
+      languages: ['English'],
+      department_id: 1
     },
     { 
       id: 4,
@@ -61,9 +78,10 @@ const Doctor = () => {
       image: './images/doctor4.jpeg',
       bio: 'ENT specialist with expertise in childhood ear, nose and throat conditions.',
       rating: 4.7,
-      available: ['Wed 9:00-12:00', 'Sat 10:00-13:00'],
+      available: ['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM'],
       ageGroups: '2-18',
-      languages: ['English', 'Arabic']
+      languages: ['English', 'Arabic'],
+      department_id: 3
     },
     { 
       id: 5,
@@ -72,9 +90,10 @@ const Doctor = () => {
       image: './images/doctor5.jpeg',
       bio: 'Pediatric dermatologist treating skin conditions from eczema to acne.',
       rating: 4.5,
-      available: ['Tue 14:00-17:00', 'Thu 9:00-12:00'],
+      available: ['11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM'],
       ageGroups: '2-18',
-      languages: ['English', 'Urdu']
+      languages: ['English', 'Urdu'],
+      department_id: 4
     },
     { 
       id: 6,
@@ -83,9 +102,10 @@ const Doctor = () => {
       image: './images/doctor6.jpeg',
       bio: 'Pediatric cardiologist specializing in congenital heart conditions.',
       rating: 4.8,
-      available: ['Mon 10:00-13:00', 'Wed 14:00-17:00'],
+      available: ['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM'],
       ageGroups: '0-18',
-      languages: ['English', 'Mandarin']
+      languages: ['English', 'Mandarin'],
+      department_id: 5
     },
   ];
 
@@ -134,17 +154,63 @@ const Doctor = () => {
     setShowModal(true);
   };
 
+  // Handle input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
   // Confirm booking
-  const confirmBooking = (timeSlot) => {
-    setBookedAppointment({
-      doctor: selectedDoctor.name,
-      specialty: selectedDoctor.specialty,
-      time: timeSlot,
-      date: new Date().toLocaleDateString()
-    });
-    setShowModal(false);
-    setConfetti(true);
-    setTimeout(() => setConfetti(false), 3000);
+  const confirmBooking = async (timeSlot) => {
+    try {
+      const storedUser = localStorage.getItem('user');
+      if (!storedUser) {
+        navigate('/login');
+        return;
+      }
+      
+      const user = JSON.parse(storedUser);
+      
+      // Convert time to 24-hour format for storage
+      const time24hr = new Date(`2000-01-01T${timeSlot}`).toLocaleTimeString('en-US', {
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit'
+      }).replace(/^24:/, '00:'); // Handle midnight case
+
+      const newAppointment = {
+        user_id: user.id,
+        doctor_id: selectedDoctor.id,
+        department_id: selectedDoctor.department_id,
+        date: new Date().toLocaleDateString('en-CA'), // YYYY-MM-DD format
+        time: time24hr,
+        patient_name: formData.name,
+        patient_age: formData.age,
+        reason: formData.reason,
+        notes: formData.notes || null,
+        status: 'booked'
+      };
+
+      const response = await axios.post('/api/appointments', newAppointment);
+      
+      setBookedAppointment({
+        doctor: selectedDoctor.name,
+        specialty: selectedDoctor.specialty,
+        time: timeSlot,
+        date: new Date().toLocaleDateString()
+      });
+      
+      setShowModal(false);
+      setConfetti(true);
+      setTimeout(() => setConfetti(false), 3000);
+      
+      // Reset form
+      setFormData({ name: '', age: '', reason: '', notes: '' });
+      setError(null);
+    } catch (error) {
+      console.error('Error booking appointment:', error);
+      setError(error.response?.data?.message || 'Failed to book appointment. Please try again.');
+    }
   };
 
   // Toggle favorite doctor
@@ -475,26 +541,53 @@ const Doctor = () => {
                 <div className="space-y-3">
                   <input
                     type="text"
-                    placeholder="Patient Name"
+                    name="name"
+                    placeholder="Patient Name *"
                     className="w-full p-2 border border-gray-300 rounded-lg"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
                   />
                   <input
                     type="text"
-                    placeholder="Age"
+                    name="age"
+                    placeholder="Age *"
                     className="w-full p-2 border border-gray-300 rounded-lg"
+                    value={formData.age}
+                    onChange={handleInputChange}
+                    required
                   />
                   <textarea
-                    placeholder="Reason for visit (optional)"
+                    name="reason"
+                    placeholder="Reason for visit *"
                     className="w-full p-2 border border-gray-300 rounded-lg"
                     rows="3"
+                    value={formData.reason}
+                    onChange={handleInputChange}
+                    required
+                  ></textarea>
+                  <textarea
+                    name="notes"
+                    placeholder="Additional notes (optional)"
+                    className="w-full p-2 border border-gray-300 rounded-lg"
+                    rows="2"
+                    value={formData.notes}
+                    onChange={handleInputChange}
                   ></textarea>
                 </div>
               </div>
 
+              {error && (
+                <div className="mt-4 text-red-600 text-sm">
+                  {error}
+                </div>
+              )}
+
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition"
+                className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition disabled:opacity-50"
+                disabled={!formData.name || !formData.age || !formData.reason}
               >
                 Confirm Booking
               </motion.button>
@@ -503,7 +596,6 @@ const Doctor = () => {
         </div>
       )}
    
-       
       <section className="py-12 bg-white-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center text-blue-900 mb-8">Department Videos</h2>
@@ -556,7 +648,6 @@ const Doctor = () => {
           )}
         </div>
       </section>
-
 
       {/* Confetti effect */}
       {confetti && <Confetti recycle={false} numberOfPieces={500} />}

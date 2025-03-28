@@ -1,60 +1,102 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FaPhone, FaMapMarkerAlt, FaEnvelope, FaClock, FaLinkedin, FaFacebook, FaInstagram, FaUserAlt, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
-import { Phone, MapPin, Mail, Clock } from 'lucide-react';
+import { Phone, MapPin, Mail, Clock, X } from 'lucide-react';
+import Confetti from 'react-confetti';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const About = () => {
+  const navigate = useNavigate();
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [confetti, setConfetti] = useState(false);
+  const [bookedAppointment, setBookedAppointment] = useState(null);
+  const [error, setError] = useState(null);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    age: '',
+    reason: '',
+    notes: ''
+  });
+
+  // Cleanup effect to reset overflow when component unmounts
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
+
+  // Configure axios
+  axios.defaults.baseURL = 'http://localhost:5000';
+  axios.defaults.withCredentials = true;
 
   const doctors = [
     { 
+      id: 1,
       name: 'Doctor Goldberg', 
       specialty: 'NEUROLOGY', 
       image: './images/doctor1.jpeg',
       bio: 'Dr. Goldberg specializes in pediatric neurology with over 15 years of experience. She completed her residency at Johns Hopkins and has published numerous papers on childhood neurological disorders.',
       education: 'MD, Harvard Medical School',
-      awards: 'Top Pediatric Neurologist 2023, Medical Excellence Award 2021'
+      awards: 'Top Pediatric Neurologist 2023, Medical Excellence Award 2021',
+      available: ['09:00 AM', '10:00 AM', '02:00 PM', '03:00 PM'],
+      department_id: 1
     },
     { 
+      id: 2,
       name: 'Doctor Shaw', 
       specialty: 'PULMONOLOGY', 
       image: './images/doctor2.jpeg',
       bio: 'Dr. Shaw is our leading pulmonologist, focusing on childhood asthma and respiratory conditions. He pioneered several minimally invasive techniques now used nationwide.',
       education: 'MD, Stanford University',
-      awards: 'Innovator in Pediatric Care 2022'
+      awards: 'Innovator in Pediatric Care 2022',
+      available: ['10:00 AM', '11:00 AM', '03:00 PM', '04:00 PM'],
+      department_id: 2
     },
     { 
+      id: 3,
       name: 'Doctor Stewart', 
       specialty: 'NEUROSURGERY', 
       image: './images/doctor3.jpeg',
       bio: 'Dr. Stewart heads our neurosurgery department and has performed over 500 successful pediatric brain surgeries. Her research on minimally invasive techniques has revolutionized the field.',
       education: 'MD, PhD, Oxford University',
-      awards: 'International Neurosurgery Award 2020'
+      awards: 'International Neurosurgery Award 2020',
+      available: ['01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM'],
+      department_id: 1
     },
     { 
+      id: 4,
       name: 'Doctor Smith', 
       specialty: 'OTOLARYNGOLOGY', 
       image: './images/doctor4.jpeg',
       bio: 'Dr. Smith specializes in ear, nose and throat conditions in children. He developed the "Whisper Technique" for painless ear examinations in toddlers.',
       education: 'MD, Yale School of Medicine',
-      awards: 'Patient Choice Award 5 years running'
+      awards: 'Patient Choice Award 5 years running',
+      available: ['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM'],
+      department_id: 3
     },
     { 
+      id: 5,
       name: 'Doctor Abrara', 
       specialty: 'DERMATOLOGY', 
       image: './images/doctor5.jpeg',
       bio: 'Dr. Abrara focuses on childhood skin conditions and allergies. Her gentle approach makes even the most nervous patients feel at ease.',
       education: 'MD, University of California',
-      awards: 'Dermatology Innovation Award 2023'
+      awards: 'Dermatology Innovation Award 2023',
+      available: ['11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM'],
+      department_id: 4
     },
     { 
+      id: 6,
       name: 'Doctor Jackson', 
       specialty: 'CARDIOLOGY', 
       image: './images/doctor6.jpeg',
       bio: 'Dr. Jackson leads our pediatric cardiology team. He has developed new protocols for early detection of congenital heart conditions.',
       education: 'MD, Columbia University',
-      awards: 'Heart Hero Award 2021, 2022'
+      awards: 'Heart Hero Award 2021, 2022',
+      available: ['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM'],
+      department_id: 5
     },
   ];
 
@@ -94,6 +136,79 @@ const About = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     document.body.style.overflow = 'auto';
+    setError(null);
+    setSelectedTimeSlot(null);
+    setFormData({ name: '', age: '', reason: '', notes: '' });
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const confirmBooking = async () => {
+    try {
+      // Validate time slot selection
+      if (!selectedTimeSlot) {
+        setError('Please select a time slot');
+        return;
+      }
+  
+      // Validate form fields
+      if (!formData.name || !formData.age || !formData.reason) {
+        setError('Please fill all required fields');
+        return;
+      }
+  
+      const storedUser = localStorage.getItem('user');
+      if (!storedUser) {
+        document.body.style.overflow = 'auto'; // Reset before navigating
+        navigate('/login');
+        return;
+      }
+      
+      const user = JSON.parse(storedUser);
+      
+      // Convert time to simple HH:MM format
+      const time24hr = selectedTimeSlot.replace(' AM', '').replace(' PM', '');
+      
+      // Get current date in YYYY-MM-DD format
+      const today = new Date();
+      const dateStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  
+      const newAppointment = {
+        user_id: user.id,
+        doctor_id: selectedDoctor.id,
+        department_id: selectedDoctor.department_id,
+        date: dateStr,
+        time: time24hr,
+        patient_name: formData.name,
+        patient_age: formData.age,
+        reason: formData.reason,
+        notes: formData.notes || null,
+        status: 'booked'
+      };
+  
+      const response = await axios.post('/api/appointments', newAppointment);
+      
+      setBookedAppointment({
+        doctor: selectedDoctor.name,
+        specialty: selectedDoctor.specialty,
+        time: selectedTimeSlot,
+        date: new Date().toLocaleDateString()
+      });
+      
+      setIsModalOpen(false);
+      setConfetti(true);
+      setTimeout(() => setConfetti(false), 3000);
+      
+      // Reset form
+      setFormData({ name: '', age: '', reason: '', notes: '' });
+      setSelectedTimeSlot(null);
+    } catch (error) {
+      console.error('Error booking appointment:', error);
+      setError(error.response?.data?.message || 'Failed to book appointment. Please try again.');
+    }
   };
 
   const handleContactClick = (action, details) => {
@@ -161,7 +276,7 @@ const About = () => {
       </motion.section>
 
       {/* About Section */}
-      <section className="p-8 md:p-12 bg-blue-50">
+      <section className="p-8 md:p-12 bg-white-50">
         <motion.div 
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -285,7 +400,7 @@ const About = () => {
                     onClick={() => openModal(doctor)}
                     className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300"
                   >
-                    View Full Profile
+                    Book Appointment
                   </motion.button>
                 </div>
               </motion.div>
@@ -294,75 +409,129 @@ const About = () => {
         </motion.div>
       </section>
 
+      {/* Booked Appointment Confirmation */}
+      {bookedAppointment && (
+        <div className="fixed bottom-4 right-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg shadow-lg max-w-sm z-50">
+          <div className="flex justify-between items-start">
+            <div>
+              <h3 className="font-bold">Appointment Booked!</h3>
+              <p className="mt-1">
+                <strong>{bookedAppointment.doctor}</strong> ({bookedAppointment.specialty})<br />
+                {bookedAppointment.time} on {bookedAppointment.date}
+              </p>
+            </div>
+            <button 
+              onClick={() => setBookedAppointment(null)}
+              className="text-green-700 hover:text-green-900"
+            >
+              <X size={20} />
+            </button>
+          </div>
+        </div>
+      )}
+      
       {/* Doctor Modal */}
       {isModalOpen && selectedDoctor && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded-xl shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto"
           >
-            <div className="relative">
-              <button 
-                onClick={closeModal}
-                className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl z-10"
+            <div className="p-6">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h2 className="text-2xl font-bold text-blue-900">Book Appointment</h2>
+                  <h3 className="text-xl mt-1">{selectedDoctor.name}</h3>
+                  <p className="text-blue-600">{selectedDoctor.specialty}</p>
+                </div>
+                <button 
+                  onClick={closeModal}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+
+              <div className="mt-6">
+                <h4 className="font-bold text-gray-800 mb-3">Available Time Slots</h4>
+                <div className="grid grid-cols-2 gap-3">
+                  {selectedDoctor.available.map((slot, index) => (
+                    <motion.button
+                      key={index}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setSelectedTimeSlot(slot)}
+                      className={`border ${selectedTimeSlot === slot ? 'bg-blue-100 border-blue-500' : 'border-blue-300 hover:bg-blue-50'} text-blue-900 py-2 px-4 rounded-lg transition`}
+                    >
+                      {slot}
+                    </motion.button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-8">
+                <h4 className="font-bold text-gray-800 mb-2">Patient Information</h4>
+                <div className="space-y-3">
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Patient Name *"
+                    className="w-full p-2 border border-gray-300 rounded-lg"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <input
+                    type="text"
+                    name="age"
+                    placeholder="Age *"
+                    className="w-full p-2 border border-gray-300 rounded-lg"
+                    value={formData.age}
+                    onChange={handleInputChange}
+                    required
+                  />
+                  <textarea
+                    name="reason"
+                    placeholder="Reason for visit *"
+                    className="w-full p-2 border border-gray-300 rounded-lg"
+                    rows="3"
+                    value={formData.reason}
+                    onChange={handleInputChange}
+                    required
+                  ></textarea>
+                  <textarea
+                    name="notes"
+                    placeholder="Additional notes (optional)"
+                    className="w-full p-2 border border-gray-300 rounded-lg"
+                    rows="2"
+                    value={formData.notes}
+                    onChange={handleInputChange}
+                  ></textarea>
+                </div>
+              </div>
+
+              {error && (
+                <div className="mt-4 text-red-600 text-sm">
+                  {error}
+                </div>
+              )}
+
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={confirmBooking}
+                className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition"
               >
-                &times;
-              </button>
-              
-              <div className="relative h-64 w-full">
-                <img 
-                  src={selectedDoctor.image} 
-                  alt={selectedDoctor.name} 
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
-                <div className="absolute bottom-0 left-0 p-6 w-full">
-                  <h2 className="font-bold text-3xl text-white">{selectedDoctor.name}</h2>
-                  <p className="font-semibold text-yellow-300 text-xl">{selectedDoctor.specialty}</p>
-                </div>
-              </div>
-              
-              <div className="p-6">
-                <div className="mb-6">
-                  <h3 className="text-xl font-bold text-blue-800 mb-2">About Dr. {selectedDoctor.name.split(' ')[1]}</h3>
-                  <p className="text-gray-700">{selectedDoctor.bio}</p>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h3 className="text-xl font-bold text-blue-800 mb-2">Education</h3>
-                    <p className="text-gray-700">{selectedDoctor.education}</p>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-blue-800 mb-2">Awards & Recognition</h3>
-                    <p className="text-gray-700">{selectedDoctor.awards}</p>
-                  </div>
-                </div>
-                
-                <div className="mt-8 flex flex-wrap gap-4">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300"
-                  >
-                    Book Appointment
-                  </motion.button>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={closeModal}
-                    className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg transition duration-300"
-                  >
-                    Close
-                  </motion.button>
-                </div>
-              </div>
+                Confirm Booking
+              </motion.button>
             </div>
           </motion.div>
         </div>
       )}
+
+      {/* Confetti effect */}
+      {confetti && <Confetti recycle={false} numberOfPieces={500} />}
 
       {/* Contact Section */}
       <section className="bg-blue-900 text-white py-12">
@@ -372,13 +541,13 @@ const About = () => {
             {contactInfo.map((info, index) => (
               <motion.div
                 key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
                 whileHover={{ y: -5 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={() => {
-                  if (info.action === 'tel') window.location.href = `tel:${info.details.replace(/\s/g, '')}`;
-                  if (info.action === 'mail') window.location.href = `mailto:${info.details}`;
-                  if (info.action === 'map') window.open(`https://maps.google.com?q=${encodeURIComponent(info.details)}`, '_blank');
-                }}
+                onClick={() => handleContactClick(info.action, info.details)}
                 className={`bg-blue-800 rounded-xl p-6 text-center cursor-pointer ${info.action ? 'hover:bg-blue-700' : ''}`}
               >
                 <div className="mb-3">

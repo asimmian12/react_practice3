@@ -151,12 +151,6 @@ const Account = () => {
               Profile
             </button>
             <button
-              onClick={() => setActiveTab('appointments')}
-              className={`px-6 py-4 font-medium ${activeTab === 'appointments' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-500'}`}
-            >
-              Appointments
-            </button>
-            <button
               onClick={() => setActiveTab('medical')}
               className={`px-6 py-4 font-medium ${activeTab === 'medical' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-blue-500'}`}
             >
@@ -307,58 +301,6 @@ const Account = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {activeTab === 'appointments' && (
-              <div>
-                <h2 className="text-2xl font-bold text-blue-800 mb-6">Your Appointments</h2>
-                
-                {isLoading ? (
-                  <div className="flex justify-center py-8">
-                    <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                  </div>
-                ) : appointments.length === 0 ? (
-                  <div className="text-center py-8">
-                    <p className="text-gray-500 mb-4">You don't have any upcoming appointments.</p>
-                    <button 
-                      onClick={() => navigate('/appointment')}
-                      className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-                    >
-                      Book an Appointment
-                    </button>
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    {appointments.map(appointment => (
-                      <div key={appointment.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition">
-                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                          <div>
-                            <h3 className="font-bold text-lg text-blue-800">{appointment.type}</h3>
-                            <p className="text-gray-600">With {appointment.doctor}</p>
-                            <p className="text-gray-500 text-sm mt-1">
-                              <span className="font-medium">Date:</span> {appointment.date} at {appointment.time}
-                            </p>
-                          </div>
-                          <div className="flex gap-2">
-                            <button 
-                              onClick={() => alert('Reschedule functionality coming soon!')}
-                              className="px-4 py-1 border border-blue-600 text-blue-600 rounded hover:bg-blue-50 transition"
-                            >
-                              Reschedule
-                            </button>
-                            <button 
-                              onClick={() => cancelAppointment(appointment.id)}
-                              className="px-4 py-1 border border-red-600 text-red-600 rounded hover:bg-red-50 transition"
-                            >
-                              Cancel
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
                   </div>
                 )}
               </div>

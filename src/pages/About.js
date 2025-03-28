@@ -169,8 +169,17 @@ const About = () => {
       
       const user = JSON.parse(storedUser);
       
-      // Convert time to simple HH:MM format
+      // Convert time to simple HH:MM format (24-hour)
       const time24hr = selectedTimeSlot.replace(' AM', '').replace(' PM', '');
+      const [hours, minutes] = time24hr.split(':');
+      let formattedTime = time24hr;
+      
+      // Convert to 24-hour format if needed
+      if (selectedTimeSlot.includes('PM') && hours !== '12') {
+        formattedTime = `${parseInt(hours) + 12}:${minutes}`;
+      } else if (selectedTimeSlot.includes('AM') && hours === '12') {
+        formattedTime = `00:${minutes}`;
+      }
       
       // Get current date in YYYY-MM-DD format
       const today = new Date();
@@ -181,7 +190,7 @@ const About = () => {
         doctor_id: selectedDoctor.id,
         department_id: selectedDoctor.department_id,
         date: dateStr,
-        time: time24hr,
+        time: formattedTime,
         patient_name: formData.name,
         patient_age: formData.age,
         reason: formData.reason,
@@ -199,8 +208,11 @@ const About = () => {
       });
       
       setIsModalOpen(false);
+      document.body.style.overflow = 'auto'; 
       setConfetti(true);
-      setTimeout(() => setConfetti(false), 3000);
+      setTimeout(() => {
+        setConfetti(false);
+      }, 3000);
       
       // Reset form
       setFormData({ name: '', age: '', reason: '', notes: '' });

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 28, 2025 at 08:45 PM
+-- Generation Time: Mar 29, 2025 at 12:02 AM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.16
 
@@ -41,13 +41,6 @@ CREATE TABLE `appointments` (
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `appointments`
---
-
-INSERT INTO `appointments` (`id`, `user_id`, `doctor_id`, `department_id`, `date`, `time`, `reason`, `notes`, `status`, `created_at`, `updated_at`) VALUES
-(18, 2, 1, 1, '2025-03-28', '15:00', 'Heart Pain', 'Eating Painkillers', 'booked', '2025-03-28 10:01:07', '2025-03-28 20:45:02');
-
 -- --------------------------------------------------------
 
 --
@@ -64,10 +57,14 @@ CREATE TABLE `departments` (
 --
 
 INSERT INTO `departments` (`id`, `name`) VALUES
-(1, 'Cardiology'),
-(2, 'Neurology'),
-(3, 'Pediatrics'),
-(4, 'Orthopedics');
+(1, 'CARDIOLOGY'),
+(2, 'NEUROLOGY'),
+(3, 'PEDIATRICS'),
+(4, 'ORTHOPEDICS'),
+(5, 'PULMONOLOGY'),
+(6, 'NEUROSURGERY'),
+(7, 'OTOLARYNGOLOGY'),
+(8, 'DERMATOLOGY');
 
 -- --------------------------------------------------------
 
@@ -91,10 +88,14 @@ CREATE TABLE `doctors` (
 --
 
 INSERT INTO `doctors` (`id`, `firstName`, `lastName`, `title`, `specialization`, `department_id`, `bio`, `image`) VALUES
-(1, 'Samantha ', 'Jackson', 'Dr.', 'Cardiology ', 1, 'Expert in Pediatric cardiologist specializing in congenital heart conditions.', 'doctor6.jpeg'),
-(2, 'John', 'GoldBerg', 'Dr.', 'Neurology', 2, 'Expert neurologist specializing in neurological disorders.', 'doctor1.jpeg'),
-(3, 'David', 'Stewart', 'Dr.', 'Pediatrics', 3, 'Pediatrician specializing in child development and care.', 'doctor3.jpeg'),
-(4, 'Miley', 'Smith', 'Dr.', 'Orthopaedics', 4, 'Orthopedic surgeon with expertise in joint replacements and injuries.', 'doctor4.jpeg');
+(1, 'Samantha ', 'Jackson', 'Dr.', 'CARDIOLOGY', 1, 'Expert pediatric cardiologist specializing in congenital heart defects, childhood heart conditions, and cardiac imaging. Skilled in non-invasive diagnostics and family-centered care for young cardiac patients.', 'doctor6.jpeg'),
+(2, 'John', 'GoldBerg', 'Dr.', 'NEUROLOGY', 2, 'Expert pediatric neurologist specializing in neurodevelopmental disorders, childhood epilepsy, and neuromuscular conditions. Skilled in advanced neuroimaging and electrophysiological diagnostics. Committed to family-centered care for young patients with neurological conditions.', 'doctor1.jpeg'),
+(3, 'John', 'Williams', 'Dr.', 'PEDIATRICS', 3, 'Expert pediatric orthopedic surgeon specializing in congenital limb differences, sports injuries, and neuromuscular skeletal disorders. Skilled in advanced surgical techniques and non-operative management for fractures, scoliosis, and gait abnormalities. Committed to family-centered care to optimize mobility and quality of life for children and adolescents.', 'doctor7.jpeg'),
+(4, 'Michael', 'Smith', 'Dr.', 'ORTHOPEDICS', 4, 'Expert pediatric neurosurgeon specializing in congenital brain and spinal anomalies, pediatric brain tumors, and complex epilepsy surgery. Skilled in advanced microsurgical techniques and minimally invasive approaches for hydrocephalus, craniosynostosis, and spinal dysraphism. Dedicated to delivering precision, compassionate care to optimize neurological function and quality of life for infants, children, and adolescents.', 'doctor4.jpeg'),
+(5, 'David', 'Stewart', 'Dr.', 'NEUROSURGERY', 6, 'Expert pediatric neurosurgeon specializing in congenital brain and spinal anomalies, pediatric brain tumors, and complex epilepsy surgery. Skilled in advanced microsurgical techniques and minimally invasive approaches for hydrocephalus, craniosynostosis, and spinal dysraphism. Dedicated to delivering precision, compassionate care to optimize neurological function and quality of life for infants, children, and adolescents.', 'doctor3.jpeg'),
+(6, 'Iain', 'Shaw', 'Dr.', 'PULMONOLOGY', 5, 'Expert pediatric pulmonologist specializing in asthma, cystic fibrosis, chronic lung disease of prematurity, and complex respiratory disorders. Skilled in advanced diagnostics, pulmonary function testing, and multidisciplinary care for ventilator-dependent children. Committed to family-centered treatment plans that optimize lung health and quality of life for infants, children, and adolescents.', 'doctor2.jpeg'),
+(7, 'Miley', 'Smith', 'Dr.', 'OTOLARYNGOLOGY', 7, 'Expert pediatric otolaryngologist specializing in airway disorders, congenital ENT anomalies, and complex hearing loss. Skilled in advanced surgical techniques for ear tubes, tonsillectomies, and pediatric sinus disease. Proficient in cochlear implantation and management of voice/swallowing disorders. Committed to family-centered care that optimizes communication, breathing, and quality of life for children of all ages.', 'doctor4.jpeg'),
+(8, 'Lisa', 'Abara', 'Dr.', 'DERMATOLOGY', 8, 'Expert pediatric dermatologist specializing in complex skin disorders including atopic dermatitis, vascular birthmarks, and genetic skin conditions. Skilled in advanced diagnostic techniques and minimally invasive procedures for acne, psoriasis, and pigmentary disorders. Special expertise in pediatric laser therapies and surgical dermatology. Committed to providing compassionate, family-centered care that promotes healthy skin development for infants through adolescents.', 'doctor5.jpeg');
 
 -- --------------------------------------------------------
 
@@ -153,6 +154,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `firstName`, `surname`, `dob`, `hospital_number`, `email`, `department_id`, `department_name`, `telephone_number`, `password`, `created_at`, `two_factor_secret`, `two_factor_enabled`, `backup_codes`) VALUES
+(1, 'Sajid', 'Mian', '1965-06-19', '126', 'sbmian@hotmail.com', 1, 'X-Ray', '01414563214', '$2b$10$6/tcmrbVJ5CvNKpc07BfuOBQbkkT5rpLvRiaTtL3tNBQlEiF6wjhy', '2025-03-28 21:21:42', NULL, 0, NULL),
 (2, 'Nuzhat', 'Mian', '2000-01-01', '123', 'nfmian@gmail.com', 1, 'Cardiology', '0123456789', '$2b$10$5QVGzx3rMq19Cht4h72p5uPSc41d0MNbQcY96VxM1l6NCE.zm3W9C', '2025-03-28 01:41:00', NULL, 0, NULL),
 (7, 'Asim', 'Mian', '2002-12-31', '1', '20273835@myclyde.ac.uk', 1, 'Cardiology', '0141 383 6089', '$2b$10$5QVGzx3rMq19Cht4h72p5uPSc41d0MNbQcY96VxM1l6NCE.zm3W9C', '2025-02-10 14:42:18', NULL, 0, NULL),
 (17, 'Iain', 'Shaw', '1222-04-04', '124', 'ishaw@gmail.com', 2, 'Neurology', '01414532321', '$2b$10$VwrUNBmeykOK.cWmEj3zbupzdQgmX4qFMmLwfyvfJfYPqNlO5SSba', '2025-02-17 14:35:04', NULL, 0, NULL),
@@ -205,19 +207,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `doctors`
 --
 ALTER TABLE `doctors`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `doctor_availability`
@@ -229,7 +231,7 @@ ALTER TABLE `doctor_availability`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Constraints for dumped tables

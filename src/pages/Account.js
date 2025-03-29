@@ -519,6 +519,7 @@ const Account = () => {
                           />
                           <span className="text-sm">{department.doctor}</span>
                         </div>
+              
                         
                         <div className="space-y-4">
                           <h4 className="font-bold text-gray-800">Department Videos</h4>

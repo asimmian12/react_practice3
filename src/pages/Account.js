@@ -2,34 +2,8 @@ import departmentData from './departments.json';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Phone, MapPin, Mail, Clock, AlertCircle } from 'lucide-react';
-
-const contactInfo = [
-  { 
-    title: 'EMERGENCY', 
-    details: '0141 201 1100', 
-    icon: <Phone className="text-yellow-300 mx-auto" size={24} />, 
-    action: 'tel' 
-  },
-  { 
-    title: 'LOCATION', 
-    details: '1345 Govan Road, G51 4TF Glasgow UK', 
-    icon: <MapPin className="text-yellow-300 mx-auto" size={24} />, 
-    action: 'map' 
-  },
-  { 
-    title: 'EMAIL', 
-    details: 'info.qeht@nhs.net', 
-    icon: <Mail className="text-yellow-300 mx-auto" size={24} />, 
-    action: 'mail' 
-  },
-  { 
-    title: 'WORKING HOURS', 
-    details: 'Mon-Sat 09:00-20:00, Sunday Emergency only', 
-    icon: <Clock className="text-yellow-300 mx-auto" size={24} />, 
-    action: null 
-  }
-];
+import { Phone, MapPin, Mail, Clock, AlertCircle, X } from 'lucide-react';
+import axios from 'axios';
 
 const Account = () => {
   const [userData, setUserData] = useState(null);
@@ -41,65 +15,100 @@ const Account = () => {
   const [departmentVideos, setDepartmentVideos] = useState([]);
   const [loadingVideos, setLoadingVideos] = useState(false);
   const [error, setError] = useState(null);
+  const [departments, setDepartments] = useState([]);
   const navigate = useNavigate();
+
+  // Configure axios base URL
+  axios.defaults.baseURL = 'http://localhost:5000';
+  axios.defaults.withCredentials = true;
+
+  // Contact information
+  const contactInfo = [
+    { 
+      title: 'EMERGENCY', 
+      details: '0141 201 1100', 
+      icon: <Phone className="text-yellow-300 mx-auto" size={24} />, 
+      action: 'tel' 
+    },
+    { 
+      title: 'LOCATION', 
+      details: '1345 Govan Road, G51 4TF Glasgow UK', 
+      icon: <MapPin className="text-yellow-300 mx-auto" size={24} />, 
+      action: 'map' 
+    },
+    { 
+      title: 'EMAIL', 
+      details: 'info.qeht@nhs.net', 
+      icon: <Mail className="text-yellow-300 mx-auto" size={24} />, 
+      action: 'mail' 
+    },
+    { 
+      title: 'WORKING HOURS', 
+      details: 'Mon-Sat 09:00-20:00, Sunday Emergency only', 
+      icon: <Clock className="text-yellow-300 mx-auto" size={24} />, 
+      action: null 
+    }
+  ];
 
   useEffect(() => {
     const fetchData = async () => {
-      const storedUser = localStorage.getItem('user');
-      if (storedUser) {
+      try {
+        const storedUser = localStorage.getItem('user');
+        if (!storedUser) {
+          navigate('/login');
+          return;
+        }
+
         const user = JSON.parse(storedUser);
         setUserData(user);
         setFormData(user);
-        
-        try {
-          // Fetch appointments from the database
-          const response = await fetch(`http://localhost:5000/api/appointments?userId=${user.id}`);
-          if (!response.ok) {
-            throw new Error('Failed to fetch appointments');
-          }
-          const appointmentsData = await response.json();
-          
-          // Filter out appointments with invalid dates and format dates
-          const validAppointments = appointmentsData
-            .filter(appt => !isNaN(new Date(appt.date).getTime()))
-            .map(appt => ({
-              ...appt,
-              date: new Date(appt.date).toISOString().split('T')[0] // Format date as YYYY-MM-DD
-            }));
-          
-          setAppointments(validAppointments);
-          
-          // Load department videos for the departments in appointments
-          setLoadingVideos(true);
-          const departmentIds = [...new Set(validAppointments.map(appt => appt.department_id))];
-          
-          const relevantDepartments = departmentData.filter(dept => 
-            departmentIds.includes(dept.id)
-          );
-          
-          const cleanedData = relevantDepartments.map(dept => ({
-            ...dept,
-            videos: dept.videos?.map(video => {
-              // Extract video ID from YouTube URL if it's a full URL
-              if (video.includes('youtube.com/watch?v=')) {
-                return video.split('v=')[1].split('&')[0];
-              }
-              // If it's already just an ID, return it
-              return video.includes('?') ? video.split('?')[0] : video;
-            })
+
+        // Fetch departments
+        const deptResponse = await axios.get('/api/departments');
+        setDepartments(deptResponse.data);
+
+        // Fetch appointments
+        const appointmentsResponse = await axios.get(`/api/appointments?user_id=${user.id}`);
+        const appointmentsData = appointmentsResponse.data;
+
+        // Filter out appointments with invalid dates and format dates
+        const validAppointments = appointmentsData
+          .filter(appt => !isNaN(new Date(appt.date).getTime()))
+          .map(appt => ({
+            ...appt,
+            date: new Date(appt.date).toISOString().split('T')[0] // Format date as YYYY-MM-DD
           }));
-          
-          setDepartmentVideos(cleanedData);
-          setLoadingVideos(false);
-        } catch (error) {
-          console.error('Error fetching data:', error);
-          setError('Failed to load data. Please try again later.');
-          setLoadingVideos(false);
-        } finally {
-          setIsLoading(false);
-        }
-      } else {
-        navigate('/login');
+
+        setAppointments(validAppointments);
+
+        // Load department videos for the departments in appointments
+        setLoadingVideos(true);
+        const departmentIds = [...new Set(validAppointments.map(appt => appt.department_id))];
+        
+        const relevantDepartments = departmentData.filter(dept => 
+          departmentIds.includes(dept.id)
+        );
+        
+        const cleanedData = relevantDepartments.map(dept => ({
+          ...dept,
+          videos: dept.videos?.map(video => {
+            // Extract video ID from YouTube URL if it's a full URL
+            if (video.includes('youtube.com/watch?v=')) {
+              return video.split('v=')[1].split('&')[0];
+            }
+            // If it's already just an ID, return it
+            return video.includes('?') ? video.split('?')[0] : video;
+          })
+        }));
+        
+        setDepartmentVideos(cleanedData);
+        setLoadingVideos(false);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setError('Failed to load data. Please try again later.');
+        setLoadingVideos(false);
+        setIsLoading(false);
       }
     };
 
@@ -121,18 +130,14 @@ const Account = () => {
 
   const cancelAppointment = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/appointments/${id}`, {
-        method: 'DELETE'
-      });
+      await axios.patch(`/api/appointments/${id}`, { status: 'cancelled' });
       
-      if (!response.ok) {
-        throw new Error('Failed to cancel appointment');
-      }
-      
-      const updatedAppointments = appointments.filter(appt => appt.id !== id);
+      const updatedAppointments = appointments.map(appt => 
+        appt.id === id ? { ...appt, status: 'cancelled' } : appt
+      );
       setAppointments(updatedAppointments);
       
-      const remainingDeptIds = [...new Set(updatedAppointments.map(appt => appt.department_id))];
+      const remainingDeptIds = [...new Set(updatedAppointments.filter(a => a.status !== 'cancelled').map(appt => appt.department_id))];
       const updatedVideos = departmentData.filter(dept => 
         remainingDeptIds.includes(dept.id)
       ).map(dept => ({
@@ -180,10 +185,12 @@ const Account = () => {
             initial={{ y: -20 }}
             animate={{ y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-center px-4"
-          >
+            className="text-center px-4">
             <p className="text-5xl font-bold text-center text-white-700 mb-8">
-             Welcome Back {userData.firstName},{userData.surname}!
+              Welcome Back {userData.firstName}, {userData.surname}!
+            </p>
+            <p className="text-5xl font-bold text-center text-white-700 mb-8">
+              Welcome to Clyde Children's Hospital Account Portal
             </p>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-2">
             </div>
@@ -191,24 +198,51 @@ const Account = () => {
         </div>
       </motion.section>
 
-      {/* Error Alert */}
-      {error && (
-        <div className="container mx-auto px-4 pt-6">
-          <motion.div
+      {/* Banner Section */}
+      <section className="py-12 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+        <div className="max-w-6xl mx-auto px-4">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center"
+          >
+            {[
+              { number: appointments.length, label: 'Your Appointments' },
+              { number: '95%', label: 'Patient Satisfaction' },
+              { number: '24/7', label: 'Emergency Care' },
+              { number: departments.length, label: 'Specialties Available' }
+            ].map((stat, index) => (
+              <motion.div 
+                key={index}
+                whileHover={{ scale: 1.05 }}
+                className="p-6 bg-white bg-opacity-10 rounded-xl backdrop-blur-sm"
+              >
+                <div className="text-4xl font-bold mb-2">{stat.number}</div>
+                <div className="text-lg">{stat.label}</div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-8">
+        {/* Error Message */}
+        {error && (
+          <motion.div 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded flex items-start"
+            className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded flex items-start"
           >
             <AlertCircle className="mr-2 flex-shrink-0" />
             <div>
               <p className="font-bold">{error}</p>
             </div>
           </motion.div>
-        </div>
-      )}
+        )}
 
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-8 -mt-16 relative z-20">
         {/* Profile Card with Tabs */}
         <div className="bg-white rounded-xl shadow-xl overflow-hidden">
           {/* Tabs */}
@@ -430,10 +464,10 @@ const Account = () => {
                         <div className="flex justify-between items-start">
                           <div>
                             <h3 className="font-bold text-lg">
-                              {appointment.department_id === 1 && 'Dr. Samantha Jackson'}
-                              {appointment.department_id === 2 && 'Dr. John Goldberg'}
-                              {appointment.department_id === 3 && 'Dr. David Stewart'}
-                              {appointment.department_id === 4 && 'Dr. Miley Smith'}
+                              {appointment.doctor_id === 1 && 'Dr. Samantha Jackson'}
+                              {appointment.doctor_id === 2 && 'Dr. John Goldberg'}
+                              {appointment.doctor_id === 3 && 'Dr. David Stewart'}
+                              {appointment.doctor_id === 4 && 'Dr. Miley Smith'}
                             </h3>
                             <p className="text-gray-600">{appointment.reason}</p>
                             <p className="text-blue-600 mt-1">
@@ -448,13 +482,23 @@ const Account = () => {
                             {appointment.notes && (
                               <p className="text-gray-500 text-sm mt-1">Notes: {appointment.notes}</p>
                             )}
+                            <p className={`mt-2 text-sm font-medium ${
+                              appointment.status === 'booked' ? 'text-blue-600' : 
+                              appointment.status === 'completed' ? 'text-green-600' :
+                              appointment.status === 'cancelled' ? 'text-red-600' : 
+                              'text-yellow-600'
+                            }`}>
+                              Status: {appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
+                            </p>
                           </div>
-                          <button
-                            onClick={() => cancelAppointment(appointment.id)}
-                            className="text-red-600 hover:text-red-800 text-sm font-medium"
-                          >
-                            Cancel
-                          </button>
+                          {appointment.status === 'booked' && (
+                            <button
+                              onClick={() => cancelAppointment(appointment.id)}
+                              className="text-red-600 hover:text-red-800 text-sm font-medium"
+                            >
+                              Cancel
+                            </button>
+                          )}
                         </div>
                       </motion.div>
                     ))}
@@ -567,6 +611,10 @@ const Account = () => {
             {contactInfo.map((info, index) => (
               <motion.div
                 key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
                 whileHover={{ y: -5 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => {
@@ -592,7 +640,7 @@ const Account = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-4 md:mb-0">
-              <h3 className="text-xl font-bold">Children's Hospital Portal</h3>
+              <h3 className="text-xl font-bold">Clyde Children's Hospital</h3>
               <p className="text-blue-300">Making hospital visits easier for kids</p>
             </div>
             <div className="flex space-x-4">
@@ -606,24 +654,6 @@ const Account = () => {
           </div>
         </div>
       </footer>
-
-      {/* Floating decorative elements */}
-      <div className="fixed top-0 left-0 w-full h-full pointer-events-none overflow-hidden z-0">
-        {[...Array(5)].map((_, i) => (
-          <div 
-            key={i}
-            className="absolute rounded-full bg-blue-100 opacity-20"
-            style={{
-              width: `${Math.random() * 100 + 50}px`,
-              height: `${Math.random() * 100 + 50}px`,
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              animation: `float ${Math.random() * 10 + 10}s linear infinite`,
-              animationDelay: `${Math.random() * 5}s`
-            }}
-          ></div>
-        ))}
-      </div>
     </div>
   );
 };

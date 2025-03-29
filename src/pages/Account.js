@@ -478,7 +478,7 @@ const Account = () => {
 
       {/* Department Videos Section */}
       {appointments.length > 0 && (
-        <section className="py-12 bg-gray-50">
+        <section className="py-12 bg-white-50">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center text-blue-900 mb-8">
               {departmentVideos.length > 0 
@@ -509,7 +509,7 @@ const Account = () => {
                     >
                       <div className="p-6">
                         <h3 className="text-xl font-bold text-blue-900 mb-2">{department.name}</h3>
-                        <p className="text-gray-600 mb-4">{department.details}</p>
+                        <p className="text-white-600 mb-4">{department.details}</p>
                         
                         <div className="flex items-center mb-3">
                           <img 
@@ -519,10 +519,9 @@ const Account = () => {
                           />
                           <span className="text-sm">{department.doctor}</span>
                         </div>
-              
                         
                         <div className="space-y-4">
-                          <h4 className="font-bold text-gray-800">Department Videos</h4>
+                          <h4 className="font-bold text-white-800">Educational Videos</h4>
                           {department.videos?.map((videoId, index) => (
                             <div key={index} className="relative pb-[56.25%] h-0 rounded-lg overflow-hidden bg-gray-100">
                               <iframe

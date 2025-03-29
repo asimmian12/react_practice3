@@ -1,35 +1,9 @@
 [
   {
     "id": 1,
-    "name": "X-Ray",
-    "details": "The X-Ray Department is a special place where doctors use amazing machines to take pictures of the inside of your body. These pictures help the doctors see your bones, muscles, and other important parts to figure out what’s making you feel unwell or if you’ve had an injury, like a broken bone. Don’t worry—it’s super quick and doesn’t hurt at all! You’ll stand still or lie down for a moment while the machine takes the picture, kind of like a big camera. It helps the doctors understand what’s happening so they can take the best care of you and help you feel better.",
-    "doctor": "Doctor Shaw",
-    "doctor_img": "x-ray_doctor.jpg",
-    "nurse": "Nurse Blake",
-    "nurse_img": "x-ray_nurse.jpg",
-    "dept_map": "xray_map.jpg",
-    "dept_img": ["xray_img1.jpg", "xray_img2.jpg", "xray_img1.jpg"],
-    "videos": ["FId7wHAd1Cg?si=X28sg4wONarFmS_Z", "FId7wHAd1Cg?si=X28sg4wONarFmS_Z", "FId7wHAd1Cg?si=X28sg4wONarFmS_Z"]
-
-
-  }, {
-    "id": 2,
-    "name": "Neurology",
-    "details": "The Neurology Department is a special place where doctors and nurses help kids who have problems with their brain, nerves, or muscles. Your brain is like a supercomputer that controls your body, helping you think, move, and feel. Sometimes, the brain or nerves don’t work the way they should, and that’s when we step in to help. The doctors here are experts in finding out what’s going on and how to make you feel better. They use special tools, ask lots of questions, and may even show you cool pictures of your brain! Our job is to help you stay healthy and strong so you can keep learning, playing, and having fun.",
-    "doctor": "Doctor Stewart",
-    "doctor_img": "doctor1.jpeg",
-    "nurse": "Nurse Brandon",
-    "nurse_img": "neurology_nurse.jpg",
-    "dept_map": "neurology_map.jpg",
-    "dept_img": ["neurology_img1.jpg", "neurology_img2.jpg", "neurology_img1.jpg"],
-    "videos": ["FId7wHAd1Cg?si=X28sg4wONarFmS_Z", "FId7wHAd1Cg?si=X28sg4wONarFmS_Z", "FId7wHAd1Cg?si=X28sg4wONarFmS_Z"]
-
-  },
-  {
-    "id": 3,
     "name": "Cardiology",
     "details": "The Cardiology Department is a special place where doctors and nurses help kids with their hearts. Your heart is like a superhero inside your chest, working hard every second to pump blood all around your body! Sometimes hearts need a little extra help to stay strong and healthy. That's where our heart experts come in. They use special tools to listen to your heartbeat, take pictures of your heart (like a camera for your insides!), and figure out how to make it work its best. The doctors might do gentle tests or use cool machines that look like something from a spaceship! We're here to help your heart stay happy and strong, so you can run, play, and grow just like other kids. Remember - taking care of your heart is important, and we'll make sure your visit is comfortable and maybe even fun!",
-    "doctor": "Doctor Goldberg",
+    "doctor": "Dr. Samantha Jackson",
     "doctor_img": "doctor6.jpeg",
     "nurse": "Nurse Blake",
     "nurse_img": "cardiology_nurse.jpg",
@@ -38,11 +12,23 @@
     "videos": ["https://www.youtube.com/watch?v=CYr4n5KJ-yw", "https://www.youtube.com/watch?v=pLba3OzsfDU", "https://www.youtube.com/watch?v=AScf1Z40lng"]
   },
   {
-    "id": 4,
+    "id": 2,
+    "name": "Neurology",
+    "details": "The Neurology Department is a special place where doctors and nurses help kids who have problems with their brain, nerves, or muscles. Your brain is like a supercomputer that controls your body, helping you think, move, and feel. Sometimes, the brain or nerves don't work the way they should, and that's when we step in to help. The doctors here are experts in finding out what's going on and how to make you feel better. They use special tools, ask lots of questions, and may even show you cool pictures of your brain! Our job is to help you stay healthy and strong so you can keep learning, playing, and having fun.",
+    "doctor": "Dr. John Goldberg",
+    "doctor_img": "doctor1.jpeg",
+    "nurse": "Nurse Brandon",
+    "nurse_img": "neurology_nurse.jpg",
+    "dept_map": "neurology_map.jpg",
+    "dept_img": ["neurology_img1.jpg", "neurology_img2.jpg"],
+    "videos": ["https://www.youtube.com/watch?v=FId7wHAd1Cg", "https://www.youtube.com/watch?v=FId7wHAd1Cg", "https://www.youtube.com/watch?v=FId7wHAd1Cg"]
+  },
+  {
+    "id": 3,
     "name": "Pediatrics",
-    "details": "This is a special place just for kids, where friendly doctors and nurses help you stay healthy and strong. Think of us as your health superheroes—we're here to check your growth, make sure you're feeling your best, and help you get better if you're not. We know visiting the doctor can feel a little scary sometimes, but don’t worry! We’ll listen to your heartbeat with a cool stethoscope (it tickles!), check your height and weight (just like measuring how much you’ve grown!), and answer all your questions. You might even get a sticker or a high-five when you’re done! Whether it’s a regular check-up, a pesky cold, or anything else, we’re here to help you feel happy and healthy. Our job is to make sure you can keep playing, learning, and being your awesome self! Remember: You’re the bravest patient ever, and we’re so glad you’re here!",
-    "doctor": "Doctor Smith",
-    "doctor_img": "doctor8.jpg",
+    "details": "This is a special place just for kids, where friendly doctors and nurses help you stay healthy and strong. Think of us as your health superheroes—we're here to check your growth, make sure you're feeling your best, and help you get better if you're not. We know visiting the doctor can feel a little scary sometimes, but don't worry! We'll listen to your heartbeat with a cool stethoscope (it tickles!), check your height and weight (just like measuring how much you've grown!), and answer all your questions. You might even get a sticker or a high-five when you're done! Whether it's a regular check-up, a pesky cold, or anything else, we're here to help you feel happy and healthy. Our job is to make sure you can keep playing, learning, and being your awesome self! Remember: You're the bravest patient ever, and we're so glad you're here!",
+    "doctor": "Dr. John Williams",
+    "doctor_img": "doctor7.jpeg",
     "nurse": "Nurse Johnson",
     "nurse_img": "pediatrics_nurse.jpg",
     "dept_map": "pediatrics_map.jpg",
@@ -50,15 +36,75 @@
     "videos": ["https://www.youtube.com/watch?v=ReVMmSbz050", "https://www.youtube.com/watch?v=Xn5YckwBHko", "https://www.youtube.com/watch?v=T-ZbokJg568"]
   },
   {
-    "id": 5,
+    "id": 4,
     "name": "Orthopedics",
     "details": "Welcome to the Orthopedics Department! This is where bone and muscle superheroes work to help kids stay strong and active! Your bones are like the framework of a building, and your muscles are the power that helps you run, jump, and play. Sometimes, these super important parts need a little extra care - maybe from a tumble, a sports injury, or just growing extra fast! Our doctors are experts at: 🦴 Fixing ouchies with casts that you can decorate (hello, rainbow colors!) 🏃 Helping you move better with fun exercises (think: superhero training!) 📸 Taking special pictures of your bones (like an x-ray camera that sees inside you!) We know broken bones or sore muscles can be scary, but we'll make your visit as easy as pie. You might get a cool cast to sign, see amazing pictures of your bones, or even watch how your muscles work on our special screens! Remember: Whether it's a broken bone, a twisted ankle, or just needing stronger muscles, we'll have you back to flipping, kicking, and dancing in no time!",
-    "doctor": "Doctor Williams",
-    "doctor_img": "doctor7.jpeg",
+    "doctor": "Dr. Carly Smith",
+    "doctor_img": "doctor8.jpeg",
     "nurse": "Nurse Davis",
     "nurse_img": "orthopedics_nurse.jpg",
     "dept_map": "orthopedics_map.jpg",
     "dept_img": ["orthopedics_img1.jpg", "orthopedics_img2.jpg"],
     "videos": ["https://www.youtube.com/watch?v=ld9o3yJ2fp0", "https://www.youtube.com/watch?v=nJvhRirMAjs", "https://www.youtube.com/watch?v=L0XmH0w1gX0"]
+  },
+  {
+    "id": 5,
+    "name": "Pulmonology",
+    "details": "The Pulmonology Department specializes in caring for children's lungs and breathing. Our team helps with asthma, pneumonia, cystic fibrosis, and other conditions that make breathing difficult. We use gentle breathing tests and special treatments to help kids breathe easier and stay active. You might blow into fun machines that look like video games or get cozy with special masks that help deliver medicine right where it's needed!",
+    "doctor": "Dr. Iain Shaw",
+    "doctor_img": "doctor2.jpeg",
+    "nurse": "Nurse Taylor",
+    "nurse_img": "pulmonology_nurse.jpg",
+    "dept_map": "pulmonology_map.jpg",
+    "dept_img": ["pulmonology_img1.jpg", "pulmonology_img2.jpg"],
+    "videos": ["https://www.youtube.com/watch?v=GbbG0XvY7to", "https://www.youtube.com/watch?v=UoLQJCUwq7c"]
+  },
+  {
+    "id": 6,
+    "name": "Neurosurgery",
+    "details": "The Neurosurgery Department cares for children with brain, spine, or nerve conditions needing surgery. Our neurosurgeons are like delicate engineers for your nervous system, using special microscopes and tiny tools to fix problems. We help with head injuries, birth defects affecting the brain/spine, and other complex conditions. You'll meet our friendly team who will explain everything using fun models and pictures - no question is too small!",
+    "doctor": "Dr. David Stewart",
+    "doctor_img": "doctor3.jpeg",
+    "nurse": "Nurse Rodriguez",
+    "nurse_img": "neurosurgery_nurse.jpg",
+    "dept_map": "neurosurgery_map.jpg",
+    "dept_img": ["neurosurgery_img1.jpg", "neurosurgery_img2.jpg"],
+    "videos": ["https://www.youtube.com/watch?v=JZxwD8ZwTQo", "https://www.youtube.com/watch?v=1eGZ5TJJ2ZY"]
+  },
+  {
+    "id": 7,
+    "name": "Otolaryngology",
+    "details": "The Otolaryngology Department (also called ENT) helps with ears, nose, and throat issues. We treat ear infections, tonsillitis, hearing problems, and more. Our tools include tiny cameras that explore your nose and special lights to see your ears. You might get to watch your own throat on a screen! We do tonsillectomies, ear tube placements, and other common procedures to help kids feel better and hear clearly.",
+    "doctor": "Dr. Miley Smith",
+    "doctor_img": "doctor4.jpeg",
+    "nurse": "Nurse Wilson",
+    "nurse_img": "ent_nurse.jpg",
+    "dept_map": "ent_map.jpg",
+    "dept_img": ["ent_img1.jpg", "ent_img2.jpg"],
+    "videos": ["https://www.youtube.com/watch?v=J6OZOUF3es4", "https://www.youtube.com/watch?v=0JCJ5wP6jqE"]
+  },
+  {
+    "id": 8,
+    "name": "Dermatology",
+    "details": "The Dermatology Department cares for children's skin, hair, and nails. We help with eczema, acne, birthmarks, rashes, and other skin conditions. Our treatments include special creams, light therapies, and gentle procedures. You'll see magnifying tools that make your skin look like a fascinating landscape! We know skin problems can be uncomfortable or make kids self-conscious, so we provide kind, effective care to help you feel comfortable in your skin.",
+    "doctor": "Dr. Lisa Abara",
+    "doctor_img": "doctor5.jpeg",
+    "nurse": "Nurse Brown",
+    "nurse_img": "dermatology_nurse.jpg",
+    "dept_map": "dermatology_map.jpg",
+    "dept_img": ["dermatology_img1.jpg", "dermatology_img2.jpg"],
+    "videos": ["https://www.youtube.com/watch?v=0V8XFFGqcIU", "https://www.youtube.com/watch?v=YIGfC4Z65wE"]
+  },
+  {
+    "id": 9,
+    "name": "X-Ray",
+    "details": "The X-Ray Department is a special place where doctors use amazing machines to take pictures of the inside of your body. These pictures help the doctors see your bones, muscles, and other important parts to figure out what's making you feel unwell or if you've had an injury, like a broken bone. Don't worry—it's super quick and doesn't hurt at all! You'll stand still or lie down for a moment while the machine takes the picture, kind of like a big camera. It helps the doctors understand what's happening so they can take the best care of you and help you feel better.",
+    "doctor": "Dr. Sarah White",
+    "doctor_img": "doctor9.jpeg",
+    "nurse": "Nurse Blake",
+    "nurse_img": "x-ray_nurse.jpg",
+    "dept_map": "xray_map.jpg",
+    "dept_img": ["xray_img1.jpg", "xray_img2.jpg"],
+    "videos": ["https://www.youtube.com/watch?v=3kZqMkZ8Jz4", "https://www.youtube.com/watch?v=9PijFxK1uZ4"]
   }
 ]

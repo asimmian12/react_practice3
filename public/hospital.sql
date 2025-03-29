@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 29, 2025 at 12:02 AM
+-- Generation Time: Mar 29, 2025 at 01:36 AM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.16
 
@@ -41,6 +41,13 @@ CREATE TABLE `appointments` (
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `appointments`
+--
+
+INSERT INTO `appointments` (`id`, `user_id`, `doctor_id`, `department_id`, `date`, `time`, `reason`, `notes`, `status`, `created_at`, `updated_at`) VALUES
+(38, 2, 3, 3, '2025-04-01', 'Invalid Date', 'Need Autism Test', 'For my son', 'booked', '2025-03-29 01:36:15', '2025-03-29 01:36:15');
+
 -- --------------------------------------------------------
 
 --
@@ -64,7 +71,8 @@ INSERT INTO `departments` (`id`, `name`) VALUES
 (5, 'PULMONOLOGY'),
 (6, 'NEUROSURGERY'),
 (7, 'OTOLARYNGOLOGY'),
-(8, 'DERMATOLOGY');
+(8, 'DERMATOLOGY'),
+(9, 'X-RAY');
 
 -- --------------------------------------------------------
 
@@ -91,11 +99,12 @@ INSERT INTO `doctors` (`id`, `firstName`, `lastName`, `title`, `specialization`,
 (1, 'Samantha ', 'Jackson', 'Dr.', 'CARDIOLOGY', 1, 'Expert pediatric cardiologist specializing in congenital heart defects, childhood heart conditions, and cardiac imaging. Skilled in non-invasive diagnostics and family-centered care for young cardiac patients.', 'doctor6.jpeg'),
 (2, 'John', 'GoldBerg', 'Dr.', 'NEUROLOGY', 2, 'Expert pediatric neurologist specializing in neurodevelopmental disorders, childhood epilepsy, and neuromuscular conditions. Skilled in advanced neuroimaging and electrophysiological diagnostics. Committed to family-centered care for young patients with neurological conditions.', 'doctor1.jpeg'),
 (3, 'John', 'Williams', 'Dr.', 'PEDIATRICS', 3, 'Expert pediatric orthopedic surgeon specializing in congenital limb differences, sports injuries, and neuromuscular skeletal disorders. Skilled in advanced surgical techniques and non-operative management for fractures, scoliosis, and gait abnormalities. Committed to family-centered care to optimize mobility and quality of life for children and adolescents.', 'doctor7.jpeg'),
-(4, 'Michael', 'Smith', 'Dr.', 'ORTHOPEDICS', 4, 'Expert pediatric neurosurgeon specializing in congenital brain and spinal anomalies, pediatric brain tumors, and complex epilepsy surgery. Skilled in advanced microsurgical techniques and minimally invasive approaches for hydrocephalus, craniosynostosis, and spinal dysraphism. Dedicated to delivering precision, compassionate care to optimize neurological function and quality of life for infants, children, and adolescents.', 'doctor4.jpeg'),
+(4, 'Carly', 'Smith', 'Dr.', 'ORTHOPEDICS', 4, 'Expert pediatric neurosurgeon specializing in congenital brain and spinal anomalies, pediatric brain tumors, and complex epilepsy surgery. Skilled in advanced microsurgical techniques and minimally invasive approaches for hydrocephalus, craniosynostosis, and spinal dysraphism. Dedicated to delivering precision, compassionate care to optimize neurological function and quality of life for infants, children, and adolescents.', 'doctor8.jpeg'),
 (5, 'David', 'Stewart', 'Dr.', 'NEUROSURGERY', 6, 'Expert pediatric neurosurgeon specializing in congenital brain and spinal anomalies, pediatric brain tumors, and complex epilepsy surgery. Skilled in advanced microsurgical techniques and minimally invasive approaches for hydrocephalus, craniosynostosis, and spinal dysraphism. Dedicated to delivering precision, compassionate care to optimize neurological function and quality of life for infants, children, and adolescents.', 'doctor3.jpeg'),
 (6, 'Iain', 'Shaw', 'Dr.', 'PULMONOLOGY', 5, 'Expert pediatric pulmonologist specializing in asthma, cystic fibrosis, chronic lung disease of prematurity, and complex respiratory disorders. Skilled in advanced diagnostics, pulmonary function testing, and multidisciplinary care for ventilator-dependent children. Committed to family-centered treatment plans that optimize lung health and quality of life for infants, children, and adolescents.', 'doctor2.jpeg'),
 (7, 'Miley', 'Smith', 'Dr.', 'OTOLARYNGOLOGY', 7, 'Expert pediatric otolaryngologist specializing in airway disorders, congenital ENT anomalies, and complex hearing loss. Skilled in advanced surgical techniques for ear tubes, tonsillectomies, and pediatric sinus disease. Proficient in cochlear implantation and management of voice/swallowing disorders. Committed to family-centered care that optimizes communication, breathing, and quality of life for children of all ages.', 'doctor4.jpeg'),
-(8, 'Lisa', 'Abara', 'Dr.', 'DERMATOLOGY', 8, 'Expert pediatric dermatologist specializing in complex skin disorders including atopic dermatitis, vascular birthmarks, and genetic skin conditions. Skilled in advanced diagnostic techniques and minimally invasive procedures for acne, psoriasis, and pigmentary disorders. Special expertise in pediatric laser therapies and surgical dermatology. Committed to providing compassionate, family-centered care that promotes healthy skin development for infants through adolescents.', 'doctor5.jpeg');
+(8, 'Lisa', 'Abara', 'Dr.', 'DERMATOLOGY', 8, 'Expert pediatric dermatologist specializing in complex skin disorders including atopic dermatitis, vascular birthmarks, and genetic skin conditions. Skilled in advanced diagnostic techniques and minimally invasive procedures for acne, psoriasis, and pigmentary disorders. Special expertise in pediatric laser therapies and surgical dermatology. Committed to providing compassionate, family-centered care that promotes healthy skin development for infants through adolescents.', 'doctor5.jpeg'),
+(9, 'Sarah', 'White', 'Dr.', 'X-RAY', 9, 'Expert pediatric radiologist specializing in advanced diagnostic imaging, including low-dose X-ray techniques for infants and children. Skilled in interpreting skeletal surveys for trauma, congenital anomalies, and growth disorders. Special expertise in minimizing radiation exposure while optimizing image quality for accurate diagnosis. Committed to providing family-centered care through clear communication and collaboration with referring physicians to ensure the safest, most effective imaging for pediatric patients.', 'doctor9.jpeg');
 
 -- --------------------------------------------------------
 
@@ -118,13 +127,14 @@ CREATE TABLE `doctor_availability` (
 
 INSERT INTO `doctor_availability` (`id`, `doctor_id`, `day_of_week`, `start_time`, `end_time`, `slot_duration`) VALUES
 (1, 1, 'Monday', '08:00:00', '12:00:00', 30),
-(2, 1, 'Wednesday', '09:00:00', '13:00:00', 30),
-(3, 2, 'Tuesday', '10:00:00', '14:00:00', 30),
-(4, 2, 'Thursday', '11:00:00', '15:00:00', 30),
-(5, 3, 'Friday', '08:30:00', '12:30:00', 30),
-(6, 3, 'Saturday', '09:00:00', '13:00:00', 30),
-(7, 4, 'Monday', '14:00:00', '18:00:00', 30),
-(8, 4, 'Thursday', '15:00:00', '19:00:00', 30);
+(2, 2, 'Wednesday', '09:00:00', '13:00:00', 30),
+(3, 3, 'Tuesday', '10:00:00', '14:00:00', 30),
+(4, 4, 'Thursday', '11:00:00', '15:00:00', 30),
+(5, 5, 'Friday', '08:30:00', '12:30:00', 30),
+(6, 6, 'Saturday', '09:00:00', '13:00:00', 30),
+(7, 7, 'Monday', '14:00:00', '18:00:00', 30),
+(8, 8, 'Thursday', '15:00:00', '19:00:00', 30),
+(9, 9, 'Friday', '15:00:00', '19:00:00', 30);
 
 -- --------------------------------------------------------
 
@@ -207,25 +217,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `doctors`
 --
 ALTER TABLE `doctors`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `doctor_availability`
 --
 ALTER TABLE `doctor_availability`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`

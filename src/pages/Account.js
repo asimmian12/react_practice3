@@ -521,7 +521,7 @@ const Account = () => {
                         </div>
                         
                         <div className="space-y-4">
-                          <h4 className="font-bold text-gray-800">Educational Videos</h4>
+                          <h4 className="font-bold text-gray-800">Department Videos</h4>
                           {department.videos?.map((videoId, index) => (
                             <div key={index} className="relative pb-[56.25%] h-0 rounded-lg overflow-hidden bg-gray-100">
                               <iframe

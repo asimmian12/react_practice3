@@ -174,7 +174,7 @@ const Dashboard = () => {
                 </div>
                 <div>
                   <p className="text-gray-600">Primary Department</p>
-                  <p className="font-semibold">{userData.department_name || 'None'}</p>
+                  <p className="font-semibold">{userData.name || 'None'}</p>
                 </div>
               </div>
             </div>

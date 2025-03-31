@@ -16,6 +16,7 @@ const Account = () => {
   const [loadingVideos, setLoadingVideos] = useState(false);
   const [error, setError] = useState(null);
   const [departments, setDepartments] = useState([]);
+  const [doctors, setDoctors] = useState([]);
   const navigate = useNavigate();
 
   // Configure axios base URL
@@ -67,6 +68,10 @@ const Account = () => {
         const deptResponse = await axios.get('/api/departments');
         setDepartments(deptResponse.data);
 
+        // Fetch doctors
+        const doctorsResponse = await axios.get('/api/doctors');
+        setDoctors(doctorsResponse.data);
+
         // Fetch appointments
         const appointmentsResponse = await axios.get(`/api/appointments?user_id=${user.id}`);
         const appointmentsData = appointmentsResponse.data;
@@ -76,12 +81,12 @@ const Account = () => {
           .filter(appt => !isNaN(new Date(appt.date).getTime()))
           .map(appt => ({
             ...appt,
-            date: new Date(appt.date).toISOString().split('T')[0] // Format date as YYYY-MM-DD
+            date: new Date(appt.date).toISOString().split('T')[0]
           }));
 
         setAppointments(validAppointments);
 
-        // Load department videos for the departments in appointments
+        // Load department videos
         setLoadingVideos(true);
         const departmentIds = [...new Set(validAppointments.map(appt => appt.department_id))];
         
@@ -92,11 +97,9 @@ const Account = () => {
         const cleanedData = relevantDepartments.map(dept => ({
           ...dept,
           videos: dept.videos?.map(video => {
-            // Extract video ID from YouTube URL if it's a full URL
             if (video.includes('youtube.com/watch?v=')) {
               return video.split('v=')[1].split('&')[0];
             }
-            // If it's already just an ID, return it
             return video.includes('?') ? video.split('?')[0] : video;
           })
         }));
@@ -192,8 +195,6 @@ const Account = () => {
             <p className="text-5xl font-bold text-center text-white-700 mb-8">
               Welcome to Clyde Children's Hospital Account Portal
             </p>
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-2">
-            </div>
           </motion.div>
         </div>
       </motion.section>
@@ -397,10 +398,6 @@ const Account = () => {
                           <span className="font-semibold text-gray-800">{userData.email}</span>
                         </div>
                         <div className="flex flex-col md:flex-row justify-between py-3 border-b border-gray-100">
-                          <span className="text-gray-600 font-medium">Department:</span>
-                          <span className="font-semibold text-gray-800">{userData.department_name}</span>
-                        </div>
-                        <div className="flex flex-col md:flex-row justify-between py-3 border-b border-gray-100">
                           <span className="text-gray-600 font-medium">Phone:</span>
                           <span className="font-semibold text-gray-800">{userData.telephone_number}</span>
                         </div>
@@ -464,20 +461,18 @@ const Account = () => {
                         <div className="flex justify-between items-start">
                           <div>
                             <h3 className="font-bold text-lg">
-                              {appointment.doctor_id === 1 && 'Dr. Samantha Jackson'}
-                              {appointment.doctor_id === 2 && 'Dr. John Goldberg'}
-                              {appointment.doctor_id === 3 && 'Dr. David Stewart'}
-                              {appointment.doctor_id === 4 && 'Dr. Miley Smith'}
+                              {doctors.find(d => d.id === appointment.doctor_id) ? 
+                                `${doctors.find(d => d.id === appointment.doctor_id).title || 'Dr.'} 
+                                 ${doctors.find(d => d.id === appointment.doctor_id).firstName} 
+                                 ${doctors.find(d => d.id === appointment.doctor_id).lastName}` : 
+                                'Doctor'}
                             </h3>
-                            <p className="text-gray-600">{appointment.reason}</p>
+                            <p className="text-gray-600">{appointment.reason || 'No reason provided'}</p>
                             <p className="text-blue-600 mt-1">
                               {appointment.date} at {appointment.time}
                             </p>
                             <p className="text-gray-500 text-sm mt-1">
-                              {appointment.department_id === 1 && 'Cardiology Department'}
-                              {appointment.department_id === 2 && 'Neurology Department'}
-                              {appointment.department_id === 3 && 'Pediatrics Department'}
-                              {appointment.department_id === 4 && 'Orthopedics Department'}
+                              {departments.find(d => d.id === appointment.department_id)?.name || 'Department'}
                             </p>
                             {appointment.notes && (
                               <p className="text-gray-500 text-sm mt-1">Notes: {appointment.notes}</p>
@@ -590,7 +585,6 @@ const Account = () => {
                       We couldn't find any department resources matching your appointments.
                     </p>
                     <button 
-                      onClick={() => navigate('/doctors')}
                       className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
                     >
                       Browse Departments

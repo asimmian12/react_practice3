@@ -458,10 +458,6 @@ useEffect(() => {
                   <p className="text-gray-600">Phone</p>
                   <p className="font-semibold">{userData.telephone_number}</p>
                 </div>
-                <div>
-                  <p className="text-gray-600">Primary Department</p>
-                  <p className="font-semibold">{userData.department_name || 'None'}</p>
-                </div>
               </div>
             </div>
           </div>
@@ -674,7 +670,7 @@ useEffect(() => {
                       <div className="flex-1">
                         <div className="flex items-start gap-4">
                           <img 
-                            src={doctor.image || '/images/account2.png'} 
+                            src={`./images/${doctor.image}`} 
                             alt={`${doctor.title || 'Dr.'} ${doctor.lastName || ''}`}
                             className="w-16 h-16 rounded-full object-cover border-2 border-blue-200"
                           />
@@ -763,69 +759,70 @@ useEffect(() => {
         </motion.div>
 
         {/* Department Information */}
-        {userData.department_name && (
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="bg-white rounded-xl shadow-lg p-6 mb-8"
-          >
-            <h2 className="text-2xl font-bold text-blue-800 mb-4">Your Department Information</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h3 className="text-xl font-semibold text-blue-700 mb-2">{userData.department_name}</h3>
-                {departmentDetails[userData.department_id]?.details ? (
-                  <p className="text-gray-700">{departmentDetails[userData.department_id].details}</p>
-                ) : (
-                  <p className="text-gray-700">Specialized care for your needs</p>
-                )}
-                {departmentDetails[userData.department_id]?.doctor && (
-                  <div className="mt-4">
-                    <h4 className="font-medium text-blue-700 mb-1">Primary Doctor:</h4>
-                    <p>{departmentDetails[userData.department_id].doctor}</p>
-                  </div>
-                )}
-                {departmentDetails[userData.department_id]?.nurse && (
-                  <div className="mt-2">
-                    <h4 className="font-medium text-blue-700 mb-1">Primary Nurse:</h4>
-                    <p>{departmentDetails[userData.department_id].nurse}</p>
-                  </div>
-                )}
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold text-blue-700 mb-2">Department Hours</h3>
-                <div className="space-y-2">
-                  {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map(day => (
-                    <div className="flex justify-between" key={day}>
-                      <span className="text-gray-600">{day}</span>
-                      <span className="font-medium">
-                        {day === 'Sunday' ? 'Closed' : '09:00 AM - 07:00 PM'}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-                {departmentDetails[userData.department_id]?.dept_img && (
-                  <div className="mt-4">
-                    <h4 className="font-medium text-blue-700 mb-2">Department Images</h4>
-                    <div className="flex gap-2">
-                      {departmentDetails[userData.department_id].dept_img.map((img, index) => (
-                        <img 
-                          key={index} 
-                          src={img} 
-                          alt={`Department ${index + 1}`} 
-                          className="w-16 h-16 object-cover rounded"
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </motion.div>
-        )}
+{appointments.length > 0 && (
+  <motion.div 
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.5 }}
+    className="bg-white rounded-xl shadow-lg overflow-hidden mb-8"
+  >
+    <div className="p-6 border-b border-gray-200">
+      <h2 className="text-2xl font-bold text-blue-800">Your Department Information</h2>
+    </div>
+
+    <div className="p-6">
+      {/* Department Header */}
+      <div className="mb-6">
+        <h3 className="text-xl font-bold text-blue-800">
+          {departments.find(d => d.id === appointments[0].department_id)?.name || 'Your Department'}
+        </h3>
+        <p className="text-gray-600 mt-1">Specialized care for your needs</p>
       </div>
 
+      {/* Department Hours */}
+      <div className="bg-blue-50 p-4 rounded-lg">
+        <h4 className="font-medium text-blue-700 mb-3">Department Hours</h4>
+        <div className="space-y-2">
+          {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map(day => (
+            <div className="flex justify-between" key={day}>
+              <span className="text-gray-600">{day}</span>
+              <span className="font-medium">
+                {day === 'Sunday' ? 'Closed' : '09:00 AM - 07:00 PM'}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {(() => {
+        const dept = departments.find(d => d.id === appointments[0].department_id);
+        if (!dept) return null;
+        
+        return (
+          <>
+            {dept.details && (
+              <div className="mt-4 bg-blue-50 p-4 rounded-lg">
+                <h4 className="font-medium text-blue-700 mb-2">About This Department</h4>
+                <p className="text-gray-700">{dept.details}</p>
+              </div>
+            )}
+
+            {dept.nurse && (
+              <div className="mt-4 bg-blue-50 p-4 rounded-lg">
+                <h4 className="font-medium text-blue-700 mb-2">Primary Care Team</h4>
+                <p className="text-gray-700">
+                  <span className="font-medium">Primary Nurse:</span> {dept.nurse}
+                </p>
+              </div>
+            )}
+          </>
+        );
+      })()}
+    </div>
+  </motion.div>
+)}
+</div>
       {/* Contact Information Section */}
       <section className="bg-blue-900 text-white py-12">
         <div className="container mx-auto px-4">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 29, 2025 at 09:50 PM
+-- Generation Time: Mar 31, 2025 at 02:58 AM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.16
 
@@ -46,7 +46,7 @@ CREATE TABLE `appointments` (
 --
 
 INSERT INTO `appointments` (`id`, `user_id`, `doctor_id`, `department_id`, `date`, `time`, `reason`, `notes`, `status`, `created_at`, `updated_at`) VALUES
-(38, 2, 3, 3, '2025-04-01', 'Invalid Date', 'Need Autism Test', 'For my son', 'booked', '2025-03-29 01:36:15', '2025-03-29 01:36:15');
+(45, 2, 6, 5, '2025-03-31', '09:00', 'n', 'n', 'booked', '2025-03-31 02:56:58', '2025-03-31 02:56:58');
 
 -- --------------------------------------------------------
 
@@ -164,11 +164,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `firstName`, `surname`, `dob`, `hospital_number`, `email`, `department_id`, `department_name`, `telephone_number`, `password`, `created_at`, `two_factor_secret`, `two_factor_enabled`, `backup_codes`) VALUES
-(1, 'Sajid', 'Mian', '1965-06-19', '126', 'sbmian@hotmail.com', 1, 'X-Ray', '01414563214', '$2b$10$6/tcmrbVJ5CvNKpc07BfuOBQbkkT5rpLvRiaTtL3tNBQlEiF6wjhy', '2025-03-28 21:21:42', NULL, 0, NULL),
-(2, 'Nuzhat', 'Mian', '2000-01-01', '123', 'nfmian@gmail.com', 1, 'Cardiology', '0123456789', '$2b$10$5QVGzx3rMq19Cht4h72p5uPSc41d0MNbQcY96VxM1l6NCE.zm3W9C', '2025-03-28 01:41:00', NULL, 0, NULL),
-(7, 'Asim', 'Mian', '2002-12-31', '1', '20273835@myclyde.ac.uk', 1, 'Cardiology', '0141 383 6089', '$2b$10$5QVGzx3rMq19Cht4h72p5uPSc41d0MNbQcY96VxM1l6NCE.zm3W9C', '2025-02-10 14:42:18', NULL, 0, NULL),
-(17, 'Iain', 'Shaw', '1222-04-04', '124', 'ishaw@gmail.com', 2, 'Neurology', '01414532321', '$2b$10$VwrUNBmeykOK.cWmEj3zbupzdQgmX4qFMmLwfyvfJfYPqNlO5SSba', '2025-02-17 14:35:04', NULL, 0, NULL),
-(18, 'David', 'Stewart', '1965-12-18', '125', 'dstewart@gmail.com', 1, 'Cardiology', '01415834532', '$2b$10$WDnB4gFaU4f2SluHa2fq3OO8kR6tp/awbDbvr25BGJ57KiTfpja2m', '2025-03-26 02:17:48', NULL, 0, NULL);
+(2, 'Nuzhat', 'Mian', '2000-01-01', '123', 'nfmian@gmail.com', 1, 'CARDIOLOGY', '0123456789', '$2b$10$5QVGzx3rMq19Cht4h72p5uPSc41d0MNbQcY96VxM1l6NCE.zm3W9C', '2025-03-28 01:41:00', NULL, 0, NULL),
+(7, 'Asim', 'Mian', '2002-12-31', '1', '20273835@myclyde.ac.uk', 1, 'CARDIOLOGY', '0141 383 6089', '$2b$10$5QVGzx3rMq19Cht4h72p5uPSc41d0MNbQcY96VxM1l6NCE.zm3W9C', '2025-02-10 14:42:18', NULL, 0, NULL),
+(9, 'Sajid', 'Mian', '1965-06-19', '126', 'sbmian@hotmail.com', 9, 'X-RAY', '01414563214', '$2b$10$6/tcmrbVJ5CvNKpc07BfuOBQbkkT5rpLvRiaTtL3tNBQlEiF6wjhy', '2025-03-28 21:21:42', NULL, 0, NULL),
+(17, 'Iain', 'Shaw', '1222-04-04', '124', 'ishaw@gmail.com', 2, 'NEUROLOGY', '01414532321', '$2b$10$VwrUNBmeykOK.cWmEj3zbupzdQgmX4qFMmLwfyvfJfYPqNlO5SSba', '2025-02-17 14:35:04', NULL, 0, NULL),
+(18, 'David', 'Stewart', '1965-12-18', '125', 'dstewart@gmail.com', 1, 'CARDIOLOGY', '01415834532', '$2b$10$WDnB4gFaU4f2SluHa2fq3OO8kR6tp/awbDbvr25BGJ57KiTfpja2m', '2025-03-26 02:17:48', NULL, 0, NULL);
 
 --
 -- Indexes for dumped tables
@@ -217,7 +217,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `departments`

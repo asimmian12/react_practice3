@@ -280,7 +280,6 @@ const Home = () => {
         </motion.div>
       </section>
 
-      {/* Specialties Section */}
       <section className="p-8 md:p-12 bg-white-50">
         <motion.div 
           initial={{ opacity: 0 }}

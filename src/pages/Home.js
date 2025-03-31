@@ -286,8 +286,7 @@ const Home = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="max-w-6xl mx-auto text-center"
-        >
+          className="max-w-6xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-blue-700 mb-6">Our Specialties</h2>
           <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-6">
             {specialties.map((specialty, index) => (

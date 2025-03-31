@@ -523,8 +523,7 @@ const Account = () => {
               {departmentVideos.length > 0 
                 ? 'Educational Videos for Your Appointments' 
                 : 'No Videos Available for Your Appointments'}
-            </h2>
-            
+            </h2>     
             {loadingVideos ? (
               <div className="text-center py-8">
                 <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
